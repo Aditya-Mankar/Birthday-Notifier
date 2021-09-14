@@ -38,6 +38,16 @@ public class UserRepositoryImpl implements IUserRepository {
     }
 
     @Override
+    public boolean checkIfUserExistsById(String id) {
+        Map <String, String> params = new HashMap<>();
+        params.put(SqlConstant.named_parameter_id, id);
+
+        int count = jdbcTemplate.queryForObject(SqlConstant.query_count_of_user_by_id, params, Integer.class);
+
+        return count != 0;
+    }
+
+    @Override
     public User getUserByUsername(String username) {
         Map <String, String> params = new HashMap<>();
         params.put(SqlConstant.named_parameter_username, username);
@@ -57,6 +67,27 @@ public class UserRepositoryImpl implements IUserRepository {
         params.put(SqlConstant.named_parameter_created_at, user.getCreatedAt());
 
         jdbcTemplate.update(SqlConstant.query_insert_new_user, params);
+    }
+
+    @Override
+    public void updateUser(User user) {
+        Map <String, String> params = new HashMap<>();
+        params.put(SqlConstant.named_parameter_id, user.getId());
+        params.put(SqlConstant.named_parameter_email_id, user.getEmailId());
+        params.put(SqlConstant.named_parameter_username, user.getUsername());
+        params.put(SqlConstant.named_parameter_password, user.getPassword());
+        params.put(SqlConstant.named_parameter_is_email_id_verified, user.getIsEmailIdVerified());
+        params.put(SqlConstant.named_parameter_updated_at, user.getUpdatedAt());
+
+        jdbcTemplate.update(SqlConstant.query_update_user, params);
+    }
+
+    @Override
+    public void deleteUser(int id) {
+        Map <String, String> params = new HashMap<>();
+        params.put(SqlConstant.named_parameter_id, String.valueOf(id));
+
+        jdbcTemplate.update(SqlConstant.query_delete_user, params);
     }
 
 }

@@ -8,8 +8,13 @@ public interface IUserRepository {
 
     public boolean checkIfUserExistsByUsername(String username);
 
+    public boolean checkIfUserExistsById(String id);
+
     public User getUserByUsername(String username);
 
     public void createNewUser(User user);
 
+    public void updateUser(User user);
+
+    public void deleteUser(int id);
 }
