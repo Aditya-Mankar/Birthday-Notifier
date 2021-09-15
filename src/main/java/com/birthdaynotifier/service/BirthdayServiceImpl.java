@@ -1,5 +1,6 @@
 package com.birthdaynotifier.service;
 
+import com.birthdaynotifier.constant.Constant;
 import com.birthdaynotifier.exception.BadRequestException;
 import com.birthdaynotifier.exception.CustomException;
 import com.birthdaynotifier.model.Birthday;
@@ -51,7 +52,7 @@ public class BirthdayServiceImpl implements IBirthdayService {
 
             birthdayRepository.addNewBirthday(birthday);
 
-            return ResponseEntity.ok().headers(new HttpHeaders()).body("Birthday added successfully");
+            return ResponseEntity.ok().headers(new HttpHeaders()).body(Constant.success_birthday_added);
         } catch (BadRequestException e) {
             return ResponseEntity.badRequest().body(e.getErrorMessage());
         }
@@ -68,7 +69,7 @@ public class BirthdayServiceImpl implements IBirthdayService {
 
             birthdayRepository.updateBirthday(birthday);
 
-            return ResponseEntity.ok().headers(new HttpHeaders()).body("Birthday updated successfully");
+            return ResponseEntity.ok().headers(new HttpHeaders()).body(Constant.success_birthday_updated);
         } catch (BadRequestException e) {
             return ResponseEntity.badRequest().body(e.getErrorMessage());
         } catch (CustomException e) {
@@ -80,13 +81,13 @@ public class BirthdayServiceImpl implements IBirthdayService {
     public ResponseEntity<?> deleteBirthday(int id) {
         try {
             if(id == 0)
-                throw new BadRequestException("Id cannot be null for deleting birthday");
+                throw new BadRequestException(Constant.error_id_null_or_empty);
 
             birthdayRepository.checkBirthdayExists(id);
 
             birthdayRepository.deleteBirthday(id);
 
-            return ResponseEntity.ok().headers(new HttpHeaders()).body("Birthday deleted successfully");
+            return ResponseEntity.ok().headers(new HttpHeaders()).body(Constant.success_birthday_deleted);
         } catch (BadRequestException e) {
             return ResponseEntity.badRequest().body(e.getErrorMessage());
         } catch (CustomException e) {

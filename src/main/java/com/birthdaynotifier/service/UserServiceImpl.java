@@ -26,10 +26,10 @@ public class UserServiceImpl implements IUserService {
     public ResponseEntity<?> getUserByUsername(String username) {
         try {
             if(Utility.checkIfNullOrEmpty(username))
-                throw new BadRequestException("Username cannot be null or empty");
+                throw new BadRequestException(Constant.error_username_null_or_empty);
 
             if(!userRepository.checkIfUserExistsByUsername(username))
-                throw new CustomException("No User exists with that email id");
+                throw new CustomException(Constant.error_no_user_exists_with_email_id);
 
             User user = userRepository.getUserByUsername(username);
 
@@ -52,11 +52,14 @@ public class UserServiceImpl implements IUserService {
             user.setCreatedAt(Instant.now().toString());
 
             if(userRepository.checkIfUserExistsByEmailId(user.getEmailId()))
-                throw new CustomException("User already exists with that email id");
+                throw new CustomException(Constant.error_user_already_exists_email_id);
+
+            if(userRepository.checkIfUserExistsByUsername(user.getUsername()))
+                throw new CustomException(Constant.error_user_already_exists_username);
 
             userRepository.createNewUser(user);
 
-            return ResponseEntity.ok().headers(new HttpHeaders()).body("User added successfully");
+            return ResponseEntity.ok().headers(new HttpHeaders()).body(Constant.success_user_added);
         } catch (BadRequestException e) {
             return ResponseEntity.badRequest().body(e.getErrorMessage());
         } catch (CustomException e) {
@@ -68,16 +71,16 @@ public class UserServiceImpl implements IUserService {
     public ResponseEntity<?> updateUser(User user) {
         try {
             if(Utility.checkIfNullOrEmpty(user.getId()))
-                throw new BadRequestException("Id cannot be null or empty");
+                throw new BadRequestException(Constant.error_id_null_or_empty);
 
             if(!userRepository.checkIfUserExistsById(user.getId()))
-                throw new CustomException("No User exists with that id");
+                throw new CustomException(Constant.error_no_user_exists_with_id);
 
             user.setUpdatedAt(Instant.now().toString());
 
             userRepository.updateUser(user);
 
-            return ResponseEntity.ok().headers(new HttpHeaders()).body("User updated successfully");
+            return ResponseEntity.ok().headers(new HttpHeaders()).body(Constant.success_user_updated);
         } catch (BadRequestException e) {
             return ResponseEntity.badRequest().body(e.getErrorMessage());
         } catch (CustomException e) {
@@ -89,14 +92,14 @@ public class UserServiceImpl implements IUserService {
     public ResponseEntity<?> deleteUser(int id) {
         try {
             if(Utility.checkIfNullOrEmpty(id))
-                throw new BadRequestException("Id cannot be null or empty");
+                throw new BadRequestException(Constant.error_id_null_or_empty);
 
             if(!userRepository.checkIfUserExistsById(String.valueOf(id)))
-                throw new CustomException("No User exists with that id");
+                throw new CustomException(Constant.error_no_user_exists_with_id);
 
             userRepository.deleteUser(id);
 
-            return ResponseEntity.ok().headers(new HttpHeaders()).body("User deleted successfully");
+            return ResponseEntity.ok().headers(new HttpHeaders()).body(Constant.success_user_deleted);
         } catch (BadRequestException e) {
             return ResponseEntity.badRequest().body(e.getErrorMessage());
         } catch (CustomException e) {

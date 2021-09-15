@@ -12,4 +12,5 @@ public interface IUserService {
     public ResponseEntity<?> updateUser(User user);
 
     public ResponseEntity<?> deleteUser(int id);
+
 }

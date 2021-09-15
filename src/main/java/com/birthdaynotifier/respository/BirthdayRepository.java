@@ -1,5 +1,6 @@
 package com.birthdaynotifier.respository;
 
+import com.birthdaynotifier.constant.Constant;
 import com.birthdaynotifier.constant.SqlConstant;
 import com.birthdaynotifier.exception.CustomException;
 import com.birthdaynotifier.model.Birthday;
@@ -34,7 +35,7 @@ public class BirthdayRepository implements IBirthdayRepository {
         int count = jdbcTemplate.queryForObject(SqlConstant.query_count_of_email_id, params, Integer.class);
 
         if(count == 0)
-            throw new CustomException("No records associated with that emailId");
+            throw new CustomException(Constant.error_no_birthday_with_email_id);
     }
 
     @Override
@@ -81,7 +82,7 @@ public class BirthdayRepository implements IBirthdayRepository {
         int count = jdbcTemplate.queryForObject(SqlConstant.query_count_of_birthday, params, Integer.class);
 
         if(count == 0)
-            throw new CustomException("No birthday records associated with that id");
+            throw new CustomException(Constant.error_no_birthday_with_id);
     }
 
     @Override
