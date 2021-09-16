@@ -42,4 +42,14 @@ public class BirthdayController {
         return birthdayService.deleteBirthday(id);
     }
 
+    @PostMapping(Constant.request_path_birthday_insert)
+    public ResponseEntity<?> insertBirthday(@RequestBody Birthday birthday) {
+        return birthdayService.insertBirthday(birthday);
+    }
+
+    @PutMapping(Constant.request_path_birthday_modify)
+    public ResponseEntity<?> modifyBirthday(@RequestBody Birthday birthday) {
+        return birthdayService.modifyBirthday(birthday);
+    }
+
 }

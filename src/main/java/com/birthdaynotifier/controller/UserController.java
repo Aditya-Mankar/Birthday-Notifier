@@ -34,4 +34,9 @@ public class UserController {
         return userService.deleteUser(id);
     }
 
+    @PostMapping("/validate")
+    public ResponseEntity<?> validateUser(@RequestBody User user) {
+        return userService.validateUser(user);
+    }
+
 }

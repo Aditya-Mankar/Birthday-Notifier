@@ -10,6 +10,7 @@ public class Birthday {
     private int month;
     private String createdAt;
     private String updatedAt;
+    private int remindBeforeDays;
 
     public String getId() {
         return id;
@@ -73,6 +74,14 @@ public class Birthday {
 
     public void setUpdatedAt(String updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public int getRemindBeforeDays() {
+        return remindBeforeDays;
+    }
+
+    public void setRemindBeforeDays(int remindBeforeDays) {
+        this.remindBeforeDays = remindBeforeDays;
     }
 
 }

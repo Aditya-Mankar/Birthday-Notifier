@@ -9,6 +9,7 @@ import com.birthdaynotifier.utility.Utility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -21,6 +22,9 @@ public class UserServiceImpl implements IUserService {
 
     @Autowired
     private IRequestValidator requestValidator;
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     public ResponseEntity<?> getUserByUsername(String username) {
@@ -46,16 +50,17 @@ public class UserServiceImpl implements IUserService {
         try {
             requestValidator.validateAddUserRequest(user);
 
-            user.setId(Utility.generateID(3));
-            user.setIsEmailIdVerified(Constant.value_false);
-            user.setSecretCode(Utility.generateCode(7));
-            user.setCreatedAt(Instant.now().toString());
-
             if(userRepository.checkIfUserExistsByEmailId(user.getEmailId()))
                 throw new CustomException(Constant.error_user_already_exists_email_id);
 
             if(userRepository.checkIfUserExistsByUsername(user.getUsername()))
                 throw new CustomException(Constant.error_user_already_exists_username);
+
+            user.setId(Utility.generateID(3));
+            user.setIsEmailIdVerified(Constant.value_false);
+            user.setPassword(encodePassword(user.getPassword()));
+            user.setSecretCode(Utility.generateCode(7));
+            user.setCreatedAt(Instant.now().toString());
 
             userRepository.createNewUser(user);
 
@@ -105,6 +110,26 @@ public class UserServiceImpl implements IUserService {
         } catch (CustomException e) {
             return ResponseEntity.internalServerError().body(e.getErrorMessage());
         }
+    }
+
+    @Override
+    public ResponseEntity<?> validateUser(User user) {
+
+        try {
+            String encryptedPassword = userRepository.fetchEncryptedPassword(user.getUsername());
+
+            if(encodePassword(user.getPassword()).equals(encryptedPassword))
+                throw new CustomException("Password is incorrect for that username");
+
+            return ResponseEntity.ok().headers(new HttpHeaders()).body("User authenticated");
+        } catch (CustomException e) {
+            return ResponseEntity.internalServerError().body(e.getErrorMessage());
+        }
+    }
+
+
+    public String encodePassword(String password) {
+        return (bCryptPasswordEncoder.encode(password)).substring(0, 10);
     }
 
 }

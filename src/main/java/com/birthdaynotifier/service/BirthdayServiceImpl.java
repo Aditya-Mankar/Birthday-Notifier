@@ -11,7 +11,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -92,6 +96,66 @@ public class BirthdayServiceImpl implements IBirthdayService {
             return ResponseEntity.badRequest().body(e.getErrorMessage());
         } catch (CustomException e) {
             return ResponseEntity.internalServerError().body(e.getErrorMessage());
+        }
+    }
+
+    @Override
+    public ResponseEntity<?> insertBirthday(Birthday birthday) {
+        try {
+            requestValidator.validateInsertBirthdayRequest(birthday);
+
+            String tempDate = birthday.getBirthDate();
+            SimpleDateFormat formatter = new SimpleDateFormat(Constant.date_format);
+            Date formattedDate = formatter.parse(tempDate);
+            Instant now = formattedDate.toInstant();
+            Instant daysAgo = now.minus(Duration.ofDays(birthday.getRemindBeforeDays()));
+            Date dateDaysAgo = Date.from(daysAgo);
+
+            int month = dateDaysAgo.getMonth() + 1;
+            int date = dateDaysAgo.getDate();
+
+            birthday.setMonth(month);
+            birthday.setDate(date);
+
+            addNewBirthday(birthday);
+
+            return ResponseEntity.ok().headers(new HttpHeaders()).body(Constant.success_birthday_added);
+        } catch (BadRequestException e) {
+            return ResponseEntity.badRequest().body(e.getErrorMessage());
+        } catch (CustomException e) {
+            return ResponseEntity.internalServerError().body(e.getErrorMessage());
+        } catch (ParseException e) {
+            return ResponseEntity.internalServerError().body(Constant.error_birthdate_invalid_format);
+        }
+    }
+
+    @Override
+    public ResponseEntity<?> modifyBirthday(Birthday birthday) {
+        try {
+            requestValidator.validateModifyBirthdayRequest(birthday);
+
+            String tempDate = birthday.getBirthDate();
+            SimpleDateFormat formatter = new SimpleDateFormat(Constant.date_format);
+            Date formattedDate = formatter.parse(tempDate);
+            Instant now = formattedDate.toInstant();
+            Instant daysAgo = now.minus(Duration.ofDays(birthday.getRemindBeforeDays()));
+            Date dateDaysAgo = Date.from(daysAgo);
+
+            int month = dateDaysAgo.getMonth() + 1;
+            int date = dateDaysAgo.getDate();
+
+            birthday.setMonth(month);
+            birthday.setDate(date);
+
+            updateBirthday(birthday);
+
+            return ResponseEntity.ok().headers(new HttpHeaders()).body(Constant.success_birthday_updated);
+        } catch (BadRequestException e) {
+            return ResponseEntity.badRequest().body(e.getErrorMessage());
+        } catch (CustomException e) {
+            return ResponseEntity.internalServerError().body(e.getErrorMessage());
+        } catch (ParseException e) {
+            return ResponseEntity.internalServerError().body(Constant.error_birthdate_invalid_format);
         }
     }
 

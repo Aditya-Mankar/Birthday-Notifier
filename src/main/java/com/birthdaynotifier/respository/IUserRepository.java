@@ -17,4 +17,6 @@ public interface IUserRepository {
     public void updateUser(User user);
 
     public void deleteUser(int id);
+
+    public String fetchEncryptedPassword(String username);
 }

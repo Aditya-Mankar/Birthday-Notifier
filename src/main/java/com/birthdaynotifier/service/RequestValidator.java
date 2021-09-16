@@ -62,4 +62,37 @@ public class RequestValidator implements IRequestValidator{
             throw new BadRequestException(Constant.error_password_null_or_empty);
     }
 
+    @Override
+    public void validateInsertBirthdayRequest(Birthday birthday) {
+        if(Utility.checkIfNullOrEmpty(birthday.getEmailId()))
+            throw new BadRequestException(Constant.error_email_id_null_or_empty);
+
+        if(Utility.checkIfNullOrEmpty(birthday.getName()))
+            throw new BadRequestException(Constant.error_name_null_or_empty);
+
+        if(Utility.checkIfNullOrEmpty(birthday.getBirthDate()))
+            throw new BadRequestException(Constant.error_birthdate_null_or_empty);
+
+        if(Utility.checkIfNullOrEmpty(birthday.getRemindBeforeDays()))
+            throw new BadRequestException(Constant.error_birthday_remind_before_days_null_or_empty);
+    }
+
+    @Override
+    public void validateModifyBirthdayRequest(Birthday birthday) {
+        if(Utility.checkIfNullOrEmpty(birthday.getId()))
+            throw new BadRequestException(Constant.error_id_null_or_empty);
+
+        if(Utility.checkIfNullOrEmpty(birthday.getEmailId()))
+            throw new BadRequestException(Constant.error_email_id_null_or_empty);
+
+        if(Utility.checkIfNullOrEmpty(birthday.getName()))
+            throw new BadRequestException(Constant.error_name_null_or_empty);
+
+        if(Utility.checkIfNullOrEmpty(birthday.getBirthDate()))
+            throw new BadRequestException(Constant.error_birthdate_null_or_empty);
+
+        if(Utility.checkIfNullOrEmpty(birthday.getRemindBeforeDays()))
+            throw new BadRequestException(Constant.error_birthday_remind_before_days_null_or_empty);
+    }
+
 }

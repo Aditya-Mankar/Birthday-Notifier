@@ -5,8 +5,8 @@ public class SqlConstant {
     public static final String query_fetch_all_birthdays = "SELECT * FROM birthdays_table";
     public static final String query_count_of_email_id = "SELECT count(*) FROM birthdays_table WHERE email_id = :emailId";
     public static final String query_fetch_birthdays_by_email_id = "SELECT * FROM birthdays_table WHERE email_id = :emailId";
-    public static final String query_insert_new_birthday = "INSERT INTO birthdays_table(id, email_id, name, birth_date, date, month, created_at) VALUES(:id, :emailId, :name, :birthDate, :date, :month, :createdAt)";
-    public static final String query_update_birthday = "UPDATE birthdays_table SET email_id = :emailId, name = :name, birth_date = :birthDate, date = :date, month = :month, updated_at = :updatedAt WHERE id = :id";
+    public static final String query_insert_new_birthday = "INSERT INTO birthdays_table(id, email_id, name, birth_date, date, month, created_at, remind_before_days) VALUES(:id, :emailId, :name, :birthDate, :date, :month, :createdAt, :remindBeforeDays)";
+    public static final String query_update_birthday = "UPDATE birthdays_table SET email_id = :emailId, name = :name, birth_date = :birthDate, date = :date, month = :month, updated_at = :updatedAt, remind_before_days = :remindBeforeDays WHERE id = :id";
     public static final String query_count_of_birthday = "SELECT count(*) FROM birthdays_table WHERE id = :id";
     public static final String query_delete_birthday = "DELETE FROM birthdays_table WHERE id = :id";
 
@@ -17,6 +17,7 @@ public class SqlConstant {
     public static final String query_insert_new_user = "INSERT INTO users_table(id, email_id, username, password, is_email_id_verified, secret_code, created_at) VALUES(:id, :emailId, :username, :password, :isEmailIdVerified, :secretCode, :createdAt)";
     public static final String query_update_user = "UPDATE users_table SET email_id = :emailId, username = :username, password = :password, is_email_id_verified = :isEmailIdVerified, updated_at = :updatedAt WHERE id = :id";
     public static final String query_delete_user = "DELETE FROM users_table WHERE id = :id";
+    public static final String query_fetch_password = "SELECT password FROM users_table WHERE username = :username";
 
     public static final String column_birthday_id = "id";
     public static final String column_birthday_email_id = "email_id";
@@ -41,6 +42,7 @@ public class SqlConstant {
     public static final String named_parameter_month = "month";
     public static final String named_parameter_created_at = "createdAt";
     public static final String named_parameter_updated_at = "updatedAt";
+    public static final String named_parameter_remind_before_days = "remindBeforeDays";
 
     public static final String named_parameter_username = "username";
     public static final String named_parameter_password = "password";

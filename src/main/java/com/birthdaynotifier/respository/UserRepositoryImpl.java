@@ -90,6 +90,14 @@ public class UserRepositoryImpl implements IUserRepository {
         jdbcTemplate.update(SqlConstant.query_delete_user, params);
     }
 
+    @Override
+    public String fetchEncryptedPassword(String username) {
+        Map <String, String> params = new HashMap<>();
+        params.put(SqlConstant.named_parameter_username, username);
+
+        return jdbcTemplate.queryForObject(SqlConstant.query_fetch_password, params, String.class);
+    }
+
 }
 
 class UserRowMapper implements RowMapper<User> {

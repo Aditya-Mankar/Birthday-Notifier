@@ -17,4 +17,9 @@ public interface IBirthdayService {
     public ResponseEntity<?> updateBirthday(Birthday birthday);
 
     public ResponseEntity<?> deleteBirthday(int id);
+
+    public ResponseEntity<?> insertBirthday(Birthday birthday);
+
+    public ResponseEntity<?> modifyBirthday(Birthday birthday);
+
 }

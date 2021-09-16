@@ -56,6 +56,7 @@ public class BirthdayRepository implements IBirthdayRepository {
         params.put(SqlConstant.named_parameter_date, String.valueOf(birthday.getDate()));
         params.put(SqlConstant.named_parameter_month, String.valueOf(birthday.getMonth()));
         params.put(SqlConstant.named_parameter_created_at, birthday.getCreatedAt());
+        params.put(SqlConstant.named_parameter_remind_before_days, String.valueOf(birthday.getRemindBeforeDays()));
 
         jdbcTemplate.update(SqlConstant.query_insert_new_birthday, params);
     }
@@ -70,6 +71,7 @@ public class BirthdayRepository implements IBirthdayRepository {
         params.put(SqlConstant.named_parameter_date, String.valueOf(birthday.getDate()));
         params.put(SqlConstant.named_parameter_month, String.valueOf(birthday.getMonth()));
         params.put(SqlConstant.named_parameter_updated_at, birthday.getUpdatedAt());
+        params.put(SqlConstant.named_parameter_remind_before_days, String.valueOf(birthday.getRemindBeforeDays()));
 
         jdbcTemplate.update(SqlConstant.query_update_birthday, params);
     }

@@ -13,4 +13,6 @@ public interface IUserService {
 
     public ResponseEntity<?> deleteUser(int id);
 
+    public ResponseEntity<?> validateUser(User user);
+
 }

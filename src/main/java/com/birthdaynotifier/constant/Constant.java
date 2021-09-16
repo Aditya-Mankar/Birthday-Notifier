@@ -5,12 +5,16 @@ public class Constant {
     public static final String value_true = "true";
     public static final String value_false = "false";
 
+    public static final String date_format = "dd/MM/yyyy";
+
     public static final String request_path_birthday = "/api/birthday";
     public static final String request_path_birthday_get_all = "/getAll";
     public static final String request_path_birthday_get_email_id = "/get/{emailId}";
     public static final String request_path_birthday_add = "/add";
     public static final String request_path_birthday_update = "/update";
     public static final String request_path_birthday_delete_email_id = "/delete/{id}";
+    public static final String request_path_birthday_insert = "/insert";
+    public static final String request_path_birthday_modify = "/modify";
 
     public static final String request_path_user = "/api/user/";
     public static final String request_path_user_get_username = "/get/{username}";
@@ -32,6 +36,8 @@ public class Constant {
     public static final String error_password_null_or_empty = "Password cannot be null or empty";
     public static final String error_user_already_exists_email_id = "User already exists with that email id";
     public static final String error_user_already_exists_username = "User already exists with that username";
+    public static final String error_birthday_remind_before_days_null_or_empty = "Remind before days cannot be null or empty";
+    public static final String error_birthdate_invalid_format = "Please enter date in dd/mm/yyyy format only";
 
     public static final String success_birthday_added = "Birthday added successfully";
     public static final String success_birthday_updated = "Birthday updated successfully";
