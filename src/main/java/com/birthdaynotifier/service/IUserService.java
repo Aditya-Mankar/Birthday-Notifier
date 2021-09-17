@@ -15,4 +15,8 @@ public interface IUserService {
 
     public ResponseEntity<?> validateUser(User user);
 
+    public ResponseEntity<?> verifyEmailId(User user);
+
+    public ResponseEntity<?> updatePassword(User user);
+
 }

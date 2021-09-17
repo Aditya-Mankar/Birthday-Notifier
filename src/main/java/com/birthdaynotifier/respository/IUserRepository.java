@@ -19,4 +19,10 @@ public interface IUserRepository {
     public void deleteUser(int id);
 
     public String fetchEncryptedPassword(String username);
+
+    public String fetchCode(String emailId);
+
+    public void updateUserEmailId(User user);
+
+    public void updateUserPassword(User user);
 }

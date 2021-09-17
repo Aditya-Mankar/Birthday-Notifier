@@ -16,4 +16,7 @@ public interface IRequestValidator {
 
     public void validateModifyBirthdayRequest(Birthday birthday);
 
+    public void validateUserEmailIdRequest(User user);
+
+    public void validateUserUpdatePasswordRequest(User user);
 }

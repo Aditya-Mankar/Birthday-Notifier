@@ -4,6 +4,8 @@ import com.birthdaynotifier.constant.Constant;
 import com.birthdaynotifier.constant.SqlConstant;
 import com.birthdaynotifier.exception.CustomException;
 import com.birthdaynotifier.model.Birthday;
+import com.birthdaynotifier.utility.Utility;
+import jdk.jshell.execution.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -110,6 +112,10 @@ class BirthdayRowMapper implements RowMapper<Birthday> {
         birthday.setDate(rs.getInt(SqlConstant.column_birthday_date));
         birthday.setMonth(rs.getInt(SqlConstant.column_birthday_month));
         birthday.setCreatedAt(rs.getString(SqlConstant.column_birthday_created_at));
+        birthday.setUpdatedAt(Utility.checkIfNullOrEmpty(rs.getString(SqlConstant.column_birthday_updated_at)) ?
+                null : rs.getString(SqlConstant.column_birthday_updated_at));
+        birthday.setRemindBeforeDays(Utility.checkIfNullOrEmpty(rs.getInt(SqlConstant.column_birthday_remind_before_days)) ?
+                0 : rs.getInt(SqlConstant.column_birthday_remind_before_days));
 
         return birthday;
     }

@@ -20,7 +20,7 @@ public class UserRepositoryImpl implements IUserRepository {
 
     @Override
     public boolean checkIfUserExistsByEmailId(String emailId) {
-        Map <String, String> params = new HashMap<>();
+        Map<String, String> params = new HashMap<>();
         params.put(SqlConstant.named_parameter_email_id, emailId);
 
         int count = jdbcTemplate.queryForObject(SqlConstant.query_count_of_user_by_email_id, params, Integer.class);
@@ -29,7 +29,7 @@ public class UserRepositoryImpl implements IUserRepository {
     }
 
     public boolean checkIfUserExistsByUsername(String username) {
-        Map <String, String> params = new HashMap<>();
+        Map<String, String> params = new HashMap<>();
         params.put(SqlConstant.named_parameter_username, username);
 
         int count = jdbcTemplate.queryForObject(SqlConstant.query_count_of_user_by_username, params, Integer.class);
@@ -39,7 +39,7 @@ public class UserRepositoryImpl implements IUserRepository {
 
     @Override
     public boolean checkIfUserExistsById(String id) {
-        Map <String, String> params = new HashMap<>();
+        Map<String, String> params = new HashMap<>();
         params.put(SqlConstant.named_parameter_id, id);
 
         int count = jdbcTemplate.queryForObject(SqlConstant.query_count_of_user_by_id, params, Integer.class);
@@ -49,7 +49,7 @@ public class UserRepositoryImpl implements IUserRepository {
 
     @Override
     public User getUserByUsername(String username) {
-        Map <String, String> params = new HashMap<>();
+        Map<String, String> params = new HashMap<>();
         params.put(SqlConstant.named_parameter_username, username);
 
         return jdbcTemplate.queryForObject(SqlConstant.query_fetch_user_by_username, params, new UserRowMapper());
@@ -57,7 +57,7 @@ public class UserRepositoryImpl implements IUserRepository {
 
     @Override
     public void createNewUser(User user) {
-        Map <String, String> params = new HashMap<>();
+        Map<String, String> params = new HashMap<>();
         params.put(SqlConstant.named_parameter_id, user.getId());
         params.put(SqlConstant.named_parameter_email_id, user.getEmailId());
         params.put(SqlConstant.named_parameter_username, user.getUsername());
@@ -71,7 +71,7 @@ public class UserRepositoryImpl implements IUserRepository {
 
     @Override
     public void updateUser(User user) {
-        Map <String, String> params = new HashMap<>();
+        Map<String, String> params = new HashMap<>();
         params.put(SqlConstant.named_parameter_id, user.getId());
         params.put(SqlConstant.named_parameter_email_id, user.getEmailId());
         params.put(SqlConstant.named_parameter_username, user.getUsername());
@@ -84,7 +84,7 @@ public class UserRepositoryImpl implements IUserRepository {
 
     @Override
     public void deleteUser(int id) {
-        Map <String, String> params = new HashMap<>();
+        Map<String, String> params = new HashMap<>();
         params.put(SqlConstant.named_parameter_id, String.valueOf(id));
 
         jdbcTemplate.update(SqlConstant.query_delete_user, params);
@@ -92,10 +92,38 @@ public class UserRepositoryImpl implements IUserRepository {
 
     @Override
     public String fetchEncryptedPassword(String username) {
-        Map <String, String> params = new HashMap<>();
+        Map<String, String> params = new HashMap<>();
         params.put(SqlConstant.named_parameter_username, username);
 
         return jdbcTemplate.queryForObject(SqlConstant.query_fetch_password, params, String.class);
+    }
+
+    @Override
+    public String fetchCode(String emailId) {
+        Map<String, String> params = new HashMap<>();
+        params.put(SqlConstant.named_parameter_email_id, emailId);
+
+        return jdbcTemplate.queryForObject(SqlConstant.query_fetch_code, params, String.class);
+    }
+
+    @Override
+    public void updateUserEmailId(User user) {
+        Map<String, String> params = new HashMap<>();
+        params.put(SqlConstant.named_parameter_email_id, user.getEmailId());
+        params.put(SqlConstant.named_parameter_is_email_id_verified, user.getIsEmailIdVerified());
+        params.put(SqlConstant.named_parameter_updated_at, user.getUpdatedAt());
+
+        jdbcTemplate.update(SqlConstant.query_update_user_email_id, params);
+    }
+
+    @Override
+    public void updateUserPassword(User user) {
+        Map<String, String> params = new HashMap<>();
+        params.put(SqlConstant.named_parameter_email_id, user.getEmailId());
+        params.put(SqlConstant.named_parameter_password, user.getPassword());
+        params.put(SqlConstant.named_parameter_updated_at, user.getUpdatedAt());
+
+        jdbcTemplate.update(SqlConstant.query_update_user_password, params);
     }
 
 }

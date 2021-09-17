@@ -6,16 +6,19 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import javax.annotation.PostConstruct;
+import java.util.TimeZone;
+
 @SpringBootApplication(exclude = SecurityAutoConfiguration.class)
 public class BirthdayNotifierApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(BirthdayNotifierApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(BirthdayNotifierApplication.class, args);
+    }
 
-	@Bean
-	BCryptPasswordEncoder bCryptPasswordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+    @Bean
+    BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
 }

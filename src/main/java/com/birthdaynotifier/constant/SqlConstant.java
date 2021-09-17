@@ -18,6 +18,9 @@ public class SqlConstant {
     public static final String query_update_user = "UPDATE users_table SET email_id = :emailId, username = :username, password = :password, is_email_id_verified = :isEmailIdVerified, updated_at = :updatedAt WHERE id = :id";
     public static final String query_delete_user = "DELETE FROM users_table WHERE id = :id";
     public static final String query_fetch_password = "SELECT password FROM users_table WHERE username = :username";
+    public static final String query_fetch_code = "SELECT secret_code FROM users_table WHERE email_id = :emailId";
+    public static final String query_update_user_email_id = "UPDATE users_table SET is_email_id_verified = :isEmailIdVerified, updated_at = :updatedAt WHERE email_id = :emailId";
+    public static final String query_update_user_password = "UPDATE users_table SET password = :password, updated_at = :updatedAt WHERE email_id = :emailId";
 
     public static final String column_birthday_id = "id";
     public static final String column_birthday_email_id = "email_id";
@@ -26,6 +29,8 @@ public class SqlConstant {
     public static final String column_birthday_date = "date";
     public static final String column_birthday_month = "month";
     public static final String column_birthday_created_at = "created_at";
+    public static final String column_birthday_updated_at = "updated_at";
+    public static final String column_birthday_remind_before_days = "remind_before_days";
 
     public static final String column_user_username = "username";
     public static final String column_user_password = "password";

@@ -95,4 +95,25 @@ public class RequestValidator implements IRequestValidator{
             throw new BadRequestException(Constant.error_birthday_remind_before_days_null_or_empty);
     }
 
+    @Override
+    public void validateUserEmailIdRequest(User user) {
+        if(Utility.checkIfNullOrEmpty(user.getEmailId()))
+            throw new BadRequestException(Constant.error_email_id_null_or_empty);
+
+        if(Utility.checkIfNullOrEmpty(user.getSecretCode()))
+            throw new BadRequestException(Constant.error_code_null_or_empty);
+    }
+
+    @Override
+    public void validateUserUpdatePasswordRequest(User user) {
+        if(Utility.checkIfNullOrEmpty(user.getEmailId()))
+            throw new BadRequestException(Constant.error_email_id_null_or_empty);
+
+        if(Utility.checkIfNullOrEmpty(user.getPassword()))
+            throw new BadRequestException(Constant.error_password_null_or_empty);
+
+        if(Utility.checkIfNullOrEmpty(user.getSecretCode()))
+            throw new BadRequestException(Constant.error_code_null_or_empty);
+    }
+
 }

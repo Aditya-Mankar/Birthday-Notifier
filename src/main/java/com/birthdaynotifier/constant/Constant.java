@@ -21,6 +21,11 @@ public class Constant {
     public static final String request_path_user_add = "/add";
     public static final String request_path_user_update = "/update";
     public static final String request_path_user_delete_id = "/delete/{id}";
+    public static final String request_path_user_verify_email_id = "/verifyEmailId";
+    public static final String request_path_user_update_password = "/updatePassword";
+
+    public static final String request_path_mail = "/api/email";
+    public static final String request_path_mail_send_code = "/sendCode/{emailId}";
 
     public static final String error_no_birthday_with_email_id = "No records associated with that email id";
     public static final String error_no_birthday_with_id = "No birthday records associated with that id";
@@ -38,6 +43,9 @@ public class Constant {
     public static final String error_user_already_exists_username = "User already exists with that username";
     public static final String error_birthday_remind_before_days_null_or_empty = "Remind before days cannot be null or empty";
     public static final String error_birthdate_invalid_format = "Please enter date in dd/mm/yyyy format only";
+    public static final String error_mail_code_not_sent = "Error sending code";
+    public static final String error_code_null_or_empty = "Code cannot be null or empty";
+    public static final String error_invalid_code = "Invalid code";
 
     public static final String success_birthday_added = "Birthday added successfully";
     public static final String success_birthday_updated = "Birthday updated successfully";
@@ -45,5 +53,8 @@ public class Constant {
     public static final String success_user_added = "User added successfully";
     public static final String success_user_updated = "User updated successfully";
     public static final String success_user_deleted = "User deleted successfully";
+    public static final String success_mail_code_sent = "Code sent successfully";
+    public static final String success_user_email_id_verified = "Email Id verified for user";
+    public static final String success_user_update_password = "Password updated successfully";
 
 }
