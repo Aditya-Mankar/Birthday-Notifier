@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 public class RequestValidator implements IRequestValidator{
 
     @Override
-    public void validateAddBirthdayRequest(Birthday birthday) throws BadRequestException {
+    public void validateAddBirthdayRequest(Birthday birthday) {
         if(Utility.checkIfNullOrEmpty(birthday.getEmailId()))
             throw new BadRequestException(Constant.error_email_id_null_or_empty);
 
@@ -20,13 +20,19 @@ public class RequestValidator implements IRequestValidator{
             throw new BadRequestException(Constant.error_name_null_or_empty);
 
         if(Utility.checkIfNullOrEmpty(birthday.getBirthDate()))
-            throw new BadRequestException(Constant.error_birthdate_null_or_empty);
+            throw new BadRequestException(Constant.error_birth_date_null_or_empty);
 
-        if(Utility.checkIfNullOrEmpty(birthday.getDate()))
-            throw new BadRequestException(Constant.error_date_null_or_empty);
+        if(Utility.checkIfNullOrEmpty(birthday.getBirthMonth()))
+            throw new BadRequestException(Constant.error_birth_month_null_or_empty);
 
-        if(Utility.checkIfNullOrEmpty(birthday.getMonth()))
-            throw new BadRequestException(Constant.error_month_null_or_empty);
+        if(Utility.checkIfNullOrEmpty(birthday.getRemindBeforeDays()))
+            throw new BadRequestException(Constant.error_remind_before_days_null_or_empty);
+
+        if(Utility.checkIfNullOrEmpty(birthday.getRemindDate()))
+            throw new BadRequestException(Constant.error_remind_date_null_or_empty);
+
+        if(Utility.checkIfNullOrEmpty(birthday.getRemindMonth()))
+            throw new BadRequestException(Constant.error_remind_month_null_or_empty);
     }
 
     @Override
@@ -41,13 +47,19 @@ public class RequestValidator implements IRequestValidator{
             throw new BadRequestException(Constant.error_name_null_or_empty);
 
         if(Utility.checkIfNullOrEmpty(birthday.getBirthDate()))
-            throw new BadRequestException(Constant.error_birthdate_null_or_empty);
+            throw new BadRequestException(Constant.error_birth_date_null_or_empty);
 
-        if(Utility.checkIfNullOrEmpty(birthday.getDate()))
-            throw new BadRequestException(Constant.error_date_null_or_empty);
+        if(Utility.checkIfNullOrEmpty(birthday.getBirthMonth()))
+            throw new BadRequestException(Constant.error_birth_month_null_or_empty);
 
-        if(Utility.checkIfNullOrEmpty(birthday.getMonth()))
-            throw new BadRequestException(Constant.error_month_null_or_empty);
+        if(Utility.checkIfNullOrEmpty(birthday.getRemindBeforeDays()))
+            throw new BadRequestException(Constant.error_remind_before_days_null_or_empty);
+
+        if(Utility.checkIfNullOrEmpty(birthday.getRemindDate()))
+            throw new BadRequestException(Constant.error_remind_date_null_or_empty);
+
+        if(Utility.checkIfNullOrEmpty(birthday.getRemindMonth()))
+            throw new BadRequestException(Constant.error_remind_month_null_or_empty);
     }
 
     @Override
@@ -71,10 +83,13 @@ public class RequestValidator implements IRequestValidator{
             throw new BadRequestException(Constant.error_name_null_or_empty);
 
         if(Utility.checkIfNullOrEmpty(birthday.getBirthDate()))
-            throw new BadRequestException(Constant.error_birthdate_null_or_empty);
+            throw new BadRequestException(Constant.error_birth_date_null_or_empty);
+
+        if(Utility.checkIfNullOrEmpty(birthday.getBirthMonth()))
+            throw new BadRequestException(Constant.error_birth_month_null_or_empty);
 
         if(Utility.checkIfNullOrEmpty(birthday.getRemindBeforeDays()))
-            throw new BadRequestException(Constant.error_birthday_remind_before_days_null_or_empty);
+            throw new BadRequestException(Constant.error_remind_before_days_null_or_empty);
     }
 
     @Override
@@ -89,10 +104,13 @@ public class RequestValidator implements IRequestValidator{
             throw new BadRequestException(Constant.error_name_null_or_empty);
 
         if(Utility.checkIfNullOrEmpty(birthday.getBirthDate()))
-            throw new BadRequestException(Constant.error_birthdate_null_or_empty);
+            throw new BadRequestException(Constant.error_birth_date_null_or_empty);
+
+        if(Utility.checkIfNullOrEmpty(birthday.getBirthMonth()))
+            throw new BadRequestException(Constant.error_birth_month_null_or_empty);
 
         if(Utility.checkIfNullOrEmpty(birthday.getRemindBeforeDays()))
-            throw new BadRequestException(Constant.error_birthday_remind_before_days_null_or_empty);
+            throw new BadRequestException(Constant.error_remind_before_days_null_or_empty);
     }
 
     @Override

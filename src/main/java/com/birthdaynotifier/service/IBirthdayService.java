@@ -22,4 +22,6 @@ public interface IBirthdayService {
 
     public ResponseEntity<?> modifyBirthday(Birthday birthday);
 
+    public List<Birthday> getBirthdaysByDateAndMonth(Birthday request);
+
 }

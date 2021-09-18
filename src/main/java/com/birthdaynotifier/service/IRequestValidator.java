@@ -6,7 +6,7 @@ import com.birthdaynotifier.model.User;
 
 public interface IRequestValidator {
 
-    public void validateAddBirthdayRequest(Birthday birthday) throws BadRequestException;
+    public void validateAddBirthdayRequest(Birthday birthday);
 
     public void validateUpdateBirthdayRequest(Birthday birthday);
 

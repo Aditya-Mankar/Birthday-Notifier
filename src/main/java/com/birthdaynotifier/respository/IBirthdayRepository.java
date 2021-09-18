@@ -19,4 +19,7 @@ public interface IBirthdayRepository {
     public void checkBirthdayExists(int id);
 
     public void deleteBirthday(int id);
+
+    public List<Birthday> getBirthdaysByDateAndMonth(Birthday request);
+
 }

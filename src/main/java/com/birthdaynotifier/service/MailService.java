@@ -51,7 +51,7 @@ public class MailService implements IMailService {
     }
 
     @Override
-    public String sendMail(Birthday birthday) throws MessagingException {
+    public String sendBirthdayMail(Birthday birthday) throws MessagingException {
 
         String sendFrom = "";
         String sendTo = birthday.getEmailId();

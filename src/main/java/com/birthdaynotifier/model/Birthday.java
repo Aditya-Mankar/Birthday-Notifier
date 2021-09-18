@@ -5,12 +5,20 @@ public class Birthday {
     private String id;
     private String emailId;
     private String name;
-    private String birthDate;
-    private int date;
-    private int month;
+    private int birthDate;
+    private int birthMonth;
+    private int remindBeforeDays;
+    private int remindDate;
+    private int remindMonth;
     private String createdAt;
     private String updatedAt;
-    private int remindBeforeDays;
+
+    public Birthday() {}
+
+    public Birthday(int birthDate, int birthMonth) {
+        this.birthDate = birthDate;
+        this.birthMonth = birthMonth;
+    }
 
     public String getId() {
         return id;
@@ -36,28 +44,44 @@ public class Birthday {
         this.name = name;
     }
 
-    public String getBirthDate() {
+    public int getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(String birthDate) {
+    public void setBirthDate(int birthDate) {
         this.birthDate = birthDate;
     }
 
-    public int getDate() {
-        return date;
+    public int getBirthMonth() {
+        return birthMonth;
     }
 
-    public void setDate(int date) {
-        this.date = date;
+    public void setBirthMonth(int birthMonth) {
+        this.birthMonth = birthMonth;
     }
 
-    public int getMonth() {
-        return month;
+    public int getRemindBeforeDays() {
+        return remindBeforeDays;
     }
 
-    public void setMonth(int month) {
-        this.month = month;
+    public void setRemindBeforeDays(int remindBeforeDays) {
+        this.remindBeforeDays = remindBeforeDays;
+    }
+
+    public int getRemindDate() {
+        return remindDate;
+    }
+
+    public void setRemindDate(int remindDate) {
+        this.remindDate = remindDate;
+    }
+
+    public int getRemindMonth() {
+        return remindMonth;
+    }
+
+    public void setRemindMonth(int remindMonth) {
+        this.remindMonth = remindMonth;
     }
 
     public String getCreatedAt() {
@@ -76,12 +100,20 @@ public class Birthday {
         this.updatedAt = updatedAt;
     }
 
-    public int getRemindBeforeDays() {
-        return remindBeforeDays;
-    }
-
-    public void setRemindBeforeDays(int remindBeforeDays) {
-        this.remindBeforeDays = remindBeforeDays;
+    @Override
+    public String toString() {
+        return "Birthday{" +
+                "id='" + id + '\'' +
+                ", emailId='" + emailId + '\'' +
+                ", name='" + name + '\'' +
+                ", birthDate=" + birthDate +
+                ", birthMonth=" + birthMonth +
+                ", remindBeforeDays=" + remindBeforeDays +
+                ", remindDate=" + remindDate +
+                ", remindMonth=" + remindMonth +
+                ", createdAt='" + createdAt + '\'' +
+                ", updatedAt='" + updatedAt + '\'' +
+                '}';
     }
 
 }

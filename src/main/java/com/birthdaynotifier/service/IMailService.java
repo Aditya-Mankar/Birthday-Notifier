@@ -10,7 +10,7 @@ public interface IMailService {
 
     public void sendHtmlMail(Mail mail, String template) throws MessagingException;
 
-    public String sendMail(Birthday birthday) throws MessagingException;
+    public String sendBirthdayMail(Birthday birthday) throws MessagingException;
 
     public ResponseEntity<?> sendCodeForUser(String emailId);
 

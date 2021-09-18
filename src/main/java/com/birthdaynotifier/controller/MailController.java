@@ -18,7 +18,7 @@ public class MailController {
 
     @PostMapping("/birthday")
     public String sendBirthdayReminder(@RequestBody Birthday birthday) throws MessagingException {
-        return mailService.sendMail(birthday);
+        return mailService.sendBirthdayMail(birthday);
     }
 
     @GetMapping(Constant.request_path_mail_send_code)

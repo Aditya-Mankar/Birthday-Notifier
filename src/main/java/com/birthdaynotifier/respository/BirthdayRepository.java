@@ -54,11 +54,12 @@ public class BirthdayRepository implements IBirthdayRepository {
         params.put(SqlConstant.named_parameter_id, String.valueOf(birthday.getId()));
         params.put(SqlConstant.named_parameter_email_id, birthday.getEmailId());
         params.put(SqlConstant.named_parameter_name, birthday.getName());
-        params.put(SqlConstant.named_parameter_birth_date, birthday.getBirthDate());
-        params.put(SqlConstant.named_parameter_date, String.valueOf(birthday.getDate()));
-        params.put(SqlConstant.named_parameter_month, String.valueOf(birthday.getMonth()));
-        params.put(SqlConstant.named_parameter_created_at, birthday.getCreatedAt());
+        params.put(SqlConstant.named_parameter_birth_date, String.valueOf(birthday.getBirthDate()));
+        params.put(SqlConstant.named_parameter_birth_month, String.valueOf(birthday.getBirthMonth()));
         params.put(SqlConstant.named_parameter_remind_before_days, String.valueOf(birthday.getRemindBeforeDays()));
+        params.put(SqlConstant.named_parameter_remind_date, String.valueOf(birthday.getRemindDate()));
+        params.put(SqlConstant.named_parameter_remind_month, String.valueOf(birthday.getRemindMonth()));
+        params.put(SqlConstant.named_parameter_created_at, birthday.getCreatedAt());
 
         jdbcTemplate.update(SqlConstant.query_insert_new_birthday, params);
     }
@@ -69,11 +70,12 @@ public class BirthdayRepository implements IBirthdayRepository {
         params.put(SqlConstant.named_parameter_id, String.valueOf(birthday.getId()));
         params.put(SqlConstant.named_parameter_email_id, birthday.getEmailId());
         params.put(SqlConstant.named_parameter_name, birthday.getName());
-        params.put(SqlConstant.named_parameter_birth_date, birthday.getBirthDate());
-        params.put(SqlConstant.named_parameter_date, String.valueOf(birthday.getDate()));
-        params.put(SqlConstant.named_parameter_month, String.valueOf(birthday.getMonth()));
-        params.put(SqlConstant.named_parameter_updated_at, birthday.getUpdatedAt());
+        params.put(SqlConstant.named_parameter_birth_date, String.valueOf(birthday.getBirthDate()));
+        params.put(SqlConstant.named_parameter_birth_month, String.valueOf(birthday.getBirthMonth()));
         params.put(SqlConstant.named_parameter_remind_before_days, String.valueOf(birthday.getRemindBeforeDays()));
+        params.put(SqlConstant.named_parameter_remind_date, String.valueOf(birthday.getRemindDate()));
+        params.put(SqlConstant.named_parameter_remind_month, String.valueOf(birthday.getRemindMonth()));
+        params.put(SqlConstant.named_parameter_updated_at, birthday.getUpdatedAt());
 
         jdbcTemplate.update(SqlConstant.query_update_birthday, params);
     }
@@ -97,6 +99,15 @@ public class BirthdayRepository implements IBirthdayRepository {
         jdbcTemplate.update(SqlConstant.query_delete_birthday, params);
     }
 
+    @Override
+    public List<Birthday> getBirthdaysByDateAndMonth(Birthday request) {
+        Map<String, String> params = new HashMap<>();
+        params.put(SqlConstant.named_parameter_birth_date, String.valueOf(request.getBirthDate()));
+        params.put(SqlConstant.named_parameter_birth_month, String.valueOf(request.getBirthMonth()));
+
+        return jdbcTemplate.query(SqlConstant.query_fetch_birthdays_by_date_and_month, params, new BirthdayRowMapper());
+    }
+
 }
 
 class BirthdayRowMapper implements RowMapper<Birthday> {
@@ -108,14 +119,14 @@ class BirthdayRowMapper implements RowMapper<Birthday> {
         birthday.setId(rs.getString(SqlConstant.column_birthday_id));
         birthday.setEmailId(rs.getString(SqlConstant.column_birthday_email_id));
         birthday.setName(rs.getString(SqlConstant.column_birthday_name));
-        birthday.setBirthDate(rs.getString(SqlConstant.column_birthday_birth_date));
-        birthday.setDate(rs.getInt(SqlConstant.column_birthday_date));
-        birthday.setMonth(rs.getInt(SqlConstant.column_birthday_month));
+        birthday.setBirthDate(rs.getInt(SqlConstant.column_birthday_birth_date));
+        birthday.setBirthMonth(rs.getInt(SqlConstant.column_birthday_birth_month));
+        birthday.setRemindBeforeDays(rs.getInt(SqlConstant.column_birthday_remind_before_days));
+        birthday.setRemindDate(rs.getInt(SqlConstant.column_birthday_remind_date));
+        birthday.setRemindMonth(rs.getInt(SqlConstant.column_birthday_remind_month));
         birthday.setCreatedAt(rs.getString(SqlConstant.column_birthday_created_at));
         birthday.setUpdatedAt(Utility.checkIfNullOrEmpty(rs.getString(SqlConstant.column_birthday_updated_at)) ?
                 null : rs.getString(SqlConstant.column_birthday_updated_at));
-        birthday.setRemindBeforeDays(Utility.checkIfNullOrEmpty(rs.getInt(SqlConstant.column_birthday_remind_before_days)) ?
-                0 : rs.getInt(SqlConstant.column_birthday_remind_before_days));
 
         return birthday;
     }

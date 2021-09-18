@@ -104,18 +104,16 @@ public class BirthdayServiceImpl implements IBirthdayService {
         try {
             requestValidator.validateInsertBirthdayRequest(birthday);
 
-            String tempDate = birthday.getBirthDate();
-            SimpleDateFormat formatter = new SimpleDateFormat(Constant.date_format);
-            Date formattedDate = formatter.parse(tempDate);
-            Instant now = formattedDate.toInstant();
+            Date newDate = new Date(0, birthday.getBirthMonth() - 1, birthday.getBirthDate());
+            Instant now = newDate.toInstant();
             Instant daysAgo = now.minus(Duration.ofDays(birthday.getRemindBeforeDays()));
             Date dateDaysAgo = Date.from(daysAgo);
 
             int month = dateDaysAgo.getMonth() + 1;
             int date = dateDaysAgo.getDate();
 
-            birthday.setMonth(month);
-            birthday.setDate(date);
+            birthday.setRemindMonth(month);
+            birthday.setRemindDate(date);
 
             addNewBirthday(birthday);
 
@@ -124,8 +122,6 @@ public class BirthdayServiceImpl implements IBirthdayService {
             return ResponseEntity.badRequest().body(e.getErrorMessage());
         } catch (CustomException e) {
             return ResponseEntity.internalServerError().body(e.getErrorMessage());
-        } catch (ParseException e) {
-            return ResponseEntity.internalServerError().body(Constant.error_birthdate_invalid_format);
         }
     }
 
@@ -134,18 +130,16 @@ public class BirthdayServiceImpl implements IBirthdayService {
         try {
             requestValidator.validateModifyBirthdayRequest(birthday);
 
-            String tempDate = birthday.getBirthDate();
-            SimpleDateFormat formatter = new SimpleDateFormat(Constant.date_format);
-            Date formattedDate = formatter.parse(tempDate);
-            Instant now = formattedDate.toInstant();
+            Date newDate = new Date(0, birthday.getBirthMonth() - 1, birthday.getBirthDate());
+            Instant now = newDate.toInstant();
             Instant daysAgo = now.minus(Duration.ofDays(birthday.getRemindBeforeDays()));
             Date dateDaysAgo = Date.from(daysAgo);
 
             int month = dateDaysAgo.getMonth() + 1;
             int date = dateDaysAgo.getDate();
 
-            birthday.setMonth(month);
-            birthday.setDate(date);
+            birthday.setRemindMonth(month);
+            birthday.setRemindDate(date);
 
             updateBirthday(birthday);
 
@@ -154,9 +148,12 @@ public class BirthdayServiceImpl implements IBirthdayService {
             return ResponseEntity.badRequest().body(e.getErrorMessage());
         } catch (CustomException e) {
             return ResponseEntity.internalServerError().body(e.getErrorMessage());
-        } catch (ParseException e) {
-            return ResponseEntity.internalServerError().body(Constant.error_birthdate_invalid_format);
         }
+    }
+
+    @Override
+    public List<Birthday> getBirthdaysByDateAndMonth(Birthday request) {
+        return birthdayRepository.getBirthdaysByDateAndMonth(request);
     }
 
     public static String generateUUID(int length) {
