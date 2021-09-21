@@ -34,11 +34,6 @@ public class UserController {
         return userService.deleteUser(id);
     }
 
-    @PostMapping("/validate")
-    public ResponseEntity<?> validateUser(@RequestBody User user) {
-        return userService.validateUser(user);
-    }
-
     @PostMapping(Constant.request_path_user_verify_email_id)
     public ResponseEntity<?> verifyEmailId(@RequestBody User user) {
         return userService.verifyEmailId(user);
@@ -47,6 +42,11 @@ public class UserController {
     @PostMapping(Constant.request_path_user_update_password)
     public ResponseEntity<?> updatePassword(@RequestBody User user) {
         return userService.updatePassword(user);
+    }
+
+    @PostMapping(Constant.request_path_user_login)
+    public ResponseEntity<?> login(@RequestBody User user) {
+        return userService.login(user);
     }
 
 }

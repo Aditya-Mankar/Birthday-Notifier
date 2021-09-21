@@ -5,10 +5,15 @@ import com.birthdaynotifier.exception.BadRequestException;
 import com.birthdaynotifier.exception.CustomException;
 import com.birthdaynotifier.model.User;
 import com.birthdaynotifier.respository.IUserRepository;
+import com.birthdaynotifier.utility.JWTUtility;
 import com.birthdaynotifier.utility.Utility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +30,15 @@ public class UserServiceImpl implements IUserService {
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private CustomUserDetailsService userDetailsService;
+
+    @Autowired
+    private JWTUtility jwtUtility;
 
     @Override
     public ResponseEntity<?> getUserByUsername(String username) {
@@ -118,10 +132,13 @@ public class UserServiceImpl implements IUserService {
         try {
             String encryptedPassword = userRepository.fetchEncryptedPassword(user.getUsername());
 
-            if (encodePassword(user.getPassword()).equals(encryptedPassword))
-                throw new CustomException("Password is incorrect for that username");
-
-            return ResponseEntity.ok().headers(new HttpHeaders()).body("User authenticated");
+            if (!encodePassword(user.getPassword()).equals(encryptedPassword))
+                throw new CustomException(Constant.error_user_invalid_password);
+            System.out.println(user.getPassword());
+            System.out.println(encryptedPassword);
+            System.out.println(encodePassword(user.getPassword()));
+            System.out.println(encodePassword(user.getPassword()).equals(encryptedPassword));
+            return ResponseEntity.ok().headers(new HttpHeaders()).body(Constant.success_user_authenticated);
         } catch (CustomException e) {
             return ResponseEntity.internalServerError().body(e.getErrorMessage());
         }
@@ -179,8 +196,43 @@ public class UserServiceImpl implements IUserService {
         }
     }
 
+    @Override
+    public ResponseEntity<?> login(User user) {
+        try {
+            requestValidator.validateLoginRequest(user);
+
+            if (!userRepository.checkIfUserExistsByUsername(user.getUsername()))
+                throw new CustomException(Constant.error_user_no_record_with_username);
+
+            validateUser(user);
+
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            user.getUsername(),
+                            user.getPassword()
+                    )
+            );
+
+            final UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUsername());
+
+            final String token = jwtUtility.generateToken(userDetails);
+
+            return ResponseEntity.ok().body(token);
+        } catch (BadRequestException e) {
+            return ResponseEntity.badRequest().body(e.getErrorMessage());
+        } catch (CustomException e) {
+            return ResponseEntity.internalServerError().body(e.getErrorMessage());
+        } catch (BadCredentialsException e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body(Constant.error_user_invalid_credentials);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
+    }
+
     public String encodePassword(String password) {
-        return (bCryptPasswordEncoder.encode(password)).substring(0, 10);
+        return bCryptPasswordEncoder.encode(password);
     }
 
 }

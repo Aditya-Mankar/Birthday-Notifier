@@ -19,4 +19,7 @@ public interface IRequestValidator {
     public void validateUserEmailIdRequest(User user);
 
     public void validateUserUpdatePasswordRequest(User user);
+
+    public void validateLoginRequest(User user);
+
 }

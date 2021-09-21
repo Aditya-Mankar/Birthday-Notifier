@@ -16,11 +16,6 @@ public class MailController {
     @Autowired
     private IMailService mailService;
 
-    @PostMapping("/birthday")
-    public String sendBirthdayReminder(@RequestBody Birthday birthday) throws MessagingException {
-        return mailService.sendBirthdayMail(birthday);
-    }
-
     @GetMapping(Constant.request_path_mail_send_code)
     public ResponseEntity<?> sendCodeForUser(@PathVariable String emailId) {
         return mailService.sendCodeForUser(emailId);

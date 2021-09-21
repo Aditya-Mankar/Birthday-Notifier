@@ -19,4 +19,8 @@ public interface IUserService {
 
     public ResponseEntity<?> updatePassword(User user);
 
+    public ResponseEntity<?> login(User user);
+
+    public String encodePassword(String password);
+    
 }
