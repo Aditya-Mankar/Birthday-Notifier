@@ -1,0 +1,23 @@
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+input {
+  font-size: 20px;
+  margin: 15px;
+  text-align: center;
+  width: 350px;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.button {
+  cursor: pointer;
+}
+
+a {
+  color: dodgerblue;
+  cursor: pointer;
+}

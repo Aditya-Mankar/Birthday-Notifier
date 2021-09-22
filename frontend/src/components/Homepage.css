@@ -1,0 +1,62 @@
+* {
+  margin: 0px;
+  font-family: monospace;
+}
+
+body {
+  background-color:#DAE0E6;
+}
+
+navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #FFFFFF;
+  padding: 20px 200px;
+}
+
+navbar .logo {
+  font-size: 20px;
+  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-weight: 500;
+}
+
+button {
+  width: 120px;
+  height: 35px;
+  border: 2px solid;
+  background-color: #0079D3;
+  margin: 0px 30px;
+  border-radius: 25px;
+  cursor: pointer;
+  transition-duration: 0.3s;
+  font-size: 14px;
+  font-weight: 500;
+  color:white;
+  text-align: center;
+}
+
+button:hover {
+  background-color: #008CBA;
+}
+
+.center-container {
+  margin: 25px 200px;
+}
+
+.center-text {
+  text-align: center;
+  margin-top: 150px ;
+}
+
+.center-text h1{
+  margin: 25px 0px;
+  font-size: 35px;
+  font-weight: 500;
+}
+
+.center-text h2 {
+  margin: 15px 0px;
+  font-size: 20px;
+  font-weight: 300;
+}
