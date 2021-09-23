@@ -11,6 +11,16 @@ public class User {
     private String createdAt;
     private String updatedAt;
 
+    public User() {
+    }
+
+    public User(String id, String emailId, String username, String isEmailIdVerified) {
+        this.id = id;
+        this.emailId = emailId;
+        this.username = username;
+        this.isEmailIdVerified = isEmailIdVerified;
+    }
+
     public String getId() {
         return id;
     }

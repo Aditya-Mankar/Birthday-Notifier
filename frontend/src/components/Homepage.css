@@ -40,6 +40,10 @@ button:hover {
   background-color: #008CBA;
 }
 
+.buttons-group input {
+  width: 150px;
+}
+
 .center-container {
   margin: 25px 200px;
 }
@@ -49,13 +53,18 @@ button:hover {
   margin-top: 150px ;
 }
 
-.center-text h1{
+.center-text-signup {
+  text-align: center;
+  margin-top: 100px ;
+}
+
+.center-text h1, .center-text-signup h1 {
   margin: 25px 0px;
   font-size: 35px;
   font-weight: 500;
 }
 
-.center-text h2 {
+.center-text h2, .center-text-signup h2 {
   margin: 15px 0px;
   font-size: 20px;
   font-weight: 300;

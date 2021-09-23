@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext } from 'react';
 import "./Login.css";
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
@@ -15,8 +15,29 @@ function Login() {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log(username, password);
 
+    axios({
+      method: 'post',
+      url: 'api/user/login',
+      data: {
+        username: username,
+        password: password
+      }
+    })
+      .then(response => {
+        setState({
+          ...state,
+          jwt: response.data,
+          username: username,
+          isLoggedIn: true
+        })
+
+        history.push("/dashboard");
+      })
+      .catch(err => {
+        setError(err.response.data);
+        setTimeout(() => setError(""), 3000);
+      })
   }
 
   const onSignup = (e) => {
@@ -26,7 +47,7 @@ function Login() {
 
   const onForgotPassword = (e) => {
     e.preventDefault();
-    history.push("/forgotPassword");
+    history.push("/forgot-password");
   }
 
   return (

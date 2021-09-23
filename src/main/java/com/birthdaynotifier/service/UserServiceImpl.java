@@ -51,7 +51,9 @@ public class UserServiceImpl implements IUserService {
 
             User user = userRepository.getUserByUsername(username);
 
-            return ResponseEntity.ok().headers(new HttpHeaders()).body(user);
+            User userResponse = new User(user.getId(), user.getEmailId(), user.getUsername(), user.getIsEmailIdVerified());
+
+            return ResponseEntity.ok().headers(new HttpHeaders()).body(userResponse);
         } catch (BadRequestException e) {
             return ResponseEntity.badRequest().body(e.getErrorMessage());
         } catch (CustomException e) {

@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
+import { Context } from '../context/context.js';
 
-function ForgotPassword() {
+function VerifyEmail() {
 
-  const [emailId, setEmailId] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [state, setState] = useContext(Context);
+  const [emailId, setEmailId] = useState(state.user.emailId);
   const [code, setCode] = useState("");
   const [error, setError] = useState("");
   const [disabledBtn, setDisabledBtn] = useState(false);
@@ -17,24 +17,20 @@ function ForgotPassword() {
   const onSubmit = (e) => {
     e.preventDefault();
 
-    if (password !== confirmPassword) {
-      setError("Both passwords don't match");
-      setTimeout(() => setError(""), 3000);
-      return;
-    }
-
     axios({
       method: 'post',
-      url: 'api/user/updatePassword',
+      url: 'api/user/verifyEmailId',
       data: {
         emailId: emailId,
-        password: password,
         secretCode: code
+      },
+      headers: {
+        Authorization: 'Bearer ' + state.jwt
       }
     })
       .then(response => {
         console.log(response);
-        history.push("/login");
+        history.push("/dashboard");
       })
       .catch(err => {
         setError(err.response.data);
@@ -77,19 +73,13 @@ function ForgotPassword() {
 
   return (
     <div className="center-container">
-      <div className="center-text-signup">
+      <div className="center-text">
         <h1>
-          Forgot Password
+          Verify Email Id
         </h1>
         <form onSubmit={onSubmit} className="form">
           <input type="email" value={emailId} required placeholder="EmailId"
             onChange={e => setEmailId(e.target.value)} />
-          <input type="password" value={password} required
-            placeholder="New Password"
-            onChange={e => setPassword(e.target.value)} />
-          <input type="password" value={confirmPassword} required
-            placeholder="Confirm Password"
-            onChange={e => setConfirmPassword(e.target.value)} />
           <input type="text" value={code} required placeholder="Code"
             onChange={e => setCode(e.target.value)} />
           {
@@ -109,4 +99,4 @@ function ForgotPassword() {
   )
 }
 
-export default ForgotPassword
+export default VerifyEmail
