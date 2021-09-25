@@ -11,6 +11,7 @@ function Dashboard() {
   const [birthdays, setBirthdays] = useState([]);
   const [deleteFlag, setDeleteFlag] = useState(false);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(true);
   let history = useHistory();
 
   useEffect(() => {
@@ -27,6 +28,9 @@ function Dashboard() {
           user: response.data
         })
         setUser(response.data);
+
+        localStorage.setItem("user", JSON.stringify(response.data));
+        localStorage.setItem("jwt", JSON.stringify(state.jwt));
       })
       .catch(err => {
         setError(err.response.data);
@@ -46,8 +50,8 @@ function Dashboard() {
       }
     })
       .then(response => {
-        console.log(response.data);
         setBirthdays(response.data);
+        setLoading(false);
       })
       .catch(err => {
         setError(err.response.data);
@@ -55,6 +59,33 @@ function Dashboard() {
       })
 
   }, [user, deleteFlag])
+
+  useEffect(() => {
+    if (JSON.parse(localStorage.getItem("user")) != null) {
+      setState({
+        ...state,
+        jwt: JSON.parse(localStorage.getItem("jwt")),
+        user: JSON.parse(localStorage.getItem("user"))
+      })
+      setUser(JSON.parse(localStorage.getItem("user")));
+
+      axios({
+        method: 'get',
+        url: 'api/birthday/get/' + JSON.parse(localStorage.getItem("user")).emailId,
+        headers: {
+          Authorization: 'Bearer ' + JSON.parse(localStorage.getItem("jwt"))
+        }
+      })
+        .then(response => {
+          setBirthdays(response.data);
+          setLoading(false);
+        })
+        .catch(err => {
+          setError(err.response.data);
+          setTimeout(() => setError(""), 3000);
+        })
+    }
+  }, [])
 
   const onLogout = (e) => {
     e.preventDefault();
@@ -67,6 +98,9 @@ function Dashboard() {
       updateBirthday: null
     })
 
+    localStorage.setItem("user", null);
+    localStorage.setItem("jwt", null);
+
     history.push("/")
   }
 
@@ -76,11 +110,20 @@ function Dashboard() {
     history.push("/add-new");
   }
 
+  const onUpdatePassword = (e) => {
+    e.preventDefault();
+
+    history.push("/update-password");
+  }
+
   return (
     <div>
       <navbar>
         <div className="logo">BirthdayNotifier</div>
         <div className="buttons">
+          <button onClick={onUpdatePassword} className="long-btn">
+            Update Password
+          </button>
           <button onClick={onLogout}>Logout</button>
         </div>
       </navbar>
@@ -98,14 +141,17 @@ function Dashboard() {
             <button onClick={onAddNew}>Add New</button>
           </div>
 
-          <div className="main">
-            {
-              birthdays && birthdays.length == 0 ?
-                <div><h2>No records found. Click on Add New</h2></div> :
-                <Table birthdays={birthdays} deleteFlag={deleteFlag}
-                  setDeleteFlag={setDeleteFlag} />
-            }
-          </div>
+          {
+            loading ? <h2>Loading...</h2> : <div className="main">
+              {
+                birthdays && birthdays.length == 0 ?
+                  <div><h2>No records found. Click on Add New</h2></div> :
+                  <Table birthdays={birthdays} deleteFlag={deleteFlag}
+                    setDeleteFlag={setDeleteFlag} />
+              }
+            </div>
+          }
+
         </div>
       </div>
 

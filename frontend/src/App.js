@@ -5,6 +5,8 @@ import ForgotPassword from './components/ForgotPassword';
 import Homepage from './components/Homepage';
 import Login from './components/Login';
 import Signup from './components/Signup';
+import Update from './components/Update';
+import UpdatePassword from './components/UpdatePassword';
 import VerifyEmail from './components/VerifyEmail';
 
 function App() {
@@ -19,6 +21,8 @@ function App() {
           <Route path="/forgot-password" children={<ForgotPassword />} />
           <Route path="/verify-email" children={<VerifyEmail />} />
           <Route path="/add-new" children={<AddNew />} />
+          <Route path="/update" children={<Update />} />
+          <Route path="/update-password" children={<UpdatePassword />} />
         </Switch>
       </Router>
     </>

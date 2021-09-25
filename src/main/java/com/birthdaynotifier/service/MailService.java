@@ -76,7 +76,7 @@ public class MailService implements IMailService {
 
             String code = userRepository.fetchCode(emailId);
 
-            String sendFrom = "";
+            String sendFrom = "birthday-notifier@gmail.com";
             String sendTo = emailId;
             String subject = "Secret code for Birthday reminder service";
 

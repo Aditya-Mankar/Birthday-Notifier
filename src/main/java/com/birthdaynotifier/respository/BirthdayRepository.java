@@ -126,7 +126,7 @@ class BirthdayRowMapper implements RowMapper<Birthday> {
         birthday.setRemindMonth(rs.getInt(SqlConstant.column_birthday_remind_month));
         birthday.setCreatedAt(rs.getString(SqlConstant.column_birthday_created_at));
         birthday.setUpdatedAt(Utility.checkIfNullOrEmpty(rs.getString(SqlConstant.column_birthday_updated_at)) ?
-                null : rs.getString(SqlConstant.column_birthday_updated_at));
+                rs.getString(SqlConstant.column_birthday_created_at) : rs.getString(SqlConstant.column_birthday_updated_at));
 
         return birthday;
     }

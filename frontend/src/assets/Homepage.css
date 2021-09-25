@@ -128,3 +128,7 @@ table tbody {
   font-size: 20px;
   border-radius: 5px;
 }
+
+.long-btn {
+  width: 150px;
+}

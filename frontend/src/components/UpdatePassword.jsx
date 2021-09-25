@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { Context } from '../context/context.js';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 
-function ForgotPassword() {
+function UpdatePassword() {
 
-  const [emailId, setEmailId] = useState("");
+  const [state, setState] = useContext(Context);
+  const [emailId, setEmailId] = useState(state.user.emailId);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [code, setCode] = useState("");
@@ -79,7 +81,7 @@ function ForgotPassword() {
     <div className="center-container">
       <div className="center-text-signup">
         <h1>
-          Forgot Password
+          Update Password
         </h1>
         <form onSubmit={onSubmit} className="form">
           <input type="email" value={emailId} required placeholder="EmailId"
@@ -109,4 +111,4 @@ function ForgotPassword() {
   )
 }
 
-export default ForgotPassword
+export default UpdatePassword

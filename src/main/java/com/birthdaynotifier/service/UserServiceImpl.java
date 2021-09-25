@@ -136,10 +136,7 @@ public class UserServiceImpl implements IUserService {
 
             if (!encodePassword(user.getPassword()).equals(encryptedPassword))
                 throw new CustomException(Constant.error_user_invalid_password);
-            System.out.println(user.getPassword());
-            System.out.println(encryptedPassword);
-            System.out.println(encodePassword(user.getPassword()));
-            System.out.println(encodePassword(user.getPassword()).equals(encryptedPassword));
+
             return ResponseEntity.ok().headers(new HttpHeaders()).body(Constant.success_user_authenticated);
         } catch (CustomException e) {
             return ResponseEntity.internalServerError().body(e.getErrorMessage());
@@ -225,10 +222,8 @@ public class UserServiceImpl implements IUserService {
         } catch (CustomException e) {
             return ResponseEntity.internalServerError().body(e.getErrorMessage());
         } catch (BadCredentialsException e) {
-            e.printStackTrace();
             return ResponseEntity.internalServerError().body(Constant.error_user_invalid_credentials);
         } catch (Exception e) {
-            e.printStackTrace();
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }

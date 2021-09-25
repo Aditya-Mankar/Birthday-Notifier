@@ -4,7 +4,7 @@ public class SqlConstant {
 
     public static final String query_fetch_all_birthdays = "SELECT * FROM birthdays_table";
     public static final String query_count_of_email_id = "SELECT count(*) FROM birthdays_table WHERE email_id = :emailId";
-    public static final String query_fetch_birthdays_by_email_id = "SELECT * FROM birthdays_table WHERE email_id = :emailId";
+    public static final String query_fetch_birthdays_by_email_id = "SELECT * FROM birthdays_table WHERE email_id = :emailId ORDER BY name";
     public static final String query_insert_new_birthday = "INSERT INTO birthdays_table(id, email_id, name, birth_date, birth_month, remind_before_days, remind_date, remind_month, created_at) VALUES(:id, :emailId, :name, :birthDate, :birthMonth, :remindBeforeDays, :remindDate, :remindMonth, :createdAt)";
     public static final String query_update_birthday = "UPDATE birthdays_table SET email_id = :emailId, name = :name, birth_date = :birthDate, birth_month = :birthMonth, remind_before_days = :remindBeforeDays, remind_date = :remindDate, remind_month = :remindMonth, updated_at = :updatedAt WHERE id = :id";
     public static final String query_count_of_birthday = "SELECT count(*) FROM birthdays_table WHERE id = :id";

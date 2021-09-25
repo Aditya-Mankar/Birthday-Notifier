@@ -1,16 +1,16 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react'
 import { Context } from '../context/context.js';
-import { useHistory } from 'react-router-dom';
 import axios from 'axios';
-import { validateBirthDate, determineMonthFromStr } from './DateUtility';
+import { useHistory } from 'react-router-dom';
+import { determineMonthFromNum, determineMonthFromStr, validateBirthDate } from './DateUtility.js';
 
-function AddNew() {
+function Update() {
 
   const [state, setState] = useContext(Context);
-  const [name, setName] = useState("");
-  const [birthDate, setBirthDate] = useState("");
-  const [birthMonth, setBirthMonth] = useState("");
-  const [remindBeforeDays, setRemindBeforeDays] = useState("");
+  const [name, setName] = useState(state.updateBirthday.name);
+  const [birthDate, setBirthDate] = useState(state.updateBirthday.birthDate);
+  const [birthMonth, setBirthMonth] = useState(determineMonthFromNum(state.updateBirthday.birthMonth));
+  const [remindBeforeDays, setRemindBeforeDays] = useState(state.updateBirthday.remindBeforeDays);
   const [error, setError] = useState("");
   let history = useHistory();
 
@@ -41,9 +41,10 @@ function AddNew() {
     }
 
     axios({
-      method: 'post',
-      url: 'api/birthday/insert',
+      method: 'put',
+      url: 'api/birthday/modify',
       data: {
+        id: state.updateBirthday.id,
         emailId: state.user.emailId,
         name: name,
         birthDate: birthDate,
@@ -56,11 +57,21 @@ function AddNew() {
     })
       .then(response => {
         history.push("/dashboard")
+        setState({
+          ...state,
+          updateBirthday: null
+        })
       })
       .catch(err => {
         setError(err.response.data);
         setTimeout(() => setError(""), 3000);
       })
+  }
+
+  const onCancel = (e) => {
+    e.preventDefault();
+
+    history.push("/dashboard");
   }
 
   return (
@@ -75,7 +86,7 @@ function AddNew() {
       <div className="center-container">
         <div className="center-text-signup">
           <h1>
-            Add New Birthday
+            Update Birthday
           </h1>
           <form onSubmit={onSubmit} className="form">
             <input type="text" value={name} required placeholder="Name"
@@ -105,7 +116,10 @@ function AddNew() {
             {
               error && <h3>{error}</h3>
             }
-            <input type='submit' className="button" />
+            <div className="buttons-group">
+              <input type="button" value="Cancel" onClick={onCancel} />
+              <input type='submit' className="button" />
+            </div>
           </form>
         </div>
       </div>
@@ -113,4 +127,4 @@ function AddNew() {
   )
 }
 
-export default AddNew
+export default Update
