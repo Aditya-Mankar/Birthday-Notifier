@@ -17,6 +17,8 @@ function Row({ birthday, deleteFlag, setDeleteFlag }) {
       updateBirthday: birthday
     })
 
+    localStorage.setItem("updateBirthday", JSON.stringify(birthday));
+
     history.push("/update");
   }
 

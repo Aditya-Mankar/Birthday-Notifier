@@ -95,6 +95,10 @@ button:hover {
   margin: 0px 10px;
 }
 
+.main h2 {
+  margin-left: 200px;
+}
+
 table th {
   width: 150px;
   font-size: 20px;
@@ -131,4 +135,14 @@ table tbody {
 
 .long-btn {
   width: 150px;
+}
+
+.footer {
+  text-align: center;
+  margin-top: 200px;
+}
+
+.footer a {
+  text-decoration: none;
+  color: #0079D3;
 }

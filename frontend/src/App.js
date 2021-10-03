@@ -8,6 +8,7 @@ import Signup from './components/Signup';
 import Update from './components/Update';
 import UpdatePassword from './components/UpdatePassword';
 import VerifyEmail from './components/VerifyEmail';
+import NotFound from './components/NotFound';
 
 function App() {
   return (
@@ -23,6 +24,8 @@ function App() {
           <Route path="/add-new" children={<AddNew />} />
           <Route path="/update" children={<Update />} />
           <Route path="/update-password" children={<UpdatePassword />} />
+          <Route path="" children={<NotFound />} />
+          <Route path="/not-found" children={<NotFound />} />
         </Switch>
       </Router>
     </>

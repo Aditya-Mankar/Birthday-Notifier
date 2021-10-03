@@ -7,6 +7,7 @@ import { validateBirthDate, determineMonthFromStr } from './DateUtility';
 function AddNew() {
 
   const [state, setState] = useContext(Context);
+  const [emailId, setEmailId] = useState("");
   const [name, setName] = useState("");
   const [birthDate, setBirthDate] = useState("");
   const [birthMonth, setBirthMonth] = useState("");
@@ -14,19 +15,33 @@ function AddNew() {
   const [error, setError] = useState("");
   let history = useHistory();
 
+  useEffect(() => {
+    if (state.user == null) {
+      setState({
+        ...state,
+        jwt: JSON.parse(localStorage.getItem("jwt")),
+        user: JSON.parse(localStorage.getItem("user"))
+      })
+
+      setEmailId(JSON.parse(localStorage.getItem("user")).emailId);
+    } else {
+      setEmailId(state.user.emailId);
+    }
+  }, [])
+
   const onLogout = (e) => {
     e.preventDefault();
 
     setState({
       jwt: "",
       username: "",
-      isLoggedIn: false,
       user: null,
       updateBirthday: null
     })
 
-    localStorage.setItem("user", null);
-    localStorage.setItem("jwt", null);
+    localStorage.removeItem("user");
+    localStorage.removeItem("jwt");
+    localStorage.removeItem("updateBirthday");
 
     history.push("/")
   }
@@ -44,7 +59,7 @@ function AddNew() {
       method: 'post',
       url: 'api/birthday/insert',
       data: {
-        emailId: state.user.emailId,
+        emailId: emailId,
         name: name,
         birthDate: birthDate,
         birthMonth: determineMonthFromStr(birthMonth),
@@ -105,7 +120,7 @@ function AddNew() {
             {
               error && <h3>{error}</h3>
             }
-            <input type='submit' className="button" />
+            <input type='submit' className="button" value="Submit" />
           </form>
         </div>
       </div>

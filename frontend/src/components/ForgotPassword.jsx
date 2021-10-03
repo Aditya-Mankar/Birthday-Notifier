@@ -101,7 +101,7 @@ function ForgotPassword() {
           <div className="buttons-group">
             <input type="button" value="Get Code" onClick={onSendCode}
               disabled={disabledBtn} />
-            <input type='submit' className="button" />
+            <input type='submit' className="button" value="Submit" />
           </div>
         </form>
       </div>

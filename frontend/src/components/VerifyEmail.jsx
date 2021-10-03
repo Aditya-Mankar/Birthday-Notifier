@@ -29,7 +29,6 @@ function VerifyEmail() {
       }
     })
       .then(response => {
-        console.log(response);
         history.push("/dashboard");
       })
       .catch(err => {

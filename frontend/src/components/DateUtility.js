@@ -92,11 +92,10 @@ export const determineMonthFromStr = (birthMonth) => {
 }
 
 export const validateBirthDate = (birthDate, birthMonth) => {
-
   if (birthDate < 1 || birthDate > 31)
     return false;
 
-  if (birthMonth = 2 && birthDate > 28)
+  if (birthMonth == 2 && birthDate > 28)
     return false;
 
   if ((birthMonth == 4 || birthMonth == 6 || birthMonth == 9 || birthMonth == 11) && birthDate > 30)

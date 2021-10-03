@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Context } from '../context/context.js';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
@@ -6,7 +6,7 @@ import axios from 'axios';
 function UpdatePassword() {
 
   const [state, setState] = useContext(Context);
-  const [emailId, setEmailId] = useState(state.user.emailId);
+  const [emailId, setEmailId] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [code, setCode] = useState("");
@@ -15,6 +15,20 @@ function UpdatePassword() {
   const [disabledMsg, setDisabledMsg] = useState(null);
 
   let history = useHistory();
+
+  useEffect(() => {
+    if (state.user == null) {
+      setState({
+        ...state,
+        jwt: JSON.parse(localStorage.getItem("jwt")),
+        user: JSON.parse(localStorage.getItem("user"))
+      })
+
+      setEmailId(JSON.parse(localStorage.getItem("user")).emailId);
+    } else {
+      setEmailId(state.user.emailId);
+    }
+  }, [])
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -42,7 +56,6 @@ function UpdatePassword() {
         setError(err.response.data);
         setTimeout(() => setError(""), 3000);
       })
-
   }
 
   const onSendCode = (e) => {
@@ -103,7 +116,7 @@ function UpdatePassword() {
           <div className="buttons-group">
             <input type="button" value="Get Code" onClick={onSendCode}
               disabled={disabledBtn} />
-            <input type='submit' className="button" />
+            <input type='submit' className="button" value="Submit" />
           </div>
         </form>
       </div>

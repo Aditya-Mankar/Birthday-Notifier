@@ -64,7 +64,7 @@ function Signup() {
           {
             error && <h3>{error}</h3>
           }
-          <input type='submit' className="button" />
+          <input type='submit' className="button" value="Submit" />
         </form>
         <h3>
           Already have an account {" "}

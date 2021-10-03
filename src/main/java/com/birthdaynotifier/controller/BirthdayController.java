@@ -4,6 +4,8 @@ import com.birthdaynotifier.constant.Constant;
 import com.birthdaynotifier.exception.BadRequestException;
 import com.birthdaynotifier.model.Birthday;
 import com.birthdaynotifier.service.IBirthdayService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +18,8 @@ public class BirthdayController {
 
     @Autowired
     private IBirthdayService birthdayService;
+
+    Logger logger = LoggerFactory.getLogger(BirthdayController.class);
 
     @GetMapping(Constant.request_path_birthday_get_all)
     public List<Birthday> getAllBirthdays() {
@@ -39,16 +43,19 @@ public class BirthdayController {
 
     @DeleteMapping(Constant.request_path_birthday_delete_email_id)
     public ResponseEntity<?> deleteBirthday(@PathVariable int id) {
+        logger.info("Deleting birthday with id " + id);
         return birthdayService.deleteBirthday(id);
     }
 
     @PostMapping(Constant.request_path_birthday_insert)
     public ResponseEntity<?> insertBirthday(@RequestBody Birthday birthday) {
+        logger.info("Creating birthday for " + birthday.getEmailId() + " for " + birthday.getName());
         return birthdayService.insertBirthday(birthday);
     }
 
     @PutMapping(Constant.request_path_birthday_modify)
     public ResponseEntity<?> modifyBirthday(@RequestBody Birthday birthday) {
+        logger.info("Updating birthday for " + birthday.getEmailId() + " for " + birthday.getName());
         return birthdayService.modifyBirthday(birthday);
     }
 

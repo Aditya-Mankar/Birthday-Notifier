@@ -7,7 +7,6 @@ export function ContextController({ children }) {
   let initialState = {
     jwt: "",
     username: "",
-    isLoggedIn: false,
     user: null,
     updateBirthday: null
   }

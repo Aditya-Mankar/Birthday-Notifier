@@ -1,6 +1,5 @@
 package com.birthdaynotifier.config;
 
-import com.birthdaynotifier.constant.Constant;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
@@ -16,9 +15,8 @@ public class JWTAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
                          AuthenticationException e) throws IOException, ServletException {
-        httpServletResponse.setContentType(Constant.content_type);
-        httpServletResponse.setStatus(401);
-        httpServletResponse.getWriter().print(Constant.error_user_invalid_jwt_credentials);
+        httpServletResponse.setStatus(404);
+        httpServletResponse.sendRedirect("/not-found");
     }
 
 }

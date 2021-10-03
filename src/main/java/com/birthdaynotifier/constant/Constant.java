@@ -66,4 +66,8 @@ public class Constant {
     public static final String header_authorization = "Authorization";
     public static final String bearer = "Bearer ";
 
+    public static final String[] urls_backend = {"/api/user/login", "/api/user/add", "/api/email/sendCode/{emailId}", "/api/user/updatePassword"};
+    public static final String[] urls_frontend = {"/", "/favicon.ico", "/**/*.png", "/**/*.gif", "/**/*.svg", "/**/*.jpg", "/**/*.html", "/**/*.css", "/**/*.js",
+            "/dashboard", "/login", "/signup", "/verify-password", "/forgot-password", "/add-new", "/update", "/update-password", "/not-found"};
+
 }

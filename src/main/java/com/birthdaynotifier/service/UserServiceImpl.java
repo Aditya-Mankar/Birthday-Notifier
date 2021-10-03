@@ -7,6 +7,8 @@ import com.birthdaynotifier.model.User;
 import com.birthdaynotifier.respository.IUserRepository;
 import com.birthdaynotifier.utility.JWTUtility;
 import com.birthdaynotifier.utility.Utility;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -39,6 +41,8 @@ public class UserServiceImpl implements IUserService {
 
     @Autowired
     private JWTUtility jwtUtility;
+
+    Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Override
     public ResponseEntity<?> getUserByUsername(String username) {
@@ -80,10 +84,14 @@ public class UserServiceImpl implements IUserService {
 
             userRepository.createNewUser(user);
 
+            logger.info("User successfully created with email id: " + user.getEmailId());
+
             return ResponseEntity.ok().headers(new HttpHeaders()).body(Constant.success_user_added);
         } catch (BadRequestException e) {
+            logger.error("Invalid request for creating user with email id: " + user.getEmailId() + " " + e.getErrorMessage());
             return ResponseEntity.badRequest().body(e.getErrorMessage());
         } catch (CustomException e) {
+            logger.error("Error occurred during creating user with email id: " + user.getEmailId() + " " + e.getErrorMessage());
             return ResponseEntity.internalServerError().body(e.getErrorMessage());
         }
     }
@@ -101,10 +109,14 @@ public class UserServiceImpl implements IUserService {
 
             userRepository.updateUser(user);
 
+            logger.info("User updated successfully with email id: " + user.getEmailId());
+
             return ResponseEntity.ok().headers(new HttpHeaders()).body(Constant.success_user_updated);
         } catch (BadRequestException e) {
+            logger.error("Invalid request for updating user with email id: " + user.getEmailId() + " " + e.getErrorMessage());
             return ResponseEntity.badRequest().body(e.getErrorMessage());
         } catch (CustomException e) {
+            logger.error("Error occurred during updating user with email id: " + user.getEmailId() + " " + e.getErrorMessage());
             return ResponseEntity.internalServerError().body(e.getErrorMessage());
         }
     }
@@ -122,8 +134,10 @@ public class UserServiceImpl implements IUserService {
 
             return ResponseEntity.ok().headers(new HttpHeaders()).body(Constant.success_user_deleted);
         } catch (BadRequestException e) {
+            logger.error("Invalid request for deleting user " + e.getErrorMessage());
             return ResponseEntity.badRequest().body(e.getErrorMessage());
         } catch (CustomException e) {
+            logger.error("Error occurred during deleting user with id: " + id + " " + e.getErrorMessage());
             return ResponseEntity.internalServerError().body(e.getErrorMessage());
         }
     }
@@ -161,10 +175,14 @@ public class UserServiceImpl implements IUserService {
 
             userRepository.updateUserEmailId(user);
 
+            logger.info("User with email id: " + user.getEmailId() + " verified successfully");
+
             return ResponseEntity.ok().headers(new HttpHeaders()).body(Constant.success_user_email_id_verified);
         } catch (BadRequestException e) {
+            logger.error("Invalid request for verification of email id: " + user.getEmailId() + " " + e.getErrorMessage());
             return ResponseEntity.badRequest().body(e.getErrorMessage());
         } catch (CustomException e) {
+            logger.error("Error occurred during verification of email id: " + user.getEmailId() + " " + e.getErrorMessage());
             return ResponseEntity.internalServerError().body(e.getErrorMessage());
         }
     }
@@ -187,10 +205,14 @@ public class UserServiceImpl implements IUserService {
 
             userRepository.updateUserPassword(user);
 
+            logger.info("Password update for user with email id " + user.getEmailId() + " successful");
+
             return ResponseEntity.ok().headers(new HttpHeaders()).body(Constant.success_user_update_password);
         } catch (BadRequestException e) {
+            logger.error("Invalid request for updating password " + e.getErrorMessage());
             return ResponseEntity.badRequest().body(e.getErrorMessage());
         } catch (CustomException e) {
+            logger.error("Error occurred while updating password " + e.getErrorMessage());
             return ResponseEntity.internalServerError().body(e.getErrorMessage());
         }
     }
@@ -216,14 +238,20 @@ public class UserServiceImpl implements IUserService {
 
             final String token = jwtUtility.generateToken(userDetails);
 
+            logger.info("User with username: " + user.getUsername() + " logged in");
+
             return ResponseEntity.ok().body(token);
         } catch (BadRequestException e) {
+            logger.error("Invalid request for login for user with username: " + user.getUsername());
             return ResponseEntity.badRequest().body(e.getErrorMessage());
         } catch (CustomException e) {
+            logger.error("Error for login for user with username: " + user.getUsername() + " " + e.getErrorMessage());
             return ResponseEntity.internalServerError().body(e.getErrorMessage());
         } catch (BadCredentialsException e) {
+            logger.error("Invalid credentials for login for user with username: " + user.getUsername());
             return ResponseEntity.internalServerError().body(Constant.error_user_invalid_credentials);
         } catch (Exception e) {
+            logger.error("Error for login for user with username: " + user.getUsername() + " " + e.getMessage());
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }

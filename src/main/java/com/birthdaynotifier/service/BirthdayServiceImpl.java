@@ -5,6 +5,8 @@ import com.birthdaynotifier.exception.BadRequestException;
 import com.birthdaynotifier.exception.CustomException;
 import com.birthdaynotifier.model.Birthday;
 import com.birthdaynotifier.respository.IBirthdayRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -27,6 +29,8 @@ public class BirthdayServiceImpl implements IBirthdayService {
 
     @Autowired
     private IRequestValidator requestValidator;
+
+    Logger logger = LoggerFactory.getLogger(BirthdayServiceImpl.class);
 
     @Override
     public List<Birthday> getAllBirthdays() {
@@ -91,10 +95,14 @@ public class BirthdayServiceImpl implements IBirthdayService {
 
             birthdayRepository.deleteBirthday(id);
 
+            logger.info("Birthday deleted successfully for " + id);
+
             return ResponseEntity.ok().headers(new HttpHeaders()).body(Constant.success_birthday_deleted);
         } catch (BadRequestException e) {
+            logger.error("Invalid request for deleting birthday");
             return ResponseEntity.badRequest().body(e.getErrorMessage());
         } catch (CustomException e) {
+            logger.error("Error deleting birthday with id: " + id + " " + e.getErrorMessage());
             return ResponseEntity.internalServerError().body(e.getErrorMessage());
         }
     }
@@ -117,10 +125,14 @@ public class BirthdayServiceImpl implements IBirthdayService {
 
             addNewBirthday(birthday);
 
+            logger.info("Birthday successfully added for " + birthday.getEmailId() + " with " + birthday.getName());
+
             return ResponseEntity.ok().headers(new HttpHeaders()).body(Constant.success_birthday_added);
         } catch (BadRequestException e) {
+            logger.error("Birthday creating request invalid for " + birthday.getEmailId() + " " + e.getErrorMessage());
             return ResponseEntity.badRequest().body(e.getErrorMessage());
         } catch (CustomException e) {
+            logger.error("Error creating birthday for " + birthday.getEmailId() + " " + e.getErrorMessage());
             return ResponseEntity.internalServerError().body(e.getErrorMessage());
         }
     }
@@ -143,10 +155,14 @@ public class BirthdayServiceImpl implements IBirthdayService {
 
             updateBirthday(birthday);
 
+            logger.info("Birthday successfully updated for " + birthday.getEmailId() + " with " + birthday.getName());
+
             return ResponseEntity.ok().headers(new HttpHeaders()).body(Constant.success_birthday_updated);
         } catch (BadRequestException e) {
+            logger.error("Birthday updating request invalid for " + birthday.getEmailId() + " " +  e.getErrorMessage());
             return ResponseEntity.badRequest().body(e.getErrorMessage());
         } catch (CustomException e) {
+            logger.error("Error creating birthday for " + birthday.getEmailId() + " " + e.getErrorMessage());
             return ResponseEntity.internalServerError().body(e.getErrorMessage());
         }
     }

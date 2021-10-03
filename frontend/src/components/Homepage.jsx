@@ -38,6 +38,10 @@ function Homepage() {
           </h2>
         </div>
       </div>
+      <div className="footer">
+        <h2>Built by <a href="https://github.com/Aditya-Mankar">Aditya Mankar</a></h2>
+        <h2><a href="https://github.com/Aditya-Mankar/Birthday-Notifier">Check out the source code</a></h2>
+      </div>
     </div>
   )
 }

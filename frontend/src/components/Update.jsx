@@ -7,12 +7,33 @@ import { determineMonthFromNum, determineMonthFromStr, validateBirthDate } from 
 function Update() {
 
   const [state, setState] = useContext(Context);
-  const [name, setName] = useState(state.updateBirthday.name);
-  const [birthDate, setBirthDate] = useState(state.updateBirthday.birthDate);
-  const [birthMonth, setBirthMonth] = useState(determineMonthFromNum(state.updateBirthday.birthMonth));
-  const [remindBeforeDays, setRemindBeforeDays] = useState(state.updateBirthday.remindBeforeDays);
+  const [name, setName] = useState("");
+  const [birthDate, setBirthDate] = useState("");
+  const [birthMonth, setBirthMonth] = useState("");
+  const [remindBeforeDays, setRemindBeforeDays] = useState("");
   const [error, setError] = useState("");
   let history = useHistory();
+
+  useEffect(() => {
+    if (state.updateBirthday == null) {
+      const birthday = JSON.parse(localStorage.getItem("updateBirthday"));
+      setName(birthday.name);
+      setBirthDate(birthday.birthDate);
+      setBirthMonth(determineMonthFromNum(birthday.birthMonth));
+      setRemindBeforeDays(birthday.remindBeforeDays);
+      setState({
+        ...state,
+        jwt: JSON.parse(localStorage.getItem("jwt")),
+        user: JSON.parse(localStorage.getItem("user")),
+        updateBirthday: birthday
+       })
+    } else {
+      setName(state.updateBirthday.name);
+      setBirthDate(state.updateBirthday.birthDate);
+      setBirthMonth(determineMonthFromNum(state.updateBirthday.birthMonth));
+      setRemindBeforeDays(state.updateBirthday.remindBeforeDays);
+    }
+  }, [])
 
   const onLogout = (e) => {
     e.preventDefault();
@@ -20,13 +41,13 @@ function Update() {
     setState({
       jwt: "",
       username: "",
-      isLoggedIn: false,
       user: null,
       updateBirthday: null
     })
 
-    localStorage.setItem("user", null);
-    localStorage.setItem("jwt", null);
+    localStorage.removeItem("user");
+    localStorage.removeItem("jwt");
+    localStorage.removeItem("updateBirthday");
 
     history.push("/")
   }
@@ -118,7 +139,7 @@ function Update() {
             }
             <div className="buttons-group">
               <input type="button" value="Cancel" onClick={onCancel} />
-              <input type='submit' className="button" />
+              <input type='submit' className="button" value="Submit" />
             </div>
           </form>
         </div>

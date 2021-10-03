@@ -5,6 +5,7 @@ import com.birthdaynotifier.exception.CustomException;
 import com.birthdaynotifier.model.Birthday;
 import com.birthdaynotifier.model.Mail;
 import com.birthdaynotifier.respository.IUserRepository;
+import com.birthdaynotifier.utility.Utility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -53,13 +54,14 @@ public class MailService implements IMailService {
     @Override
     public String sendBirthdayMail(Birthday birthday) throws MessagingException {
 
-        String sendFrom = "";
+        String sendFrom = "birthday.notifier.service@gmail.com";
         String sendTo = birthday.getEmailId();
         String subject = "Birthday reminder for " + birthday.getName();
 
         Map<String, Object> props = new HashMap<>();
         props.put("name", birthday.getName());
         props.put("birthdate", birthday.getBirthDate());
+        props.put("birthmonth", Utility.determineMonthFromNum(birthday.getBirthMonth()));
 
         Mail mail = new Mail(sendFrom, sendTo, subject, props);
 

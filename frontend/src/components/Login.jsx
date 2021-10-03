@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import "../assets/Login.css";
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
@@ -8,10 +8,33 @@ function Login() {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [jwt, setJwt] = useState(null);
   const [error, setError] = useState("");
   const [state, setState] = useContext(Context);
 
   let history = useHistory();
+
+  useEffect(() => {
+    if (jwt) {
+      axios({
+        method: 'get',
+        url: 'api/user/get/' + state.username,
+        headers: {
+          Authorization: 'Bearer ' + state.jwt
+        }
+      }).then(response => {
+        setState({
+          ...state,
+          user: response.data
+        })
+        localStorage.setItem("user", JSON.stringify(response.data));
+        response.data.isEmailIdVerified == "true" ? history.push("/dashboard") : history.push("/verify-email");
+      }).catch(err => {
+        setError(err.response.data);
+        setTimeout(() => setError(""), 3000);
+      })
+    }
+  }, [jwt])
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -23,21 +46,19 @@ function Login() {
         username: username,
         password: password
       }
-    })
-      .then(response => {
-        setState({
-          ...state,
-          jwt: response.data,
-          username: username,
-          isLoggedIn: true
-        })
+    }).then(response => {
+      setState({
+        ...state,
+        jwt: response.data,
+        username: username
+      })
+      setJwt(response.data);
 
-        history.push("/dashboard");
-      })
-      .catch(err => {
-        setError(err.response.data);
-        setTimeout(() => setError(""), 3000);
-      })
+      localStorage.setItem("jwt", JSON.stringify(response.data));
+    }).catch(err => {
+      setError(err.response.data);
+      setTimeout(() => setError(""), 3000);
+    })
   }
 
   const onSignup = (e) => {
@@ -64,7 +85,7 @@ function Login() {
           {
             error && <h3>{error}</h3>
           }
-          <input type='submit' className="button" />
+          <input type='submit' className="button" value="Submit" />
         </form>
         <h3>
           Don't have an account {" "}

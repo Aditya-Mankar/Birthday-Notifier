@@ -7,7 +7,7 @@ import Table from './Table.jsx';
 function Dashboard() {
 
   const [state, setState] = useContext(Context);
-  const [user, setUser] = useState("");
+  const [user, setUser] = useState(state.user);
   const [birthdays, setBirthdays] = useState([]);
   const [deleteFlag, setDeleteFlag] = useState(false);
   const [error, setError] = useState("");
@@ -15,53 +15,26 @@ function Dashboard() {
   let history = useHistory();
 
   useEffect(() => {
-    axios({
-      method: 'get',
-      url: 'api/user/get/' + state.username,
-      headers: {
-        Authorization: 'Bearer ' + state.jwt
-      }
-    })
-      .then(response => {
-        setState({
-          ...state,
-          user: response.data
+    if (user) {
+      axios({
+        method: 'get',
+        url: 'api/birthday/get/' + user.emailId,
+        headers: {
+          Authorization: 'Bearer ' + state.jwt
+        }
+      })
+        .then(response => {
+          if (response.data != "No records associated with that email id")
+            setBirthdays(response.data);
         })
-        setUser(response.data);
-
-        localStorage.setItem("user", JSON.stringify(response.data));
-        localStorage.setItem("jwt", JSON.stringify(state.jwt));
-      })
-      .catch(err => {
-        setError(err.response.data);
-        setTimeout(() => setError(""), 3000);
-      })
-  }, [])
-
-  useEffect(() => {
-    if (user && user.isEmailIdVerified !== "true")
-      history.push("/verify-email")
-
-    axios({
-      method: 'get',
-      url: 'api/birthday/get/' + user.emailId,
-      headers: {
-        Authorization: 'Bearer ' + state.jwt
-      }
-    })
-      .then(response => {
-        setBirthdays(response.data);
-        setLoading(false);
-      })
-      .catch(err => {
-        setError(err.response.data);
-        setTimeout(() => setError(""), 3000);
-      })
-
-  }, [user, deleteFlag])
-
-  useEffect(() => {
-    if (JSON.parse(localStorage.getItem("user")) != null) {
+        .catch(err => {
+          setError(err.response.data);
+          setTimeout(() => setError(""), 3000);
+        })
+        .finally(() => {
+          setLoading(false);
+        })
+    } else {
       setState({
         ...state,
         jwt: JSON.parse(localStorage.getItem("jwt")),
@@ -77,15 +50,18 @@ function Dashboard() {
         }
       })
         .then(response => {
-          setBirthdays(response.data);
-          setLoading(false);
+          if (response.data != "No records associated with that email id")
+            setBirthdays(response.data);
         })
         .catch(err => {
           setError(err.response.data);
           setTimeout(() => setError(""), 3000);
         })
+        .finally(() => {
+          setLoading(false);
+        })
     }
-  }, [])
+  }, [deleteFlag])
 
   const onLogout = (e) => {
     e.preventDefault();
@@ -93,13 +69,13 @@ function Dashboard() {
     setState({
       jwt: "",
       username: "",
-      isLoggedIn: false,
       user: null,
       updateBirthday: null
     })
 
-    localStorage.setItem("user", null);
-    localStorage.setItem("jwt", null);
+    localStorage.removeItem("user");
+    localStorage.removeItem("jwt");
+    localStorage.removeItem("updateBirthday");
 
     history.push("/")
   }
@@ -145,7 +121,7 @@ function Dashboard() {
             loading ? <h2>Loading...</h2> : <div className="main">
               {
                 birthdays && birthdays.length == 0 ?
-                  <div><h2>No records found. Click on Add New</h2></div> :
+                  <h2>No records found. Click on Add New</h2> :
                   <Table birthdays={birthdays} deleteFlag={deleteFlag}
                     setDeleteFlag={setDeleteFlag} />
               }
