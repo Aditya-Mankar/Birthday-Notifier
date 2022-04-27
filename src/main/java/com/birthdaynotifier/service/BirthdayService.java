@@ -39,15 +39,15 @@ public class BirthdayService {
             List<Birthday> birthdayList = birthdayRepository.getBirthdaysByEmailId(emailId);
 
             logger.info(LoggingConstants.success_get_birthdays + emailId);
-            return ResponseEntity.ok().headers(new HttpHeaders()).body(birthdayList);
+            return ResponseEntity.ok().body(birthdayList);
         } catch (BadRequestException e) {
-            logger.info(LoggingConstants.fail_get_birthdays + emailId + Constants.error + e.getErrorMessage());
+            logger.error(LoggingConstants.fail_get_birthdays + emailId + Constants.error + e.getErrorMessage());
             return ResponseEntity.badRequest().body(e.getErrorMessage());
         } catch (CustomException e) {
-            logger.info(LoggingConstants.fail_get_birthdays + emailId + Constants.error + e.getErrorMessage());
+            logger.error(LoggingConstants.fail_get_birthdays + emailId + Constants.error + e.getErrorMessage());
             return ResponseEntity.internalServerError().body(e.getErrorMessage());
         } catch (Exception e) {
-            logger.info(LoggingConstants.fail_get_birthdays + emailId + Constants.error + e.getMessage());
+            logger.error(LoggingConstants.fail_get_birthdays + emailId + Constants.error + e.getMessage());
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
@@ -73,15 +73,15 @@ public class BirthdayService {
             birthdayRepository.addNewBirthday(birthday);
 
             logger.info(LoggingConstants.success_insert_birthday + birthday.getEmailId() + Constants.for_name + birthday.getName());
-            return ResponseEntity.ok().headers(new HttpHeaders()).body(LoggingConstants.success_insert_birthday + birthday.getEmailId());
+            return ResponseEntity.ok().body(LoggingConstants.success_insert_birthday + birthday.getEmailId());
         } catch (BadRequestException e) {
-            logger.info(LoggingConstants.fail_insert_birthday + birthday.getEmailId() + Constants.for_name + birthday.getName() + Constants.error + e.getErrorMessage());
+            logger.error(LoggingConstants.fail_insert_birthday + birthday.getEmailId() + Constants.for_name + birthday.getName() + Constants.error + e.getErrorMessage());
             return ResponseEntity.badRequest().body(e.getErrorMessage());
         } catch (CustomException e) {
-            logger.info(LoggingConstants.fail_insert_birthday + birthday.getEmailId() + Constants.for_name + birthday.getName() + Constants.error + e.getErrorMessage());
+            logger.error(LoggingConstants.fail_insert_birthday + birthday.getEmailId() + Constants.for_name + birthday.getName() + Constants.error + e.getErrorMessage());
             return ResponseEntity.internalServerError().body(e.getErrorMessage());
         }  catch (Exception e) {
-            logger.info(LoggingConstants.fail_insert_birthday + birthday.getEmailId() + Constants.for_name + birthday.getName() + Constants.error + e.getMessage());
+            logger.error(LoggingConstants.fail_insert_birthday + birthday.getEmailId() + Constants.for_name + birthday.getName() + Constants.error + e.getMessage());
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
 
@@ -107,15 +107,15 @@ public class BirthdayService {
             birthdayRepository.updateBirthday(birthday);
 
             logger.info(LoggingConstants.success_update_birthday + birthday.getEmailId() + Constants.for_name + birthday.getName());
-            return ResponseEntity.ok().headers(new HttpHeaders()).body(LoggingConstants.success_update_birthday + birthday.getEmailId());
+            return ResponseEntity.ok().body(LoggingConstants.success_update_birthday + birthday.getEmailId());
         } catch (BadRequestException e) {
-            logger.info(LoggingConstants.fail_update_birthday + birthday.getEmailId() + Constants.for_name + birthday.getName() + Constants.error + e.getErrorMessage());
+            logger.error(LoggingConstants.fail_update_birthday + birthday.getEmailId() + Constants.for_name + birthday.getName() + Constants.error + e.getErrorMessage());
             return ResponseEntity.badRequest().body(e.getErrorMessage());
         } catch (CustomException e) {
-            logger.info(LoggingConstants.fail_update_birthday + birthday.getEmailId() + Constants.for_name + birthday.getName() + Constants.error + e.getErrorMessage());
+            logger.error(LoggingConstants.fail_update_birthday + birthday.getEmailId() + Constants.for_name + birthday.getName() + Constants.error + e.getErrorMessage());
             return ResponseEntity.internalServerError().body(e.getErrorMessage());
         }  catch (Exception e) {
-            logger.info(LoggingConstants.fail_update_birthday + birthday.getEmailId() + Constants.for_name + birthday.getName() + Constants.error + e.getMessage());
+            logger.error(LoggingConstants.fail_update_birthday + birthday.getEmailId() + Constants.for_name + birthday.getName() + Constants.error + e.getMessage());
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
@@ -130,13 +130,13 @@ public class BirthdayService {
             logger.info(LoggingConstants.success_delete_birthday + id);
             return ResponseEntity.ok().body(LoggingConstants.success_delete_birthday + id);
         } catch (BadRequestException e) {
-            logger.info(LoggingConstants.fail_delete_birthday + id);
+            logger.error(LoggingConstants.fail_delete_birthday + id);
             return ResponseEntity.badRequest().body(e.getErrorMessage());
         } catch (CustomException e) {
-            logger.info(LoggingConstants.fail_delete_birthday + id);
+            logger.error(LoggingConstants.fail_delete_birthday + id);
             return ResponseEntity.internalServerError().body(e.getErrorMessage());
         }  catch (Exception e) {
-            logger.info(LoggingConstants.fail_delete_birthday + id);
+            logger.error(LoggingConstants.fail_delete_birthday + id);
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
 

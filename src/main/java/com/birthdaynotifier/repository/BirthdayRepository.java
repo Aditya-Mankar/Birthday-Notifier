@@ -1,16 +1,11 @@
 package com.birthdaynotifier.repository;
 
-import com.birthdaynotifier.constant.Constants;
 import com.birthdaynotifier.constant.SqlConstants;
-import com.birthdaynotifier.exception.CustomException;
+import com.birthdaynotifier.mapper.BirthdayRowMapper;
 import com.birthdaynotifier.model.Birthday;
-import com.birthdaynotifier.utility.Utility;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +13,7 @@ import java.util.Map;
 @Repository
 public class BirthdayRepository {
 
-    private NamedParameterJdbcTemplate jdbcTemplate;
+    private final NamedParameterJdbcTemplate jdbcTemplate;
 
     public BirthdayRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -76,27 +71,4 @@ public class BirthdayRepository {
 
         jdbcTemplate.update(SqlConstants.query_delete_birthday, params);
     }
-}
-
-class BirthdayRowMapper implements RowMapper<Birthday> {
-
-    @Override
-    public Birthday mapRow(ResultSet rs, int i) throws SQLException {
-        Birthday birthday = new Birthday();
-
-        birthday.setId(rs.getString(SqlConstants.column_birthday_id));
-        birthday.setEmailId(rs.getString(SqlConstants.column_birthday_email_id));
-        birthday.setName(rs.getString(SqlConstants.column_birthday_name));
-        birthday.setBirthDate(rs.getInt(SqlConstants.column_birthday_birth_date));
-        birthday.setBirthMonth(rs.getInt(SqlConstants.column_birthday_birth_month));
-        birthday.setRemindBeforeDays(rs.getInt(SqlConstants.column_birthday_remind_before_days));
-        birthday.setRemindDate(rs.getInt(SqlConstants.column_birthday_remind_date));
-        birthday.setRemindMonth(rs.getInt(SqlConstants.column_birthday_remind_month));
-        birthday.setCreatedAt(rs.getString(SqlConstants.column_birthday_created_at));
-        birthday.setUpdatedAt(Utility.checkIfNullOrEmpty(rs.getString(SqlConstants.column_birthday_updated_at)) ?
-                rs.getString(SqlConstants.column_birthday_created_at) : rs.getString(SqlConstants.column_birthday_updated_at));
-
-        return birthday;
-    }
-
 }

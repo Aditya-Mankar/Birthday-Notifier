@@ -18,4 +18,10 @@ public class Utility {
         return randomString.substring(0, length);
     }
 
+    public static String generateCode(int length) {
+        UUID randomUUID = UUID.randomUUID();
+        String randomString = randomUUID.toString().replaceAll("-", "");
+        return randomString.substring(0, length);
+    }
+
 }

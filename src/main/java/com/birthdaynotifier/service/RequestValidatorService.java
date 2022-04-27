@@ -4,6 +4,7 @@ import com.birthdaynotifier.constant.Constants;
 import com.birthdaynotifier.exception.BadRequestException;
 import com.birthdaynotifier.exception.CustomException;
 import com.birthdaynotifier.model.Birthday;
+import com.birthdaynotifier.model.User;
 import com.birthdaynotifier.repository.BirthdayRepository;
 import com.birthdaynotifier.repository.UserRepository;
 import com.birthdaynotifier.utility.Utility;
@@ -24,7 +25,7 @@ public class RequestValidatorService {
         if(Utility.checkIfNullOrEmpty(emailId))
             throw new BadRequestException(Constants.error_email_id_null_or_empty);
 
-        if(userRepository.validateEmailId(emailId))
+        if(userRepository.validateUserByEmailId(emailId))
             throw new CustomException(Constants.error_user_invalid_email_id);
     }
 
@@ -32,7 +33,7 @@ public class RequestValidatorService {
         if(Utility.checkIfNullOrEmpty(birthday.getEmailId()))
             throw new BadRequestException(Constants.error_email_id_null_or_empty);
 
-        if(userRepository.validateEmailId(birthday.getEmailId()))
+        if(userRepository.validateUserByEmailId(birthday.getEmailId()))
             throw new CustomException(Constants.error_user_invalid_email_id);
 
         if(Utility.checkIfNullOrEmpty(birthday.getName()))
@@ -84,4 +85,55 @@ public class RequestValidatorService {
         if(!birthdayRepository.checkBirthdayExists(id))
             throw new CustomException(Constants.error_no_birthday_with_id);
     }
+
+    public void validateFetchUserRequest(String username) {
+        if (Utility.checkIfNullOrEmpty(username))
+            throw new BadRequestException(Constants.error_username_null_or_empty);
+
+        if(userRepository.validateUserByUsername(username))
+            throw new CustomException(Constants.error_user_invalid_username);
+    }
+
+    public void validateInsertUserRequest(User user) {
+        if(Utility.checkIfNullOrEmpty(user.getEmailId()))
+            throw new BadRequestException(Constants.error_email_id_null_or_empty);
+
+        if(Utility.checkIfNullOrEmpty(user.getUsername()))
+            throw new BadRequestException(Constants.error_username_null_or_empty);
+
+        if(Utility.checkIfNullOrEmpty(user.getPassword()))
+            throw new BadRequestException(Constants.error_password_null_or_empty);
+
+        if(!userRepository.validateUserByUsername(user.getUsername()))
+            throw new CustomException(Constants.error_user_already_exists_username);
+
+        if(!userRepository.validateUserByEmailId(user.getEmailId()))
+            throw new CustomException(Constants.error_user_already_exists_email_id);
+    }
+
+    public void validateUserEmailIdRequest(User user) {
+        if(Utility.checkIfNullOrEmpty(user.getEmailId()))
+            throw new BadRequestException(Constants.error_email_id_null_or_empty);
+
+        if(Utility.checkIfNullOrEmpty(user.getSecretCode()))
+            throw new BadRequestException(Constants.error_secret_code_null_empty);
+
+        if(userRepository.validateUserByEmailId(user.getEmailId()))
+            throw new CustomException(Constants.error_user_invalid_email_id);
+    }
+
+    public void validateUpdatePasswordRequest(User user) {
+        if(Utility.checkIfNullOrEmpty(user.getEmailId()))
+            throw new BadRequestException(Constants.error_email_id_null_or_empty);
+
+        if(Utility.checkIfNullOrEmpty(user.getPassword()))
+            throw new BadRequestException(Constants.error_password_null_or_empty);
+
+        if(Utility.checkIfNullOrEmpty(user.getSecretCode()))
+            throw new BadRequestException(Constants.error_secret_code_null_empty);
+
+        if(userRepository.validateUserByEmailId(user.getEmailId()))
+            throw new CustomException(Constants.error_user_invalid_email_id);
+    }
+
 }

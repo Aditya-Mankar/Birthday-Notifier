@@ -6,13 +6,11 @@ import com.birthdaynotifier.service.BirthdayService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping(RequestPathConstants.birthday_controller)
 public class BirthdayController {
 
-    private BirthdayService birthdayService;
+    private final BirthdayService birthdayService;
 
     public BirthdayController(BirthdayService birthdayService) {
         this.birthdayService = birthdayService;
@@ -23,7 +21,7 @@ public class BirthdayController {
         return birthdayService.getBirthdaysByEmailId(emailId);
     }
 
-    @PostMapping(RequestPathConstants.insert)
+    @PostMapping(RequestPathConstants.insert_birthday)
     public ResponseEntity<String> insertBirthday(@RequestBody Birthday birthday) {
         return birthdayService.insertBirthday(birthday);
     }
