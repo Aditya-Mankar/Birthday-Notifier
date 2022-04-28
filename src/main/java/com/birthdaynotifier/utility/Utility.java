@@ -1,6 +1,6 @@
 package com.birthdaynotifier.utility;
 
-import java.util.UUID;
+import java.util.*;
 
 public class Utility {
 
@@ -22,6 +22,17 @@ public class Utility {
         UUID randomUUID = UUID.randomUUID();
         String randomString = randomUUID.toString().replaceAll("-", "");
         return randomString.substring(0, length);
+    }
+
+    public static String determineMonthFromNum(int birthMonth) {
+        Map<Integer, String> monthsMap = new HashMap<>();
+        List<String> months = List.of("January", "February", "March",
+                "April", "May", "June", "July", "August", "September", "October", "November", "December");
+
+        for(int i = 0; i < months.size(); i++)
+            monthsMap.put(i + 1, months.get(i));
+
+        return monthsMap.get(birthMonth);
     }
 
 }

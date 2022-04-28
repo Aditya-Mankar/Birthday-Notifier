@@ -136,4 +136,12 @@ public class RequestValidatorService {
             throw new CustomException(Constants.error_user_invalid_email_id);
     }
 
+    public void validateSendCodeRequest(String emailId) {
+        if(Utility.checkIfNullOrEmpty(emailId))
+            throw new BadRequestException(Constants.error_email_id_null_or_empty);
+
+        if(userRepository.validateUserByEmailId(emailId))
+            throw new CustomException(Constants.error_user_invalid_email_id);
+    }
+
 }

@@ -84,8 +84,6 @@ public class BirthdayService {
             logger.error(LoggingConstants.fail_insert_birthday + birthday.getEmailId() + Constants.for_name + birthday.getName() + Constants.error + e.getMessage());
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
-
-
     }
 
     public ResponseEntity<String> modifyBirthday(Birthday birthday) {
@@ -139,6 +137,10 @@ public class BirthdayService {
             logger.error(LoggingConstants.fail_delete_birthday + id);
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
-
     }
+
+    public List<Birthday> getBirthdaysByDateAndMonth(Birthday birthday) {
+        return birthdayRepository.getBirthdaysByDateAndMonth(birthday);
+    }
+
 }

@@ -13,84 +13,98 @@ public class Birthday {
     private String createdAt;
     private String updatedAt;
 
+    public static Birthday builder() {
+        return new Birthday();
+    }
+
     public String getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public Birthday setId(String id) {
         this.id = id;
+        return this;
     }
 
     public String getEmailId() {
         return emailId;
     }
 
-    public void setEmailId(String emailId) {
+    public Birthday setEmailId(String emailId) {
         this.emailId = emailId;
+        return this;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public Birthday setName(String name) {
         this.name = name;
+        return this;
     }
 
     public int getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(int birthDate) {
+    public Birthday setBirthDate(int birthDate) {
         this.birthDate = birthDate;
+        return this;
     }
 
     public int getBirthMonth() {
         return birthMonth;
     }
 
-    public void setBirthMonth(int birthMonth) {
+    public Birthday setBirthMonth(int birthMonth) {
         this.birthMonth = birthMonth;
+        return this;
     }
 
     public int getRemindBeforeDays() {
         return remindBeforeDays;
     }
 
-    public void setRemindBeforeDays(int remindBeforeDays) {
+    public Birthday setRemindBeforeDays(int remindBeforeDays) {
         this.remindBeforeDays = remindBeforeDays;
+        return this;
     }
 
     public int getRemindDate() {
         return remindDate;
     }
 
-    public void setRemindDate(int remindDate) {
+    public Birthday setRemindDate(int remindDate) {
         this.remindDate = remindDate;
+        return this;
     }
 
     public int getRemindMonth() {
         return remindMonth;
     }
 
-    public void setRemindMonth(int remindMonth) {
+    public Birthday setRemindMonth(int remindMonth) {
         this.remindMonth = remindMonth;
+        return this;
     }
 
     public String getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(String createdAt) {
+    public Birthday setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
+        return this;
     }
 
     public String getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(String updatedAt) {
+    public Birthday setUpdatedAt(String updatedAt) {
         this.updatedAt = updatedAt;
+        return this;
     }
 
     @Override
@@ -107,6 +121,10 @@ public class Birthday {
                 ", createdAt='" + createdAt + '\'' +
                 ", updatedAt='" + updatedAt + '\'' +
                 '}';
+    }
+
+    public Birthday build() {
+        return this;
     }
 
 }

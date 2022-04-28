@@ -12,7 +12,7 @@ import java.util.Map;
 @Repository
 public class UserRepository {
 
-    private NamedParameterJdbcTemplate jdbcTemplate;
+    private final NamedParameterJdbcTemplate jdbcTemplate;
 
     public UserRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -81,4 +81,5 @@ public class UserRepository {
 
         jdbcTemplate.update(SqlConstants.query_update_user_password, params);
     }
+
 }

@@ -14,4 +14,7 @@ public class RequestPathConstants {
     public static final String verify_email_id = "/verify-email-id";
     public static final String update_password = "/update-password";
 
+    public static final String mail_controller = "/api/v1/mail";
+    public static final String send_code = "/sendCode/{emailId}";
+
 }

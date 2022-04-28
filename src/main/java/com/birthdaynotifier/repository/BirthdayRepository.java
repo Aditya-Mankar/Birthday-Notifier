@@ -71,4 +71,12 @@ public class BirthdayRepository {
 
         jdbcTemplate.update(SqlConstants.query_delete_birthday, params);
     }
+
+    public List<Birthday> getBirthdaysByDateAndMonth(Birthday birthday) {
+        Map<String, String> params = new HashMap<>();
+        params.put(SqlConstants.named_parameter_birth_date, String.valueOf(birthday.getRemindDate()));
+        params.put(SqlConstants.named_parameter_birth_month, String.valueOf(birthday.getRemindMonth()));
+
+        return jdbcTemplate.query(SqlConstants.query_fetch_birthdays_by_date_and_month, params, new BirthdayRowMapper());
+    }
 }

@@ -8,6 +8,15 @@ public class Constants {
     public static final String value_false = "false";
     public static final String role_user = "ROLE_USER";
     public static final String role_admin = "ROLE_ADMIN";
+    public static final String code = "code";
+    public static final String mail_id = "birthday.notifier.service@gmail.com";
+    public static final String mail_code_subject = "Secret code for Birthday reminder service";
+    public static final String template_send_code = "send-code-template";
+    public static final String mail_birthday_subject = "Birthday reminder for ";
+    public static final String template_birthday_reminder = "birthday-reminder-template";
+    public static final String name = "name";
+    public static final String birthdate = "birthdate";
+    public static final String birthmonth = "birthmonth";
 
     public static final String error_email_id_null_or_empty = "Email id cannot be null or empty";
     public static final String error_name_null_or_empty = "Name cannot be null or empty";

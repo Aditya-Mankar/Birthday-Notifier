@@ -7,6 +7,7 @@ public class SqlConstants {
     public static final String query_count_of_birthday = "SELECT count(*) FROM birthdays_table WHERE id = :id";
     public static final String query_update_birthday = "UPDATE birthdays_table SET email_id = :emailId, name = :name, birth_date = :birthDate, birth_month = :birthMonth, remind_before_days = :remindBeforeDays, remind_date = :remindDate, remind_month = :remindMonth, updated_at = :updatedAt WHERE id = :id";
     public static final String query_delete_birthday = "DELETE FROM birthdays_table WHERE id = :id";
+    public static final String query_fetch_birthdays_by_date_and_month = "SELECT * FROM birthdays_table WHERE remind_date = :birthDate AND remind_month = :birthMonth";
 
     public static final String query_count_of_user_by_email_id = "SELECT count(*) FROM users_table WHERE email_id = :emailId";
     public static final String query_count_of_user_by_username = "SELECT count(*) FROM users_table WHERE username = :username";
