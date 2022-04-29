@@ -16,12 +16,9 @@ public class UserRowMapper implements RowMapper<User> {
         user.setId(rs.getString(SqlConstants.column_birthday_id));
         user.setEmailId(rs.getString(SqlConstants.column_birthday_email_id));
         user.setUsername(rs.getString(SqlConstants.column_user_username));
-        user.setPassword(rs.getString(SqlConstants.column_user_password));
         user.setIsEmailIdVerified(rs.getString(SqlConstants.column_user_is_email_id_verified));
-        user.setSecretCode(rs.getString(SqlConstants.column_user_secret_code));
         user.setCreatedAt(rs.getString(SqlConstants.column_user_created_at));
         user.setUpdatedAt(rs.getString(SqlConstants.column_user_updated_at));
-        user.setRole(rs.getString(SqlConstants.column_user_role));
         user.setLastLoggedIn(rs.getString(SqlConstants.column_user_last_logged_in));
 
         return user;

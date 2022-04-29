@@ -1,17 +1,22 @@
 package com.birthdaynotifier.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class User {
 
     private String id;
     private String emailId;
     private String username;
+    @JsonIgnore
     private String password;
+    @JsonIgnore
     private String role;
     private String isEmailIdVerified;
     private String secretCode;
     private String createdAt;
     private String updatedAt;
     private String lastLoggedIn;
+    private int recordsCount;
 
     public static User builder() {
         return new User();
@@ -104,6 +109,15 @@ public class User {
 
     public User setLastLoggedIn(String lastLoggedIn) {
         this.lastLoggedIn = lastLoggedIn;
+        return this;
+    }
+
+    public int getRecordsCount() {
+        return recordsCount;
+    }
+
+    public User setRecordsCount(int recordsCount) {
+        this.recordsCount = recordsCount;
         return this;
     }
 

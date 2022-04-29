@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Repository
@@ -80,6 +81,24 @@ public class UserRepository {
         params.put(SqlConstants.named_parameter_updated_at, user.getUpdatedAt());
 
         jdbcTemplate.update(SqlConstants.query_update_user_password, params);
+    }
+
+    public List<User> getAllUsers() {
+        return jdbcTemplate.query(SqlConstants.query_fetch_all_users, new UserRowMapper());
+    }
+
+    public int getRecordsCountForUser(String emailId) {
+        Map<String, String> params = new HashMap<>();
+        params.put(SqlConstants.named_parameter_email_id, emailId);
+
+        return jdbcTemplate.queryForObject(SqlConstants.query_fetch_records_count_for_user, params, Integer.class);
+    }
+
+    public void deleteUserByEmailId(String emailId) {
+        Map<String, String> params = new HashMap<>();
+        params.put(SqlConstants.named_parameter_email_id, emailId);
+
+        jdbcTemplate.update(SqlConstants.query_delete_user_by_email_id, params);
     }
 
 }

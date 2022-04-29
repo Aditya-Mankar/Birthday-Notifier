@@ -5,16 +5,17 @@ import com.birthdaynotifier.constant.LoggingConstants;
 import com.birthdaynotifier.exception.BadRequestException;
 import com.birthdaynotifier.exception.CustomException;
 import com.birthdaynotifier.model.User;
+import com.birthdaynotifier.repository.BirthdayRepository;
 import com.birthdaynotifier.repository.UserRepository;
 import com.birthdaynotifier.utility.Utility;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.List;
 
 @Service
 public class UserService {
@@ -22,11 +23,13 @@ public class UserService {
     private final RequestValidatorService requestValidator;
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final BirthdayRepository birthdayRepository;
 
-    public UserService(RequestValidatorService requestValidator, UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UserService(RequestValidatorService requestValidator, UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder, BirthdayRepository birthdayRepository) {
         this.requestValidator = requestValidator;
         this.userRepository = userRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.birthdayRepository = birthdayRepository;
     }
 
     Logger logger = LoggerFactory.getLogger(UserService.class);
@@ -134,6 +137,66 @@ public class UserService {
             return ResponseEntity.internalServerError().body(e.getErrorMessage());
         } catch (Error e) {
             logger.error(LoggingConstants.fail_update_password + user.getEmailId() + Constants.error + e.getMessage());
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
+    }
+
+    public ResponseEntity<Object> getAllUsers() {
+        logger.info(LoggingConstants.message_get_all_users);
+        try {
+            List<User> users = userRepository.getAllUsers();
+
+            users.forEach(user -> user.setRecordsCount(userRepository.getRecordsCountForUser(user.getEmailId())));
+
+            logger.info(LoggingConstants.success_get_all_users);
+            return ResponseEntity.ok().body(users);
+        } catch (Exception e) {
+            logger.error(LoggingConstants.fail_get_all_users);
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
+    }
+
+    public ResponseEntity<String> completeDelete(User user) {
+        logger.info(LoggingConstants.message_delete_user + user.getEmailId());
+        try {
+            requestValidator.validateCompleteDeleteRequest(user);
+            verifySecretCode(user);
+
+            birthdayRepository.deleteBirthdaysByEmailId(user.getEmailId());
+            userRepository.deleteUserByEmailId(user.getEmailId());
+
+            logger.info(LoggingConstants.success_delete_user + user.getEmailId());
+            return ResponseEntity.ok().body(LoggingConstants.success_delete_user + user.getEmailId());
+        }  catch (BadRequestException e) {
+            logger.error(LoggingConstants.fail_delete_user + user.getEmailId() + Constants.error + e.getErrorMessage());
+            return ResponseEntity.badRequest().body(e.getErrorMessage());
+        } catch (CustomException e) {
+            logger.error(LoggingConstants.fail_delete_user + user.getEmailId() + Constants.error + e.getErrorMessage());
+            return ResponseEntity.internalServerError().body(e.getErrorMessage());
+        } catch (Error e) {
+            logger.error(LoggingConstants.fail_delete_user + user.getEmailId() + Constants.error + e.getMessage());
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
+    }
+
+    public ResponseEntity<String> adminCompleteDelete(String emailId) {
+        logger.info(LoggingConstants.message_admin_delete_user + emailId);
+        try {
+            requestValidator.validateAdminCompleteDeleteRequest(emailId);
+
+            birthdayRepository.deleteBirthdaysByEmailId(emailId);
+            userRepository.deleteUserByEmailId(emailId);
+
+            logger.info(LoggingConstants.success_admin_delete_user + emailId);
+            return ResponseEntity.ok().body(LoggingConstants.success_admin_delete_user + emailId);
+        }  catch (BadRequestException e) {
+            logger.error(LoggingConstants.fail_admin_delete_user + emailId + Constants.error + e.getErrorMessage());
+            return ResponseEntity.badRequest().body(e.getErrorMessage());
+        } catch (CustomException e) {
+            logger.error(LoggingConstants.fail_admin_delete_user + emailId + Constants.error + e.getErrorMessage());
+            return ResponseEntity.internalServerError().body(e.getErrorMessage());
+        } catch (Error e) {
+            logger.error(LoggingConstants.fail_admin_delete_user + emailId + Constants.error + e.getMessage());
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }

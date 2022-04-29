@@ -13,8 +13,13 @@ public class RequestPathConstants {
     public static final String insert_user = "/insert";
     public static final String verify_email_id = "/verify-email-id";
     public static final String update_password = "/update-password";
+    public static final String complete_delete = "/user-complete-delete";
 
     public static final String mail_controller = "/api/v1/mail";
     public static final String send_code = "/sendCode/{emailId}";
+
+    public static final String admin_controller = "/api/v1/admin";
+    public static final String read_all_users = "/get-users";
+    public static final String admin_user_complete_delete = "/user-complete-delete/{emailId}";
 
 }

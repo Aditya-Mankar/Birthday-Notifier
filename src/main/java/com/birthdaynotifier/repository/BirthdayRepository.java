@@ -79,4 +79,12 @@ public class BirthdayRepository {
 
         return jdbcTemplate.query(SqlConstants.query_fetch_birthdays_by_date_and_month, params, new BirthdayRowMapper());
     }
+
+    public void deleteBirthdaysByEmailId(String emailId) {
+        Map<String, String> params = new HashMap<>();
+        params.put(SqlConstants.named_parameter_email_id, emailId);
+
+        jdbcTemplate.update(SqlConstants.query_delete_birthdays_by_email_id, params);
+    }
+
 }

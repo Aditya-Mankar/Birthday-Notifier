@@ -144,4 +144,23 @@ public class RequestValidatorService {
             throw new CustomException(Constants.error_user_invalid_email_id);
     }
 
+    public void validateCompleteDeleteRequest(User user) {
+        if(Utility.checkIfNullOrEmpty(user.getEmailId()))
+            throw new BadRequestException(Constants.error_email_id_null_or_empty);
+
+        if(Utility.checkIfNullOrEmpty(user.getSecretCode()))
+            throw new BadRequestException(Constants.error_secret_code_null_empty);
+
+        if(userRepository.validateUserByEmailId(user.getEmailId()))
+            throw new CustomException(Constants.error_user_invalid_email_id);
+    }
+
+    public void validateAdminCompleteDeleteRequest(String emailId) {
+        if(Utility.checkIfNullOrEmpty(emailId))
+            throw new BadRequestException(Constants.error_email_id_null_or_empty);
+
+        if(userRepository.validateUserByEmailId(emailId))
+            throw new CustomException(Constants.error_user_invalid_email_id);
+    }
+
 }

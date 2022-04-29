@@ -36,4 +36,9 @@ public class UserController {
         return userService.updatePassword(user);
     }
 
+    @DeleteMapping(RequestPathConstants.complete_delete)
+    public ResponseEntity<String> completeDelete(@RequestBody User user) {
+        return userService.completeDelete(user);
+    }
+
 }

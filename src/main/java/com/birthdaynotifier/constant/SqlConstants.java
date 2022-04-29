@@ -8,6 +8,7 @@ public class SqlConstants {
     public static final String query_update_birthday = "UPDATE birthdays_table SET email_id = :emailId, name = :name, birth_date = :birthDate, birth_month = :birthMonth, remind_before_days = :remindBeforeDays, remind_date = :remindDate, remind_month = :remindMonth, updated_at = :updatedAt WHERE id = :id";
     public static final String query_delete_birthday = "DELETE FROM birthdays_table WHERE id = :id";
     public static final String query_fetch_birthdays_by_date_and_month = "SELECT * FROM birthdays_table WHERE remind_date = :birthDate AND remind_month = :birthMonth";
+    public static final String query_delete_birthdays_by_email_id = "DELETE FROM birthdays_table WHERE email_id = :emailId";
 
     public static final String query_count_of_user_by_email_id = "SELECT count(*) FROM users_table WHERE email_id = :emailId";
     public static final String query_count_of_user_by_username = "SELECT count(*) FROM users_table WHERE username = :username";
@@ -16,6 +17,9 @@ public class SqlConstants {
     public static final String query_fetch_code = "SELECT secret_code FROM users_table WHERE email_id = :emailId";
     public static final String query_verify_user = "UPDATE users_table SET is_email_id_verified = :isEmailIdVerified, updated_at = :updatedAt WHERE email_id = :emailId";
     public static final String query_update_user_password = "UPDATE users_table SET password = :password, updated_at = :updatedAt WHERE email_id = :emailId";
+    public static final String query_fetch_all_users = "SELECT * FROM users_table";
+    public static final String query_fetch_records_count_for_user = "SELECT count(*) FROM users_table ut INNER JOIN birthdays_table bt ON ut.email_id = bt.email_id WHERE ut.email_id = :emailId";
+    public static final String query_delete_user_by_email_id = "DELETE FROM users_table WHERE email_id = :emailId";
 
     public static final String named_parameter_id = "id";
     public static final String named_parameter_name = "name";
