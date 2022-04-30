@@ -6,6 +6,7 @@ import com.birthdaynotifier.model.User;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -99,6 +100,14 @@ public class UserRepository {
         params.put(SqlConstants.named_parameter_email_id, emailId);
 
         jdbcTemplate.update(SqlConstants.query_delete_user_by_email_id, params);
+    }
+
+    public void updateUserLastLoggedIn(String username) {
+        Map<String, String> params = new HashMap<>();
+        params.put(SqlConstants.named_parameter_username, username);
+        params.put(SqlConstants.named_parameter_date, String.valueOf(new Date()));
+
+        jdbcTemplate.update(SqlConstants.query_update_user_last_logged_in, params);
     }
 
 }

@@ -1,15 +1,11 @@
 package com.birthdaynotifier.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 public class User {
 
     private String id;
     private String emailId;
     private String username;
-    @JsonIgnore
     private String password;
-    @JsonIgnore
     private String role;
     private String isEmailIdVerified;
     private String secretCode;

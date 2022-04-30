@@ -201,6 +201,14 @@ public class UserService {
         }
     }
 
+    public void updateUserLastLoggedIn(String username) {
+        try {
+            userRepository.updateUserLastLoggedIn(username);
+        } catch (Error e) {
+            throw new Error(e.getMessage());
+        }
+    }
+
     public String encodePassword(String password) {
         return bCryptPasswordEncoder.encode(password);
     }

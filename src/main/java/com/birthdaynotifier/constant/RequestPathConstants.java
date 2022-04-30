@@ -22,4 +22,9 @@ public class RequestPathConstants {
     public static final String read_all_users = "/get-users";
     public static final String admin_user_complete_delete = "/user-complete-delete/{emailId}";
 
+    public static final String authenticate = "/api/v1/authenticate";
+
+    public static final String[] user_permitted_paths = {"/api/v1/user/**", "/api/v1/birthday/**", "/api/v1/mail/**"};
+    public static final String admin_permitted_paths = "/api/v1/admin/**";
+
 }

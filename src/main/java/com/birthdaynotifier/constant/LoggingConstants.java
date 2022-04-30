@@ -18,6 +18,7 @@ public class LoggingConstants {
     public static final String message_send_code_mail = "Sending mail for secret code to user with email id: ";
     public static final String message_send_birthday_mail = "Sending mail for birthday to user with email id: ";
     public static final String message_started_sending_birthday_mail = "Started birthday mail sending function for date: ";
+    public static final String message_logging_user = "Trying to login user with username: ";
 
     public static final String success_get_birthdays = "Successfully fetched birthdays for user with email id: ";
     public static final String success_insert_birthday = "Successfully inserted birthday for user with email id: ";
@@ -35,6 +36,7 @@ public class LoggingConstants {
     public static final String success_send_code_mail = "Successfully sent secret code mail to user with email id: ";
     public static final String success_send_birthday_mail = "Successfully sent birthday mail to user with email id: ";
     public static final String success_sending_birthday_mail = "Birthday notification to ";
+    public static final String success_logging_user = "Successfully logged in user with username: ";
 
     public static final String fail_get_birthdays = "Failed to fetch birthdays for user with email id: ";
     public static final String fail_insert_birthday = "Failed to insert birthday for user with email id: ";
@@ -51,5 +53,6 @@ public class LoggingConstants {
 
     public static final String fail_send_code_mail = "Failed to send secret code mail to user with email id: ";
     public static final String fail_send_birthday_mail = "Failed to send birthday mail to user with email id: ";
+    public static final String fail_logging_user = "Failed to login user with username: ";
 
 }

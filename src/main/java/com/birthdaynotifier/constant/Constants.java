@@ -17,6 +17,15 @@ public class Constants {
     public static final String name = "name";
     public static final String birthdate = "birthdate";
     public static final String birthmonth = "birthmonth";
+    public static final String email_id = "email_id";
+    public static final String username = "username";
+    public static final String role = "role";
+    public static final String expiration = "expiration";
+    public static final String authorization = "Authorization";
+    public static final String bearer = "Bearer ";
+    public static final String user = "USER";
+    public static final String admin = "ADMIN";
+    public static final Integer seven = 7;
 
     public static final String error_email_id_null_or_empty = "Email id cannot be null or empty";
     public static final String error_name_null_or_empty = "Name cannot be null or empty";

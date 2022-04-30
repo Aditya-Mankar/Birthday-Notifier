@@ -20,6 +20,7 @@ public class SqlConstants {
     public static final String query_fetch_all_users = "SELECT * FROM users_table";
     public static final String query_fetch_records_count_for_user = "SELECT count(*) FROM users_table ut INNER JOIN birthdays_table bt ON ut.email_id = bt.email_id WHERE ut.email_id = :emailId";
     public static final String query_delete_user_by_email_id = "DELETE FROM users_table WHERE email_id = :emailId";
+    public static final String query_update_user_last_logged_in = "UPDATE users_table SET last_logged_in = :date WHERE username = :username";
 
     public static final String named_parameter_id = "id";
     public static final String named_parameter_name = "name";
@@ -37,6 +38,7 @@ public class SqlConstants {
     public static final String named_parameter_is_email_id_verified = "isEmailIdVerified";
     public static final String named_parameter_secret_code = "secretCode";
     public static final String named_parameter_role = "role";
+    public static final String named_parameter_date = "date";
 
     public static final String column_birthday_id = "id";
     public static final String column_birthday_email_id = "email_id";
