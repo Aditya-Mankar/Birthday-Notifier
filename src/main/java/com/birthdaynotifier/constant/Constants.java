@@ -10,7 +10,7 @@ public class Constants {
     public static final String role_admin = "ROLE_ADMIN";
     public static final String code = "code";
     public static final String mail_id = "birthday.notifier.service@gmail.com";
-    public static final String mail_code_subject = "Secret code for Birthday reminder service";
+    public static final String mail_code_subject = "Code for Birthday Notifier";
     public static final String template_send_code = "send-code-template";
     public static final String mail_birthday_subject = "Birthday reminder for ";
     public static final String template_birthday_reminder = "birthday-reminder-template";

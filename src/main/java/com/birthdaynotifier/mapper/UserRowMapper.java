@@ -11,18 +11,16 @@ public class UserRowMapper implements RowMapper<User> {
 
     @Override
     public User mapRow(ResultSet rs, int i) throws SQLException {
-        User user = new User();
-
-        user.setId(rs.getString(SqlConstants.column_birthday_id));
-        user.setEmailId(rs.getString(SqlConstants.column_birthday_email_id));
-        user.setUsername(rs.getString(SqlConstants.column_user_username));
-        user.setPassword(rs.getString(SqlConstants.column_user_password));
-        user.setRole(rs.getString(SqlConstants.column_user_role));
-        user.setIsEmailIdVerified(rs.getString(SqlConstants.column_user_is_email_id_verified));
-        user.setCreatedAt(rs.getString(SqlConstants.column_user_created_at));
-        user.setUpdatedAt(rs.getString(SqlConstants.column_user_updated_at));
-        user.setLastLoggedIn(rs.getString(SqlConstants.column_user_last_logged_in));
-
-        return user;
+        return User.builder()
+                .setId(rs.getString(SqlConstants.column_birthday_id))
+                .setEmailId(rs.getString(SqlConstants.column_birthday_email_id))
+                .setUsername(rs.getString(SqlConstants.column_user_username))
+                .setPassword(rs.getString(SqlConstants.column_user_password))
+                .setRole(rs.getString(SqlConstants.column_user_role))
+                .setIsEmailIdVerified(rs.getString(SqlConstants.column_user_is_email_id_verified))
+                .setCreatedAt(rs.getString(SqlConstants.column_user_created_at))
+                .setUpdatedAt(rs.getString(SqlConstants.column_user_updated_at))
+                .setLastLoggedIn(rs.getString(SqlConstants.column_user_last_logged_in))
+                .build();
     }
 }

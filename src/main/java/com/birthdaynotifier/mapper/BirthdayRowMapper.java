@@ -12,21 +12,19 @@ public class BirthdayRowMapper implements RowMapper<Birthday> {
 
     @Override
     public Birthday mapRow(ResultSet rs, int i) throws SQLException {
-        Birthday birthday = new Birthday();
-
-        birthday.setId(rs.getString(SqlConstants.column_birthday_id));
-        birthday.setEmailId(rs.getString(SqlConstants.column_birthday_email_id));
-        birthday.setName(rs.getString(SqlConstants.column_birthday_name));
-        birthday.setBirthDate(rs.getInt(SqlConstants.column_birthday_birth_date));
-        birthday.setBirthMonth(rs.getInt(SqlConstants.column_birthday_birth_month));
-        birthday.setRemindBeforeDays(rs.getInt(SqlConstants.column_birthday_remind_before_days));
-        birthday.setRemindDate(rs.getInt(SqlConstants.column_birthday_remind_date));
-        birthday.setRemindMonth(rs.getInt(SqlConstants.column_birthday_remind_month));
-        birthday.setCreatedAt(rs.getString(SqlConstants.column_birthday_created_at));
-        birthday.setUpdatedAt(Utility.checkIfNullOrEmpty(rs.getString(SqlConstants.column_birthday_updated_at)) ?
-                rs.getString(SqlConstants.column_birthday_created_at) : rs.getString(SqlConstants.column_birthday_updated_at));
-
-        return birthday;
+        return Birthday.builder()
+                .setId(rs.getString(SqlConstants.column_birthday_id))
+                .setEmailId(rs.getString(SqlConstants.column_birthday_email_id))
+                .setName(rs.getString(SqlConstants.column_birthday_name))
+                .setBirthDate(rs.getInt(SqlConstants.column_birthday_birth_date))
+                .setBirthMonth(rs.getInt(SqlConstants.column_birthday_birth_month))
+                .setRemindBeforeDays(rs.getInt(SqlConstants.column_birthday_remind_before_days))
+                .setRemindDate(rs.getInt(SqlConstants.column_birthday_remind_date))
+                .setRemindMonth(rs.getInt(SqlConstants.column_birthday_remind_month))
+                .setCreatedAt(rs.getString(SqlConstants.column_birthday_created_at))
+                .setUpdatedAt(Utility.checkIfNullOrEmpty(rs.getString(SqlConstants.column_birthday_updated_at)) ?
+                        rs.getString(SqlConstants.column_birthday_created_at) : rs.getString(SqlConstants.column_birthday_updated_at))
+                .build();
     }
 
 }

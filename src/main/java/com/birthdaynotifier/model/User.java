@@ -1,5 +1,8 @@
 package com.birthdaynotifier.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class User {
 
     private String id;

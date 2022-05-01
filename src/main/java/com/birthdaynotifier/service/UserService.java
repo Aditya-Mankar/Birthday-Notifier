@@ -147,6 +147,7 @@ public class UserService {
             List<User> users = userRepository.getAllUsers();
 
             users.forEach(user -> user.setRecordsCount(userRepository.getRecordsCountForUser(user.getEmailId())));
+            users.forEach(user -> user.setPassword(null));
 
             logger.info(LoggingConstants.success_get_all_users);
             return ResponseEntity.ok().body(users);
