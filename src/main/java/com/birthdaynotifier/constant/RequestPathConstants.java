@@ -26,5 +26,6 @@ public class RequestPathConstants {
 
     public static final String[] user_permitted_paths = {"/api/v1/user/**", "/api/v1/birthday/**", "/api/v1/mail/**"};
     public static final String admin_permitted_paths = "/api/v1/admin/**";
+    public static final String[] auth_paths = {"/api/v1/authenticate", "/api/v1/user/insert"};
 
 }

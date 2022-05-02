@@ -26,6 +26,7 @@ public class Constants {
     public static final String user = "USER";
     public static final String admin = "ADMIN";
     public static final Integer seven = 7;
+    public static final String cron_value = "0 0 9 * * *";
 
     public static final String error_email_id_null_or_empty = "Email id cannot be null or empty";
     public static final String error_name_null_or_empty = "Name cannot be null or empty";

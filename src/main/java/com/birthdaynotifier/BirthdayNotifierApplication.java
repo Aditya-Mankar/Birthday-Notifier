@@ -40,7 +40,7 @@ public class BirthdayNotifierApplication {
         return new BCryptPasswordEncoder();
     }
 
-    @Scheduled(cron = "0 0 9 * * *")
+    @Scheduled(cron = Constants.cron_value)
     public void dailyJob() {
         Date today = new Date();
         int todaysMonth = today.getMonth() + 1;
