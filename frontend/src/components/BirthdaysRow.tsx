@@ -6,7 +6,6 @@ import { Birthday } from '../redux/reducers/birthdayReducer';
 import { ActionButtons, ActionsColumn } from '../styles/Dashboard.styled';
 import axios from 'axios';
 import { determineMonthFromNumber } from '../utility/Utility';
-import { useEffect } from 'react';
 
 interface IBirthdaysRowProps {
   birthday: Birthday,
@@ -31,12 +30,12 @@ const BirthdaysRow: React.FC<IBirthdaysRowProps> = ({ birthday, deleteFlag, setD
 
     axios({
       method: 'delete',
-      url: 'api/birthday/delete/' + birthday.id,
+      url: '/api/v1/birthday/delete/' + birthday.id,
       headers: {
         Authorization: 'Bearer ' + jwt
       }
     })
-      .then(response => {
+      .then(() => {
         setDeleteFlag(!deleteFlag);
       })
   }

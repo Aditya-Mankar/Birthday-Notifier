@@ -68,12 +68,6 @@ public class RequestValidatorService {
         if(Utility.checkIfNullOrEmpty(birthday.getRemindBeforeDays()))
             throw new BadRequestException(Constants.error_remind_before_days_null_or_empty);
 
-        if(Utility.checkIfNullOrEmpty(birthday.getRemindDate()))
-            throw new BadRequestException(Constants.error_remind_date_null_or_empty);
-
-        if(Utility.checkIfNullOrEmpty(birthday.getRemindMonth()))
-            throw new BadRequestException(Constants.error_remind_month_null_or_empty);
-
         if(!birthdayRepository.checkBirthdayExists(Integer.parseInt(birthday.getId())))
             throw new CustomException(Constants.error_no_birthday_with_id);
     }
