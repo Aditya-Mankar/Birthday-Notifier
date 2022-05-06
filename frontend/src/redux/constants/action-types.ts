@@ -9,7 +9,9 @@ export const ActionTypes = {
   RESET_STATE: "RESET_STATE",
   SET_ALL_BIRTHDAYS: "SET_ALL_BIRTHDAYS",
   SET_BIRTHDAY: "SET_BIRTHDAY",
-  RESET_BIRTHDAY: "RESET_BIRTHDAY"
+  RESET_BIRTHDAY: "RESET_BIRTHDAY",
+  SET_NOTIFICATION: "SET_NOTIFICATION",
+  RESET_NOTIFICATION: "RESET_NOTIFICATION"
 };
 
 export interface authAction {
@@ -18,4 +20,11 @@ export interface authAction {
   payload1: string | null
 }
 
+export interface notificationAction {
+  type: string,
+  payload: boolean
+}
+
 export type Action = authAction;
+
+export type NotificationAction = notificationAction;

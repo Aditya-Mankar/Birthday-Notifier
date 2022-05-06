@@ -50,6 +50,7 @@ const Update: React.FC<IUpdateProps> = (props) => {
       }
     })
       .then(() => {
+        dispatch({ type: ActionTypes.SET_NOTIFICATION, payload: "Birthday Updated" });
         navigate("/dashboard");
         dispatch({ type: ActionTypes.RESET_BIRTHDAY });
       })

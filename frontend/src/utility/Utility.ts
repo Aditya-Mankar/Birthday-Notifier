@@ -1,3 +1,5 @@
+import { toast } from 'react-toastify';
+
 const map = new Map();
 
 export const months = ["January", "February", "March",
@@ -32,4 +34,13 @@ export const validateBirthDate = (birthDate: number, birthMonth: number): boolea
     return false;
 
   return true;
+}
+
+export const successfulMessage = (message: string) => {
+  toast.success(message, {
+    position: "bottom-right",
+    autoClose: 5000,
+    pauseOnHover: true,
+    closeOnClick: true,
+  })
 }

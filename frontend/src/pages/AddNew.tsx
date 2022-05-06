@@ -7,6 +7,8 @@ import { ButtonsGroup, CenterContainer, Form } from '../styles/AddNew.styled';
 import { determineMonthFromString, validateBirthDate } from '../utility/Utility';
 import BirthdaySelectOption from '../components/BirthdaySelectOption';
 import NavbarComponent from '../components/NavbarComponent';
+import { useDispatch } from 'react-redux';
+import { ActionTypes } from '../redux/constants/action-types';
 
 interface IAddNewProps {
 }
@@ -21,6 +23,7 @@ const AddNew: React.FC<IAddNewProps> = (props) => {
   const jwt = useSelector((state: RootState) => state.authData.jwt);
   const emailId = useSelector((state: RootState) => state.authData.user.emailId);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
@@ -46,6 +49,7 @@ const AddNew: React.FC<IAddNewProps> = (props) => {
       }
     })
       .then(() => {
+        dispatch({ type: ActionTypes.SET_NOTIFICATION, payload: "Birthday Inserted" });
         navigate("/dashboard")
       })
       .catch(err => {

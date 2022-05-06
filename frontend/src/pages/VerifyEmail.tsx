@@ -1,10 +1,13 @@
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { RootState } from '../redux/reducers';
 import axios from 'axios';
 import { ButtonsGroup, CenterContainer, Form } from '../styles/VerifyEmail.styled';
 import SendCodeButton from '../components/SendCodeButton';
+import { ActionTypes } from '../redux/constants/action-types';
+import { successfulMessage } from '../utility/Utility';
+import { ToastContainer } from 'react-toastify';
 
 interface IVerifyEmailProps {
 }
@@ -13,10 +16,21 @@ const VerifyEmail: React.FC<IVerifyEmailProps> = (props) => {
 
   const [emailId, setEmailId] = useState<string>(useSelector((state: RootState) => state.authData.user.emailId));
   const [code, setCode] = useState<string>("");
+  const [codeSent, setCodeSent] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
   const [disabledMsg, setDisabledMsg] = useState<string | null>(null);
   const jwt = useSelector((state: RootState) => state.authData.jwt);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const showNotification = useSelector((state: RootState) => state.notificationData.showNotification)
+  const notificationMessage = useSelector((state: RootState) => state.notificationData.notificationMessage)
+
+  useEffect(() => {
+    if (showNotification) {
+      successfulMessage(notificationMessage);
+      dispatch({ type: ActionTypes.RESET_NOTIFICATION });
+    }
+  }, [codeSent]);
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -33,6 +47,7 @@ const VerifyEmail: React.FC<IVerifyEmailProps> = (props) => {
       }
     })
       .then(() => {
+        dispatch({ type: ActionTypes.SET_NOTIFICATION, payload: "Account verified" })
         navigate("/dashboard");
       })
       .catch(err => {
@@ -42,27 +57,30 @@ const VerifyEmail: React.FC<IVerifyEmailProps> = (props) => {
   }
 
   return (
-    <CenterContainer>
-      <h1>
-        Verify Email Id
-      </h1>
-      <Form onSubmit={onSubmit}>
-        <input type="email" value={emailId} required placeholder="EmailId"
-          onChange={e => setEmailId(e.target.value)} />
-        <input type="text" value={code} required placeholder="Code"
-          onChange={e => setCode(e.target.value)} />
-        {
-          error && <h3>{error}</h3>
-        }
-        {
-          disabledMsg && <h3>{disabledMsg}</h3>
-        }
-        <ButtonsGroup>
-          <SendCodeButton emailId={emailId} setError={setError} setDisabledMsg={setDisabledMsg} />
-          <input type='submit' value="Submit" />
-        </ButtonsGroup>
-      </Form>
-    </CenterContainer>
+    <>
+      <CenterContainer>
+        <h1>
+          Verify Email Id
+        </h1>
+        <Form onSubmit={onSubmit}>
+          <input type="email" value={emailId} required placeholder="EmailId"
+            onChange={e => setEmailId(e.target.value)} />
+          <input type="text" value={code} required placeholder="Code"
+            onChange={e => setCode(e.target.value)} />
+          {
+            error && <h3>{error}</h3>
+          }
+          {
+            disabledMsg && <h3>{disabledMsg}</h3>
+          }
+          <ButtonsGroup>
+            <SendCodeButton emailId={emailId} setError={setError} setDisabledMsg={setDisabledMsg} codeSent={codeSent} setCodeSent={setCodeSent} />
+            <input type='submit' value="Submit" />
+          </ButtonsGroup>
+        </Form>
+      </CenterContainer>
+      <ToastContainer />
+    </>
   );
 };
 

@@ -36,6 +36,7 @@ const BirthdaysRow: React.FC<IBirthdaysRowProps> = ({ birthday, deleteFlag, setD
       }
     })
       .then(() => {
+        dispatch({ type: ActionTypes.SET_NOTIFICATION, payload: "Birthday Deleted" })
         setDeleteFlag(!deleteFlag);
       })
   }

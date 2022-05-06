@@ -1,15 +1,20 @@
 import { useState } from 'react';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { ActionTypes } from '../redux/constants/action-types';
 
 interface ISendCodeButtonProps {
   emailId: string,
-  setError: React.Dispatch<React.SetStateAction<string>>
-  setDisabledMsg: React.Dispatch<React.SetStateAction<string | null>>
+  setError: React.Dispatch<React.SetStateAction<string>>,
+  setDisabledMsg: React.Dispatch<React.SetStateAction<string | null>>,
+  codeSent: boolean,
+  setCodeSent: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const SendCodeButton: React.FC<ISendCodeButtonProps> = ({ emailId, setError, setDisabledMsg }) => {
+const SendCodeButton: React.FC<ISendCodeButtonProps> = ({ emailId, setError, setDisabledMsg, codeSent, setCodeSent }) => {
 
   const [disabledBtn, setDisabledBtn] = useState<boolean>(false);
+  const dispatch = useDispatch();
 
   const onSendCode = (e: React.MouseEvent<HTMLInputElement, MouseEvent>) => {
     e.preventDefault();
@@ -18,8 +23,9 @@ const SendCodeButton: React.FC<ISendCodeButtonProps> = ({ emailId, setError, set
       method: 'get',
       url: '/api/v1/mail/sendCode/' + emailId
     })
-      .then(response => {
-        console.log(response.data);
+      .then(() => {
+        dispatch({ type: ActionTypes.SET_NOTIFICATION, payload: "Code sent" });
+        setCodeSent(!codeSent);
       })
       .catch(err => {
         setError(err.response.data);

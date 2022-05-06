@@ -1,6 +1,11 @@
-import * as React from 'react';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
+import { ActionTypes } from '../redux/constants/action-types';
+import { RootState } from '../redux/reducers';
 import { StyledHomepage, Navbar, Logo, CenterContainer, Footer } from '../styles/Homepage.styled';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface IHomepageProps {
 }
@@ -8,6 +13,25 @@ interface IHomepageProps {
 const Homepage: React.FC<IHomepageProps> = (props) => {
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const showNotification = useSelector((state: RootState) => state.notificationData.showNotification)
+  const notificationMessage = useSelector((state: RootState) => state.notificationData.notificationMessage)
+
+  useEffect(() => {
+    if (showNotification) {
+      successfulMessage(notificationMessage);
+      dispatch({ type: ActionTypes.RESET_NOTIFICATION });
+    }
+  }, [])
+
+  const successfulMessage = (message: string) => {
+    toast.success(message, {
+      position: "bottom-right",
+      autoClose: 5000,
+      pauseOnHover: true,
+      closeOnClick: true,
+    })
+  }
 
   const onLoginClick = (e: React.MouseEvent<HTMLButtonElement>): void => {
     e.preventDefault();
@@ -20,32 +44,35 @@ const Homepage: React.FC<IHomepageProps> = (props) => {
   }
 
   return (
-    <StyledHomepage>
-      <Navbar>
-        <Logo>BirthdayNotifier</Logo>
-        <div>
-          <button onClick={onLoginClick}>Login</button>
-          <button onClick={onSignupClick}>Signup</button>
-        </div>
-      </Navbar>
+    <>
+      <StyledHomepage>
+        <Navbar>
+          <Logo>BirthdayNotifier</Logo>
+          <div>
+            <button onClick={onLoginClick}>Login</button>
+            <button onClick={onSignupClick}>Signup</button>
+          </div>
+        </Navbar>
 
-      <CenterContainer>
-        <h1>
-          BirthdayNotifier
-        </h1>
-        <h2>
-          An application that notifies you about the birthdays of your loved ones
-        </h2>
-        <h2>
-          Create an account now to get started
-        </h2>
-      </CenterContainer>
+        <CenterContainer>
+          <h1>
+            BirthdayNotifier
+          </h1>
+          <h2>
+            An application that notifies you about the birthdays of your loved ones
+          </h2>
+          <h2>
+            Create an account now to get started
+          </h2>
+        </CenterContainer>
 
-      <Footer>
-        <h2>Built by <a href="https://github.com/Aditya-Mankar">Aditya Mankar</a></h2>
-        <h2><a href="https://github.com/Aditya-Mankar/Birthday-Notifier">Check out the source code</a></h2>
-      </Footer>
-    </StyledHomepage>
+        <Footer>
+          <h2>Built by <a href="https://github.com/Aditya-Mankar">Aditya Mankar</a></h2>
+          <h2><a href="https://github.com/Aditya-Mankar/Birthday-Notifier">Check out the source code</a></h2>
+        </Footer>
+      </StyledHomepage>
+      <ToastContainer />
+    </>
   );
 };
 

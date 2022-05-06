@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
 import { CenterContainer, Form } from '../styles/Signup.styled';
+import { useDispatch } from 'react-redux';
+import { ActionTypes } from '../redux/constants/action-types';
 
 interface ISignupProps {
 }
@@ -14,6 +16,7 @@ const Signup: React.FC<ISignupProps> = (props) => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -34,6 +37,7 @@ const Signup: React.FC<ISignupProps> = (props) => {
       }
     })
       .then(() => {
+        dispatch({ type: ActionTypes.SET_NOTIFICATION, payload: "Account created" })
         navigate("/login");
       })
       .catch(err => {
