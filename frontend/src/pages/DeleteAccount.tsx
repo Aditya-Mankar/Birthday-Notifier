@@ -5,6 +5,7 @@ import { RootState } from '../redux/reducers';
 import axios from 'axios';
 import { ButtonsGroup, CenterContainer, Form } from '../styles/DeleteAccount.styled';
 import { ActionTypes } from '../redux/constants/action-types';
+import SendCodeButton from '../components/SendCodeButton';
 
 interface IDeleteAccountProps {
 }
@@ -15,7 +16,6 @@ const DeleteAccount: React.FC<IDeleteAccountProps> = (props) => {
   const jwt = useSelector((state: RootState) => state.authData.jwt);
   const [code, setCode] = useState("");
   const [error, setError] = useState("");
-  const [disabledBtn, setDisabledBtn] = useState(false);
   const [disabledMsg, setDisabledMsg] = useState<string | null>(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -44,39 +44,6 @@ const DeleteAccount: React.FC<IDeleteAccountProps> = (props) => {
       })
   }
 
-  const onSendCode = (e: React.MouseEvent<HTMLInputElement, MouseEvent>) => {
-    e.preventDefault();
-
-    axios({
-      method: 'get',
-      url: '/api/v1/mail/sendCode/' + emailId
-    })
-      .then(response => {
-        console.log(response.data);
-      })
-      .catch(err => {
-        setError(err.response.data);
-        setTimeout(() => setError(""), 3000);
-      })
-
-    setDisabledBtn(true);
-    var counter = setInterval(timer, 1000);
-    setTimeout(() => setDisabledBtn(false), 60000);
-    var count = 60;
-    function timer() {
-      count = count - 1;
-
-      if (count <= 0) {
-        clearInterval(counter);
-        setDisabledMsg(null);
-        return;
-      }
-
-      setDisabledMsg("Please wait " + count + " seconds to get code again");
-    }
-  }
-
-
   return (
     <CenterContainer>
       <h1>Delete Account</h1>
@@ -90,7 +57,7 @@ const DeleteAccount: React.FC<IDeleteAccountProps> = (props) => {
           disabledMsg && <h3>{disabledMsg}</h3>
         }
         <ButtonsGroup>
-          <input type="button" value="Get Code" onClick={onSendCode} disabled={disabledBtn} />
+          <SendCodeButton emailId={emailId} setError={setError} setDisabledMsg={setDisabledMsg} />
           <input type='submit' value="Submit" />
         </ButtonsGroup>
       </Form>

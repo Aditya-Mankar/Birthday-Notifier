@@ -1,6 +1,6 @@
 const map = new Map();
 
-const months = ["January", "February", "March",
+export const months = ["January", "February", "March",
   "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
 for (let i = 0; i < months.length; i++)
@@ -19,12 +19,6 @@ export const determineMonthFromString = (birthMonth: string): number => {
   })
 
   return result;
-}
-
-export const createMonthOptions = () => {
-  return months.map((value, key) => {
-    return <option key={key} value={value}>{value}</option>
-  })
 }
 
 export const validateBirthDate = (birthDate: number, birthMonth: number): boolean => {

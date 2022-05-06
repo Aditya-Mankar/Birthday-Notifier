@@ -4,8 +4,10 @@ import { useNavigate } from 'react-router';
 import { RootState } from '../redux/reducers';
 import { ActionTypes } from '../redux/constants/action-types';
 import axios from 'axios';
-import { Navbar, Logo, Button, CenterContainer, Form, InputGroup, ButtonsGroup } from '../styles/Update.styled';
-import { createMonthOptions, determineMonthFromNumber, determineMonthFromString, validateBirthDate } from '../utility/Utility';
+import { CenterContainer, Form, ButtonsGroup } from '../styles/Update.styled';
+import { determineMonthFromNumber, determineMonthFromString, validateBirthDate } from '../utility/Utility';
+import BirthdaySelectOption from '../components/BirthdaySelectOption';
+import NavbarComponent from '../components/NavbarComponent';
 
 interface IUpdateProps {
 }
@@ -22,12 +24,6 @@ const Update: React.FC<IUpdateProps> = (props) => {
   const emailId = useSelector((state: RootState) => state.authData.user.emailId);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const onLogout = (e: React.MouseEvent<HTMLButtonElement>): void => {
-    e.preventDefault();
-    dispatch({ type: ActionTypes.RESET_STATE });
-    navigate("/");
-  }
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
@@ -71,27 +67,15 @@ const Update: React.FC<IUpdateProps> = (props) => {
 
   return (
     <>
-      <Navbar>
-        <Logo>BirthdayNotifier</Logo>
-        <div>
-          <Button onClick={onLogout}>Logout</Button>
-        </div>
-      </Navbar>
+      <NavbarComponent />
       <CenterContainer>
         <h1>
           Update Birthday
         </h1>
         <Form onSubmit={onSubmit} className="form">
           <input type="text" value={name} required placeholder="Name" onChange={e => setName(e.target.value)} />
-          <InputGroup>
-            <input type="number" value={birthDate} required placeholder="Date"
-              onChange={e => setBirthDate(e.target.value)} />
-            <select value={birthMonth} onChange={e => setBirthMonth(e.target.value)}>
-              {
-                createMonthOptions()
-              }
-            </select>
-          </InputGroup>
+          <BirthdaySelectOption birthDate={birthDate} setBirthDate={setBirthDate}
+            birthMonth={birthMonth} setBirthMonth={setBirthMonth} />
           <input type="number" value={remindBeforeDays} required placeholder="Remind before [Days]"
             onChange={e => setRemindBeforeDays(e.target.value)} />
           {

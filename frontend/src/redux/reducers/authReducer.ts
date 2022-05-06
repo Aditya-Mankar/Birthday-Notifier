@@ -3,12 +3,9 @@ import { Action, ActionTypes } from "../constants/action-types"
 export interface User {
   id: string,
   emailId: string,
-  username: string,
-  password: string,
+  username: string
   isEmailIdVerified: string,
-  secretCode: string,
-  createdAt: string,
-  updatedAt: string
+  recordsCount: number
 }
 
 interface IState {
