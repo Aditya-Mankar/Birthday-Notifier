@@ -1,4 +1,4 @@
-import { Action, ActionTypes } from "../constants/action-types"
+import { AuthAction, ActionTypes } from "../constants/action-types"
 
 export interface User {
   id: string,
@@ -22,7 +22,7 @@ const initialState = {
   error: null
 }
 
-export const authReducer = (state: IState = initialState, action: Action) => {
+export const authReducer = (state: IState = initialState, action: AuthAction) => {
   switch (action.type) {
     case ActionTypes.SET_JWT:
       return { ...state, jwt: action.payload0, username: action.payload1 }

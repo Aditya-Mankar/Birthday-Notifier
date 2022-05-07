@@ -6,6 +6,7 @@ import { RootState } from '../redux/reducers';
 import { StyledHomepage, Navbar, Logo, CenterContainer, Footer } from '../styles/Homepage.styled';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { successfulMessage } from '../utility/Utility';
 
 interface IHomepageProps {
 }
@@ -23,15 +24,6 @@ const Homepage: React.FC<IHomepageProps> = (props) => {
       dispatch({ type: ActionTypes.RESET_NOTIFICATION });
     }
   }, [])
-
-  const successfulMessage = (message: string) => {
-    toast.success(message, {
-      position: "bottom-right",
-      autoClose: 5000,
-      pauseOnHover: true,
-      closeOnClick: true,
-    })
-  }
 
   const onLoginClick = (e: React.MouseEvent<HTMLButtonElement>): void => {
     e.preventDefault();

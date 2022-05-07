@@ -7,6 +7,7 @@ import { StyledLogin } from '../styles/Login.styled';
 import { ActionTypes } from '../redux/constants/action-types';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { errorMessage, successfulMessage } from '../utility/Utility';
 
 interface ILoginProps {
 }
@@ -37,14 +38,9 @@ const Login: React.FC<ILoginProps> = (props) => {
     }
   }, [authData]);
 
-  const successfulMessage = (message: string) => {
-    toast.success(message, {
-      position: "bottom-right",
-      autoClose: 5000,
-      pauseOnHover: true,
-      closeOnClick: true,
-    })
-  }
+  useEffect(() => {
+    errorMessage(error);
+  }, [error]);
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
@@ -72,9 +68,6 @@ const Login: React.FC<ILoginProps> = (props) => {
             onChange={e => setUsername(e.target.value)} />
           <input type="password" value={password} required placeholder="Password"
             onChange={e => setPassword(e.target.value)} />
-          {
-            error && <h3>{error}</h3>
-          }
           <input type='submit' className="button" value="Submit" />
         </form>
         <h3>

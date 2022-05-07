@@ -1,8 +1,8 @@
 import axios from "axios";
 import { Dispatch } from "redux";
-import { Action, ActionTypes } from "../constants/action-types";
+import { AuthAction, ActionTypes } from "../constants/action-types";
 
-export const loginAndFetchJWT = (username: string, password: string) => async (dispatch: Dispatch<Action>) => {
+export const loginAndFetchJWT = (username: string, password: string) => async (dispatch: Dispatch<AuthAction>) => {
   try {
     const response = await axios({
       method: 'post',
@@ -18,7 +18,7 @@ export const loginAndFetchJWT = (username: string, password: string) => async (d
     if (err.response.data == "Incorrect result size: expected 1, actual 0")
       dispatch({ type: ActionTypes.SET_ERROR, payload0: "No user exists with that username", payload1: null })
     else if (err.response.data == "Bad credentials")
-      dispatch({ type: ActionTypes.SET_ERROR, payload0: "Wrong password. Try again or click ‘Forgot password’ to reset it.", payload1: null })
+      dispatch({ type: ActionTypes.SET_ERROR, payload0: "Wrong password. Try again.", payload1: null })
     else
       dispatch({ type: ActionTypes.SET_ERROR, payload0: "We had an unknown server error", payload1: null })
 
@@ -26,7 +26,7 @@ export const loginAndFetchJWT = (username: string, password: string) => async (d
   }
 }
 
-export const fetchUserData = (jwt: string, username: string) => async (dispatch: Dispatch<Action>) => {
+export const fetchUserData = (jwt: string, username: string) => async (dispatch: Dispatch<AuthAction>) => {
   const response = await axios({
     method: 'get',
     url: '/api/v1/user/read/' + username,

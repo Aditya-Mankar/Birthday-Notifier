@@ -6,7 +6,7 @@ import axios from 'axios';
 import { ButtonsGroup, CenterContainer, Form } from '../styles/DeleteAccount.styled';
 import { ActionTypes } from '../redux/constants/action-types';
 import SendCodeButton from '../components/SendCodeButton';
-import { successfulMessage } from '../utility/Utility';
+import { errorMessage, successfulMessage } from '../utility/Utility';
 import { ToastContainer } from 'react-toastify';
 
 interface IDeleteAccountProps {
@@ -31,6 +31,11 @@ const DeleteAccount: React.FC<IDeleteAccountProps> = (props) => {
       dispatch({ type: ActionTypes.RESET_NOTIFICATION });
     }
   }, [codeSent]);
+
+  useEffect(() => {
+    if (error)
+      errorMessage(error);
+  }, [error]);
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -64,9 +69,6 @@ const DeleteAccount: React.FC<IDeleteAccountProps> = (props) => {
         <h3>Account once deleted cannot be recovered</h3>
         <Form onSubmit={onSubmit} className="form">
           <input type="text" value={code} required placeholder="Code" onChange={e => setCode(e.target.value)} />
-          {
-            error && <h3>{error}</h3>
-          }
           {
             disabledMsg && <h3>{disabledMsg}</h3>
           }

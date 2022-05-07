@@ -24,7 +24,6 @@ const NavbarComponent: React.FC<INavbarProps> = (props) => {
   const onLogout = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
     e.preventDefault();
     dispatch({ type: ActionTypes.RESET_STATE });
-    // dispatch({ type: ActionTypes.SET_LOGOUT_NOTIFICATION_TRUE });
     dispatch({ type: ActionTypes.SET_NOTIFICATION, payload: "Logged out" });
     navigate("/");
   }

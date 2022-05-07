@@ -16,8 +16,13 @@ export const ActionTypes = {
 
 export interface authAction {
   type: string,
-  payload0: string | null | User | Birthday | unknown,
+  payload0: string | null | User | unknown,
   payload1: string | null
+}
+
+export interface birthdayAction {
+  type: string,
+  payload: string | null | Birthday
 }
 
 export interface notificationAction {
@@ -25,6 +30,8 @@ export interface notificationAction {
   payload: boolean
 }
 
-export type Action = authAction;
+export type AuthAction = authAction;
+
+export type BirthdayAction = birthdayAction;
 
 export type NotificationAction = notificationAction;

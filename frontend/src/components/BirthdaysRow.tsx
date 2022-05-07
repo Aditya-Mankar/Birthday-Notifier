@@ -21,7 +21,7 @@ const BirthdaysRow: React.FC<IBirthdaysRowProps> = ({ birthday, deleteFlag, setD
 
   const onUpdate = (e: React.MouseEvent<HTMLButtonElement>): void => {
     e.preventDefault();
-    dispatch({ type: ActionTypes.SET_BIRTHDAY, payload0: birthday });
+    dispatch({ type: ActionTypes.SET_BIRTHDAY, payload: birthday });
     navigate("/update");
   }
 

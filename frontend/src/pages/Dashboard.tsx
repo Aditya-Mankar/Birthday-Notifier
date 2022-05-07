@@ -6,9 +6,10 @@ import { fetchAllBirthdays } from '../redux/actions/birthdayActions';
 import { Button, CenterContainer, Header, Main, StyledDashboard } from '../styles/Dashboard.styled';
 import BirthdaysTable from '../components/BirthdaysTable';
 import NavbarComponent from '../components/NavbarComponent';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ActionTypes } from '../redux/constants/action-types';
+import { successfulMessage } from '../utility/Utility';
 
 interface IDashboardProps {
 }
@@ -34,15 +35,6 @@ const Dashboard: React.FC<IDashboardProps> = () => {
       dispatch({ type: ActionTypes.RESET_NOTIFICATION });
     }
   }, [deleteFlag]);
-
-  const successfulMessage = (message: string) => {
-    toast.success(message, {
-      position: "bottom-right",
-      autoClose: 5000,
-      pauseOnHover: true,
-      closeOnClick: true,
-    })
-  }
 
   return (
     <StyledDashboard>

@@ -6,7 +6,7 @@ import axios from 'axios';
 import { ButtonsGroup, CenterContainer, Form } from '../styles/UpdatePassword.styled';
 import SendCodeButton from '../components/SendCodeButton';
 import { ActionTypes } from '../redux/constants/action-types';
-import { successfulMessage } from '../utility/Utility';
+import { errorMessage, successfulMessage } from '../utility/Utility';
 import { ToastContainer } from 'react-toastify';
 
 interface IUpdatePasswordProps {
@@ -32,6 +32,11 @@ const UpdatePassword: React.FC<IUpdatePasswordProps> = (props) => {
       dispatch({ type: ActionTypes.RESET_NOTIFICATION });
     }
   }, [codeSent]);
+
+  useEffect(() => {
+    if (error)
+      errorMessage(error);
+  }, [error]);
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -76,9 +81,6 @@ const UpdatePassword: React.FC<IUpdatePasswordProps> = (props) => {
             placeholder="Confirm Password"
             onChange={e => setConfirmPassword(e.target.value)} />
           <input type="text" value={code} required placeholder="Code" onChange={e => setCode(e.target.value)} />
-          {
-            error && <h3>{error}</h3>
-          }
           {
             disabledMsg && <h3>{disabledMsg}</h3>
           }

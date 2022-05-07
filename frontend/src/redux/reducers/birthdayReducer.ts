@@ -1,4 +1,4 @@
-import { Action, ActionTypes } from "../constants/action-types"
+import { BirthdayAction, ActionTypes } from "../constants/action-types"
 
 export interface Birthday {
   id: string,
@@ -23,12 +23,12 @@ const initialState = {
   selectedBirthday: null
 }
 
-export const birthdayReducer = (state: IState = initialState, action: Action) => {
+export const birthdayReducer = (state: IState = initialState, action: BirthdayAction) => {
   switch (action.type) {
     case ActionTypes.SET_ALL_BIRTHDAYS:
-      return { ...state, allBirthdays: action.payload0 }
+      return { ...state, allBirthdays: action.payload }
     case ActionTypes.SET_BIRTHDAY:
-      return { ...state, selectedBirthday: action.payload0 }
+      return { ...state, selectedBirthday: action.payload }
     case ActionTypes.RESET_BIRTHDAY:
       return { ...state, selectedBirthday: null }
     case ActionTypes.RESET_STATE:

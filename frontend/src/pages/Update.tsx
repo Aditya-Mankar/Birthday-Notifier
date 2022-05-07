@@ -1,13 +1,15 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { RootState } from '../redux/reducers';
 import { ActionTypes } from '../redux/constants/action-types';
 import axios from 'axios';
 import { CenterContainer, Form, ButtonsGroup } from '../styles/Update.styled';
-import { determineMonthFromNumber, determineMonthFromString, validateBirthDate } from '../utility/Utility';
+import { determineMonthFromNumber, determineMonthFromString, errorMessage, validateBirthDate } from '../utility/Utility';
 import BirthdaySelectOption from '../components/BirthdaySelectOption';
 import NavbarComponent from '../components/NavbarComponent';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface IUpdateProps {
 }
@@ -24,6 +26,11 @@ const Update: React.FC<IUpdateProps> = (props) => {
   const emailId = useSelector((state: RootState) => state.authData.user.emailId);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (error)
+      errorMessage(error);
+  }, [error]);
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
@@ -79,15 +86,13 @@ const Update: React.FC<IUpdateProps> = (props) => {
             birthMonth={birthMonth} setBirthMonth={setBirthMonth} />
           <input type="number" value={remindBeforeDays} required placeholder="Remind before [Days]"
             onChange={e => setRemindBeforeDays(e.target.value)} />
-          {
-            error && <h3>{error}</h3>
-          }
           <ButtonsGroup>
             <input type="button" value="Cancel" onClick={onCancel} />
             <input type='submit' className="button" value="Submit" />
           </ButtonsGroup>
         </Form>
       </CenterContainer>
+      <ToastContainer />
     </>
   );
 };

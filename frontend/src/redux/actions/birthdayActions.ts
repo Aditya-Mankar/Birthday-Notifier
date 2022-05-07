@@ -1,8 +1,8 @@
 import axios from "axios";
 import { Dispatch } from "react";
-import { Action, ActionTypes } from "../constants/action-types";
+import { BirthdayAction, ActionTypes } from "../constants/action-types";
 
-export const fetchAllBirthdays = (jwt: string, emailId: string) => async (dispatch: Dispatch<Action>) => {
+export const fetchAllBirthdays = (jwt: string, emailId: string) => async (dispatch: Dispatch<BirthdayAction>) => {
   try {
     const response = await axios({
       method: 'get',
@@ -12,12 +12,12 @@ export const fetchAllBirthdays = (jwt: string, emailId: string) => async (dispat
       }
     })
 
-    dispatch({ type: ActionTypes.SET_ALL_BIRTHDAYS, payload0: response.data, payload1: null });
+    dispatch({ type: ActionTypes.SET_ALL_BIRTHDAYS, payload: response.data });
   } catch (err: any) {
     if (err.response.data == "No records associated with that email id")
-      dispatch({ type: ActionTypes.SET_ALL_BIRTHDAYS, payload0: [], payload1: null });
+      dispatch({ type: ActionTypes.SET_ALL_BIRTHDAYS, payload: null });
 
-    dispatch({ type: ActionTypes.SET_ERROR, payload0: err.response.data, payload1: null });
-    setTimeout(() => dispatch({ type: ActionTypes.REMOVE_ERROR, payload0: null, payload1: null }), 3000);
+    dispatch({ type: ActionTypes.SET_ERROR, payload: err.response.data });
+    setTimeout(() => dispatch({ type: ActionTypes.REMOVE_ERROR, payload: null }), 3000);
   }
 }

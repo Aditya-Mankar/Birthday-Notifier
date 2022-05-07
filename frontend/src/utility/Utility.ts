@@ -44,3 +44,12 @@ export const successfulMessage = (message: string) => {
     closeOnClick: true,
   })
 }
+
+export const errorMessage = (message: string) => {
+  toast.error(message, {
+    position: "bottom-right",
+    autoClose: 5000,
+    pauseOnHover: true,
+    closeOnClick: true,
+  })
+}
