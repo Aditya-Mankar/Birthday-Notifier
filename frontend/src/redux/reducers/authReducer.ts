@@ -5,7 +5,10 @@ export interface User {
   emailId: string,
   username: string
   isEmailIdVerified: string,
-  recordsCount: number
+  recordsCount: number,
+  role: string,
+  createdAt: string,
+  lastLoggedIn: string
 }
 
 interface IState {

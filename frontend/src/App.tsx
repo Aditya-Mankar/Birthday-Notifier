@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router";
 import { BrowserRouter as Router } from 'react-router-dom';
 import AddNew from "./pages/AddNew";
+import AdminDashboard from "./pages/AdminDashboard";
 import Dashboard from "./pages/Dashboard";
 import DeleteAccount from "./pages/DeleteAccount";
 import ForgotPassword from "./pages/ForgotPassword";
@@ -26,6 +27,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/add-new" element={<AddNew />} />
           <Route path="/update" element={<Update />} />
+          <Route path="/admin-dashboard" element={<AdminDashboard />} />
         </Routes>
       </Router>
     </>

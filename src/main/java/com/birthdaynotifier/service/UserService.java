@@ -45,7 +45,9 @@ public class UserService {
                     .setId(user.getId())
                     .setEmailId(user.getEmailId())
                     .setUsername(user.getUsername())
-                    .setIsEmailIdVerified(user.getIsEmailIdVerified());
+                    .setIsEmailIdVerified(user.getIsEmailIdVerified())
+                    .setRole(user.getRole())
+                    .build();
 
             logger.info(LoggingConstants.success_get_user + username);
             return ResponseEntity.ok().body(userResponse);
