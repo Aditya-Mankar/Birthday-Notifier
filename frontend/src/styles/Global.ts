@@ -11,6 +11,10 @@ const GlobalStyles = createGlobalStyle`
     background-color:#DAE0E6;
   }
 
+  input[type="button"], input[type="submit"] {
+    cursor: pointer;
+  }
+
 `;
 
 export default GlobalStyles;

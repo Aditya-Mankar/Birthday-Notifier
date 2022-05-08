@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const CenterContainer = styled.div`
   margin: 25px 200px;
   text-align: center;
-  margin-top: 100px ;
+  margin-top: 75px ;
 
   h1 {
     margin: 25px 0px;

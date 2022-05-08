@@ -20,17 +20,19 @@ const UsersRow: React.FC<IUsersRowProps> = ({ user, deleteFlag, setDeleteFlag, j
   const onDelete = (e: React.MouseEvent<HTMLButtonElement>): void => {
     e.preventDefault();
 
-    axios({
-      method: 'delete',
-      url: '/api/v1/admin/user-complete-delete/' + user.emailId,
-      headers: {
-        Authorization: 'Bearer ' + jwt
-      }
-    })
-      .then(() => {
-        dispatch({ type: ActionTypes.SET_NOTIFICATION, payload: "User Deleted" })
-        setDeleteFlag(!deleteFlag);
+    if (window.confirm("Are you sure?")) {
+      axios({
+        method: 'delete',
+        url: '/api/v1/admin/user-complete-delete/' + user.emailId,
+        headers: {
+          Authorization: 'Bearer ' + jwt
+        }
       })
+        .then(() => {
+          dispatch({ type: ActionTypes.SET_NOTIFICATION, payload: "User Deleted" })
+          setDeleteFlag(!deleteFlag);
+        })
+    }
   }
 
   return (

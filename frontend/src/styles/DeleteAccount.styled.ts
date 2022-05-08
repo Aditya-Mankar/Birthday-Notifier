@@ -30,10 +30,6 @@ export const Form = styled.form`
     padding: 10px;
     border-radius: 5px;
   }
-
-  input[type="button"], input[type="submit"] {
-    cursor: pointer;
-  }
 `;
 
 export const ButtonsGroup = styled.div`

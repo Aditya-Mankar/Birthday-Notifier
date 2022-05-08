@@ -59,8 +59,8 @@ const Homepage: React.FC<IHomepageProps> = (props) => {
         </CenterContainer>
 
         <Footer>
-          <h2>Built by <a href="https://github.com/Aditya-Mankar">Aditya Mankar</a></h2>
-          <h2><a href="https://github.com/Aditya-Mankar/Birthday-Notifier">Check out the source code</a></h2>
+          <h2>Built by <a href="https://github.com/Aditya-Mankar" target="_blank">Aditya Mankar</a></h2>
+          <h2><a href="https://github.com/Aditya-Mankar/Birthday-Notifier" target="_blank">Check out the source code</a></h2>
         </Footer>
       </StyledHomepage>
       <ToastContainer />

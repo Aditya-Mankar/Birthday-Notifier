@@ -8,6 +8,7 @@ import SendCodeButton from '../components/SendCodeButton';
 import { ActionTypes } from '../redux/constants/action-types';
 import { errorMessage, successfulMessage } from '../utility/Utility';
 import { ToastContainer } from 'react-toastify';
+import NavbarComponent from '../components/NavbarComponent';
 
 interface IVerifyEmailProps {
 }
@@ -63,6 +64,7 @@ const VerifyEmail: React.FC<IVerifyEmailProps> = (props) => {
 
   return (
     <>
+      <NavbarComponent />
       <CenterContainer>
         <h1>
           Verify Email Id

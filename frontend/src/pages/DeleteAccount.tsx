@@ -8,6 +8,7 @@ import { ActionTypes } from '../redux/constants/action-types';
 import SendCodeButton from '../components/SendCodeButton';
 import { errorMessage, successfulMessage } from '../utility/Utility';
 import { ToastContainer } from 'react-toastify';
+import NavbarComponent from '../components/NavbarComponent';
 
 interface IDeleteAccountProps {
 }
@@ -64,6 +65,7 @@ const DeleteAccount: React.FC<IDeleteAccountProps> = (props) => {
 
   return (
     <>
+      <NavbarComponent />
       <CenterContainer>
         <h1>Delete Account</h1>
         <h3>Account once deleted cannot be recovered</h3>

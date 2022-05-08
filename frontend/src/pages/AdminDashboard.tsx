@@ -20,7 +20,7 @@ const AdminDashboard: React.FC<IAdminDashboardProps> = (props) => {
   const [users, setUsers] = useState<User[] | null>();
   const [deleteFlag, setDeleteFlag] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string>();
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const dispatch = useDispatch();
   const showNotification = useSelector((state: RootState) => state.notificationData.showNotification)
   const notificationMessage = useSelector((state: RootState) => state.notificationData.notificationMessage)
@@ -45,8 +45,10 @@ const AdminDashboard: React.FC<IAdminDashboardProps> = (props) => {
         }
       })
       setUsers(response.data);
+      setIsAuthenticated(true);
     } catch (err: any) {
-      setError(err.response.data);
+      if (err.response.data.error === "Forbidden")
+        setIsAuthenticated(false);
     }
   }
 
@@ -61,11 +63,12 @@ const AdminDashboard: React.FC<IAdminDashboardProps> = (props) => {
         </Header>
         {
           loading ? <h2>Loading...</h2> :
-            <Main>
-              {
-                users && <UsersTable users={users} deleteFlag={deleteFlag} setDeleteFlag={setDeleteFlag} jwt={jwt} />
-              }
-            </Main>
+            !isAuthenticated ? <h2>You are unauthorized</h2> :
+              <Main>
+                {
+                  users && <UsersTable users={users} deleteFlag={deleteFlag} setDeleteFlag={setDeleteFlag} jwt={jwt} />
+                }
+              </Main>
         }
       </CenterContainer>
       <ToastContainer />

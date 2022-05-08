@@ -30,7 +30,7 @@ const Login: React.FC<ILoginProps> = (props) => {
     if (authData.user !== null) {
       dispatch({ type: ActionTypes.SET_NOTIFICATION, payload: "Logged in" });
 
-      if (authData.user.isEmailIdVerified)
+      if (authData.user.isEmailIdVerified === "true")
         authData.user.role === "ROLE_USER" ? navigate("/dashboard") : navigate("/admin-dashboard")
       else
         navigate("/verify-email");
