@@ -22,11 +22,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private final CustomUserDetailsService userService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final JWTFilter jwtFilter;
+    private final JWTAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
-    public SecurityConfiguration(CustomUserDetailsService userService, BCryptPasswordEncoder bCryptPasswordEncoder, JWTFilter jwtFilter) {
+    public SecurityConfiguration(CustomUserDetailsService userService, BCryptPasswordEncoder bCryptPasswordEncoder, JWTFilter jwtFilter, JWTAuthenticationEntryPoint jwtAuthenticationEntryPoint) {
         this.userService = userService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.jwtFilter = jwtFilter;
+        this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
     }
 
     @Override
@@ -47,7 +49,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(RequestPathConstants.auth_paths).permitAll()
                 .antMatchers(RequestPathConstants.user_permitted_paths).hasAnyRole(Constants.user, Constants.admin)
                 .antMatchers(RequestPathConstants.admin_permitted_paths).hasRole(Constants.admin)
+                .antMatchers(RequestPathConstants.frontend_permitted_paths).permitAll()
                 .anyRequest().authenticated()
+                .and()
+                .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
