@@ -14,8 +14,10 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import javax.annotation.PostConstruct;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 @SpringBootApplication
 @EnableScheduling
@@ -40,6 +42,12 @@ public class BirthdayNotifierApplication {
         return new BCryptPasswordEncoder();
     }
 
+    @PostConstruct
+    public void init(){
+        System.out.println("Spring boot application running in IST timezone : " + new Date());
+        TimeZone.setDefault(TimeZone.getTimeZone("IST"));
+    }
+
     @Scheduled(cron = Constants.cron_value)
     public void dailyJob() {
         Date today = new Date();
@@ -55,10 +63,10 @@ public class BirthdayNotifierApplication {
 
         List<Birthday> birthdayList = birthdayService.getBirthdaysByDateAndMonth(birthdayRequest);
 
-        for (Birthday birthday : birthdayList) {
+        birthdayList.forEach(birthday -> {
             mailService.sendBirthdayMail(birthday);
             logger.info(LoggingConstants.success_sending_birthday_mail + birthday.getEmailId() + Constants.for_name + birthday.getName());
-        }
+        });
     }
 
 }
