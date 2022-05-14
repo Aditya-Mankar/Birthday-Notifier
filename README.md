@@ -8,6 +8,12 @@
 
 ## Check out the [Live Demo](http://birthday-notifier.ap-south-1.elasticbeanstalk.com/)
 
+## Demo
+![Demo](demo.gif)
+
+## Architecture
+![architecture](architecture.jpg)
+
 ## Stack
 
 - Frontend
@@ -28,3 +34,47 @@
 - Deployment
 
 ![AWS](https://img.shields.io/badge/Amazon_AWS-232F3E?style=for-the-badge&logo=amazon-aws&logoColor=white)
+
+- Testing
+
+![Junit5](https://img.shields.io/badge/Junit5-25A162?style=for-the-badge&logo=junit5&logoColor=white)
+
+## Code structure
+```
+.
+├── frontend/
+│   ├── public
+│   └── src/
+│       ├── components
+│       ├── pages
+│       ├── redux/
+│       │   ├── actions
+│       │   ├── constants
+│       │   └── reducers
+│       ├── styles
+│       └── utility
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   └── com/
+│   │   │       └── birthdaynotifier/
+│   │   │           ├── configuration
+│   │   │           ├── constant
+│   │   │           ├── controller
+│   │   │           ├── exception
+│   │   │           ├── filter
+│   │   │           ├── mapper
+│   │   │           ├── model
+│   │   │           ├── repository
+│   │   │           ├── service
+│   │   │           └── utility
+│   │   └── resources/
+│   │       └── templates
+│   └── test/
+│       └── java/
+│           └── com/
+│               └── birthdaynotifier/
+│                   └── repository
+├── pom.xml
+└── README.md
+```
