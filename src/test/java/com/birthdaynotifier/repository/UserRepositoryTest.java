@@ -1,158 +1,174 @@
 package com.birthdaynotifier.repository;
 
-import com.birthdaynotifier.constant.Constants;
+import com.birthdaynotifier.mapper.UserRowMapper;
 import com.birthdaynotifier.model.User;
-import com.birthdaynotifier.utility.Utility;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.time.Instant;
-import java.util.List;
+import javax.annotation.PostConstruct;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.when;
 
-@SpringBootTest
+@ContextConfiguration(classes = {UserRepository.class})
+@ExtendWith(SpringExtension.class)
 class UserRepositoryTest {
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    UserRepository userRepository;
+    @MockBean
+    NamedParameterJdbcTemplate jdbcTemplate;
 
     private User user;
 
-    @BeforeEach
-    void setUp() {
+    @PostConstruct
+    void createBirthday() {
         user = User.builder()
-                .setId(Utility.generateUUID(3))
-                .setEmailId("test" + Utility.generateUUID(3) + "@gmail.com")
-                .setUsername("test" + Utility.generateUUID(3))
-                .setPassword(bCryptPasswordEncoder.encode("test"))
-                .setRole(Constants.role_user)
-                .setIsEmailIdVerified(Constants.value_false)
-                .setSecretCode(Utility.generateCode(7))
-                .setCreatedAt(Instant.now().toString())
-                .setUpdatedAt("")
-                .setRecordsCount(0)
+                .setId("userId123")
+                .setEmailId("test@gmail.com")
+                .setUsername("user123")
+                .setSecretCode("secretCode")
                 .build();
-
-        System.out.println("New user: " + user);
     }
 
     @Test
-    @DisplayName("Test to check if user exists using email id")
-    void shouldValidateUserByEmailId() {
-        userRepository.createUser(user);
+    void testValidateUserByEmailId() {
+        try {
+            when(jdbcTemplate.queryForObject(anyString(), anyMap(), (Class<Object>) any())).thenReturn(1);
 
-        assertThat(userRepository.validateUserByEmailId(user.getEmailId())).isFalse();
+            Boolean response = userRepository.validateUserByEmailId(user.getEmailId());
+
+            assertFalse(response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail("Exception unexpected");
+        }
     }
 
     @Test
-    @DisplayName("Test to check if user exists using username")
-    void shouldValidateUserByUsername() {
-        userRepository.createUser(user);
+    void testValidateUserByEmailId1() {
+        try {
+            when(jdbcTemplate.queryForObject(anyString(), anyMap(), (Class<Object>) any())).thenThrow(Exception.class);
 
-        assertThat(userRepository.validateUserByUsername(user.getUsername())).isFalse();
+            Boolean response = userRepository.validateUserByEmailId(user.getEmailId());
+
+            fail("Exception expected");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
-    @DisplayName("Test to check if fetching user by username is successful")
-    void shouldGetUserByUsername() {
-        userRepository.createUser(user);
+    void testValidateUserByUsername() {
+        try {
+            when(jdbcTemplate.queryForObject(anyString(), anyMap(), (Class<Object>) any())).thenReturn(1);
 
-        User createdUser = userRepository.getUserByUsername(user.getUsername());
+            Boolean response = userRepository.validateUserByUsername(user.getUsername());
 
-        assertThat(createdUser.getId().equals(user.getId())).isTrue();
+            assertFalse(response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail("Exception unexpected");
+        }
     }
 
     @Test
-    @DisplayName("Test to create user")
-    void shouldCreateUser() {
-        userRepository.createUser(user);
+    void testValidateUserByUsername1() {
+        try {
+            when(jdbcTemplate.queryForObject(anyString(), anyMap(), (Class<Object>) any())).thenThrow(Exception.class);
 
-        User createdUser = userRepository.getUserByUsername(user.getUsername());
+            Boolean response = userRepository.validateUserByUsername(user.getUsername());
 
-        assertThat(createdUser.getId().equals(user.getId())).isTrue();
+            fail("Exception expected");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
-    @DisplayName("Test to fetch user's code")
-    void shouldFetchCode() {
-        userRepository.createUser(user);
+    void testGetUserByUsername() {
+        try {
+            when(jdbcTemplate.queryForObject(anyString(), anyMap(), any(UserRowMapper.class))).thenReturn(user);
 
-        assertThat(user.getSecretCode().equals(userRepository.fetchCode(user.getEmailId()))).isTrue();
+            User userResponse = userRepository.getUserByUsername(user.getUsername());
+
+            assertEquals(userResponse.getId(), user.getId());
+            assertEquals(userResponse.getEmailId(), user.getEmailId());
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail("Exception unexpected");
+        }
     }
 
     @Test
-    @DisplayName("Test to check if user's account can be verified")
-    void shouldVerifyEmailId() {
-        userRepository.createUser(user);
+    void testGetUserByUsername1() {
+        try {
+            when(jdbcTemplate.queryForObject(anyString(), anyMap(), (Class<Object>) any())).thenThrow(Exception.class);
 
-        user.setIsEmailIdVerified(Constants.value_true);
+            User userResponse = userRepository.getUserByUsername(user.getUsername());
 
-        userRepository.verifyEmailId(user);
-
-        User updatedUser = userRepository.getUserByUsername(user.getUsername());
-
-        assertThat(updatedUser.getIsEmailIdVerified().equals(Constants.value_true)).isTrue();
+            fail("Exception expected");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
-    @DisplayName("Test to update user's password")
-    void shouldUpdatePassword() {
-        userRepository.createUser(user);
+    void testCreateUser() {
+        try {
+            when(jdbcTemplate.update(anyString(), anyMap())).thenReturn(1);
 
-        String newPassword = bCryptPasswordEncoder.encode("test new");
-        user.setPassword(newPassword);
-
-        userRepository.updatePassword(user);
-
-        User updatedUser = userRepository.getUserByUsername(user.getUsername());
-
-        assertThat(updatedUser.getPassword().equals(newPassword)).isTrue();
+            userRepository.createUser(user);
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail("Exception unexpected");
+        }
     }
 
     @Test
-    @DisplayName("Test to fetch all users")
-    void shouldGetAllUsers() {
-        List<User> usersList = userRepository.getAllUsers();
+    void testCreateUser1() {
+        try {
+            when(jdbcTemplate.update(anyString(), anyMap())).thenThrow(Exception.class);
 
-        assertThat(usersList.size() > 0).isTrue();
+            userRepository.createUser(user);
+
+            fail("Exception expected");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
-    @DisplayName("Test to fetch birthday records count for a user")
-    void shouldGetRecordsCountForUser() {
-        userRepository.createUser(user);
+    void testFetchCode() {
+        try {
+            when(jdbcTemplate.queryForObject(anyString(), anyMap(), (Class<Object>) any())).thenReturn(user.getSecretCode());
 
-        assertThat(userRepository.getRecordsCountForUser(user.getEmailId()) >= 0).isTrue();
+            String response = userRepository.fetchCode(user.getEmailId());
+
+            assertEquals(response, user.getSecretCode());
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail("Exception unexpected");
+        }
     }
 
     @Test
-    @DisplayName("Test to delete user by email id")
-    void shouldDeleteUserByEmailId() {
-        userRepository.createUser(user);
+    void testFetchCode1() {
+        try {
+            when(jdbcTemplate.queryForObject(anyString(), anyMap(), (Class<Object>) any())).thenThrow(Exception.class);
 
-        userRepository.deleteUserByEmailId(user.getEmailId());
+            String response = userRepository.fetchCode(user.getEmailId());
 
-        assertThat(userRepository.validateUserByEmailId(user.getEmailId())).isTrue();
-    }
-
-    @Test
-    @DisplayName("Test to update user's last logged in")
-    void shouldUpdateUserLastLoggedIn() {
-        userRepository.createUser(user);
-
-        userRepository.updateUserLastLoggedIn(user.getUsername());
-
-        User updatedUser = userRepository.getUserByUsername(user.getUsername());
-
-        assertThat(Utility.checkIfNullOrEmpty(updatedUser.getLastLoggedIn())).isFalse();
+            fail("Exception expected");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

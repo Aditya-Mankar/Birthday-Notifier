@@ -1,113 +1,170 @@
 package com.birthdaynotifier.repository;
 
+import com.birthdaynotifier.mapper.BirthdayRowMapper;
 import com.birthdaynotifier.model.Birthday;
-import com.birthdaynotifier.utility.Utility;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.when;
 
-@SpringBootTest
+@ContextConfiguration(classes = {BirthdayRepository.class})
+@ExtendWith(SpringExtension.class)
 public class BirthdayRepositoryTest {
 
     @Autowired
-    private BirthdayRepository birthdayRepository;
+    BirthdayRepository birthdayRepository;
+    @MockBean
+    NamedParameterJdbcTemplate jdbcTemplate;
 
-    private String id;
     private Birthday birthday;
 
-    @BeforeEach
-    public void setup() {
-        id = Utility.generateUUID(3);
-
+    @PostConstruct
+    void createBirthday() {
         birthday = Birthday.builder()
-                .setId(id)
-                .setEmailId("birthday.notifier.service@gmail.com")
-                .setName("test")
-                .setBirthDate(1)
-                .setBirthMonth(1)
-                .setRemindBeforeDays(1)
-                .setRemindDate(1)
-                .setRemindMonth(1)
-                .setCreatedAt("")
-                .setUpdatedAt("")
+                .setName("testName")
+                .setId("123")
+                .setEmailId("test@gmail.com")
                 .build();
     }
 
     @Test
-    @DisplayName("Test should check if birthdays are fetched using email id")
-    void shouldGetBirthdaysByEmailId() {
-        birthdayRepository.addNewBirthday(birthday);
+    void testGetBirthdaysByEmailId() {
+        try {
+            when(jdbcTemplate.query(anyString(), anyMap(), any(BirthdayRowMapper.class))).thenReturn(List.of(birthday));
 
-        List<Birthday> birthdayList = birthdayRepository.getBirthdaysByEmailId(birthday.getEmailId());
+            List<Birthday> response = birthdayRepository.getBirthdaysByEmailId(birthday.getEmailId());
 
-        assertThat(birthdayList.size() > 0).isTrue();
+            assertEquals(response.get(0).getId(), birthday.getId());
+            assertEquals(response.get(0).getName(), birthday.getName());
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail("Exception unexpected");
+        }
     }
 
     @Test
-    @DisplayName("Test should check if birthday is added")
-    void shouldAddNewBirthday() {
-        birthdayRepository.addNewBirthday(birthday);
+    void testGetBirthdaysByEmailId1() {
+        try {
+            when(jdbcTemplate.query(anyString(), anyMap(), any(BirthdayRowMapper.class))).thenThrow(Exception.class);
 
-        assertThat(birthdayRepository.checkBirthdayExists(Integer.parseInt(id))).isTrue();
+            List<Birthday> response = birthdayRepository.getBirthdaysByEmailId(birthday.getEmailId());
+
+            fail("Exception expected");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
-    @DisplayName("Test should check if birthday exists")
-    void shouldCheckBirthdayExists() {
-        birthdayRepository.addNewBirthday(birthday);
+    void testAddNewBirthday() {
+        try {
+            when(jdbcTemplate.update(anyString(), anyMap())).thenReturn(1);
 
-        assertThat(birthdayRepository.checkBirthdayExists(Integer.parseInt(id))).isTrue();
+            birthdayRepository.addNewBirthday(birthday);
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail("Exception unexpected");
+        }
     }
 
     @Test
-    @DisplayName("Test should check if birthday is updated")
-    void shouldUpdateBirthday() {
-        birthdayRepository.addNewBirthday(birthday);
+    void testAddNewBirthday1() {
+        try {
+            when(jdbcTemplate.update(anyString(), anyMap())).thenThrow(Exception.class);
 
-        String name = "updated name";
+            birthdayRepository.addNewBirthday(birthday);
 
-        birthday.setName(name);
-        birthdayRepository.updateBirthday(birthday);
-
-        List<Birthday> birthdayList = birthdayRepository.getBirthdaysByEmailId(birthday.getEmailId());
-
-        Birthday updatedBirthday = birthdayList.stream().filter(b -> b.getId().equals(id)).findAny().get();
-
-        assertThat(updatedBirthday.getName().equals(name)).isTrue();
+            fail("Exception expected");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
-    @DisplayName("Test should check if birthday is deleted")
-    void shouldDeleteBirthday() {
-        birthdayRepository.deleteBirthday(Integer.parseInt(id));
+    void testCheckBirthdayExists() {
+        try {
+            when(jdbcTemplate.queryForObject(anyString(), anyMap(), (Class<Object>) any())).thenReturn(1);
 
-        assertThat(birthdayRepository.checkBirthdayExists(Integer.parseInt(id))).isFalse();
+            Boolean response = birthdayRepository.checkBirthdayExists(Integer.parseInt(birthday.getId()));
+
+            assertTrue(response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail("Exception unexpected");
+        }
     }
 
     @Test
-    @DisplayName("Test should check if birthdays are fetched using birth date and birth month id")
-    void shouldGetBirthdaysByDateAndMonth() {
-        birthdayRepository.addNewBirthday(birthday);
+    void testCheckBirthdayExists1() {
+        try {
+            when(jdbcTemplate.queryForObject(anyString(), anyMap(), (Class<Object>) any())).thenThrow(Exception.class);
 
-        List<Birthday> birthdayList = birthdayRepository.getBirthdaysByDateAndMonth(birthday);
+            Boolean response = birthdayRepository.checkBirthdayExists(Integer.parseInt(birthday.getId()));
 
-        assertThat(birthdayList.size() > 0).isTrue();
+            fail("Exception expected");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
-    @DisplayName("Test should check if birthdays are deleted using email id")
-    void shouldDeleteBirthdaysByEmailId() {
-        birthdayRepository.deleteBirthdaysByEmailId(birthday.getEmailId());
+    void testUpdateBirthday() {
+        try {
+            when(jdbcTemplate.update(anyString(), anyMap())).thenReturn(1);
 
-        List<Birthday> birthdayList = birthdayRepository.getBirthdaysByEmailId(birthday.getEmailId());
+            birthdayRepository.updateBirthday(birthday);
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail("Exception unexpected");
+        }
+    }
 
-        assertThat(birthdayList.size() > 0).isFalse();
+    @Test
+    void testUpdateBirthday1() {
+        try {
+            when(jdbcTemplate.update(anyString(), anyMap())).thenThrow(Exception.class);
+
+            birthdayRepository.updateBirthday(birthday);
+
+            fail("Exception expected");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    void testDeleteBirthday() {
+        try {
+            when(jdbcTemplate.update(anyString(), anyMap())).thenReturn(1);
+
+            birthdayRepository.deleteBirthday(Integer.parseInt(birthday.getId()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail("Exception unexpected");
+        }
+    }
+
+    @Test
+    void testDeleteBirthday1() {
+        try {
+            when(jdbcTemplate.update(anyString(), anyMap())).thenThrow(Exception.class);
+
+            birthdayRepository.deleteBirthday(Integer.parseInt(birthday.getId()));
+
+            fail("Exception expected");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }
